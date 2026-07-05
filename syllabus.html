@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curriculum | PRAXIS</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <nav>
+      <div class="container nav-content">
+        <div class="logo">PRAXIS<span>.</span></div>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="syllabus.html" style="color: var(--accent-color);">Curriculum</a>
+          <a href="research.html">Research</a>
+          <a href="speakers.html">Speakers</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container page-transition">
+      <section style="padding-top: 4rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Undergraduate Curriculum</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin-bottom: 3rem;">
+          A rigorous 20-paper sequence designed to take undergraduates from basic neuroscience and programming to reading and writing primary computational psychiatry literature.
+        </p>
+
+        <div style="display: grid; gap: 2rem;">
+          <div class="glass-card">
+            <h3 style="color: var(--accent-color); margin-bottom: 0.5rem; font-size: 1.3rem;">Module 1: Foundations of RL and Active Inference</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Introduction to Markov Decision Processes, Rescorla-Wagner, and the basics of predictive coding.</p>
+            <ul style="color: #fff; padding-left: 1.5rem; line-height: 2;">
+              <li>Sutton & Barto (2018) - Reinforcement Learning: An Introduction (Selected Chapters)</li>
+              <li>Friston (2010) - The free-energy principle: a unified brain theory?</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3 style="color: var(--accent-color); margin-bottom: 0.5rem; font-size: 1.3rem;">Module 2: Models of Mood and Anhedonia</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">How does the brain compute value, and what happens when those computations fail?</p>
+            <ul style="color: #fff; padding-left: 1.5rem; line-height: 2;">
+              <li>Huys et al. (2013) - Decision-theoretic psychiatry</li>
+              <li>Eldar et al. (2016) - The roles of dopamine in learning and memory</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3 style="color: var(--accent-color); margin-bottom: 0.5rem; font-size: 1.3rem;">Module 3: Phenotyping & Biomarkers</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Moving from subjective clinical interviews to objective computational phenotyping.</p>
+            <ul style="color: #fff; padding-left: 1.5rem; line-height: 2;">
+              <li>Montague et al. (2012) - Computational and categorical formalisms in psychiatry</li>
+              <li>Low et al. (2020) - Automated vocal analysis of depression</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top: 4rem; text-align: center;">
+          <a href="https://github.com/czhou732/comp-psych-syllabus" class="btn btn-primary" target="_blank">View Full Syllabus on GitHub</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 PRAXIS. Founded by Peter Zhou.</p>
+      </div>
+    </footer>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
