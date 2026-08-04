@@ -2,98 +2,185 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PRAXIS | Computational Psychiatry at USC</title>
-    <meta name="description" content="The first student organization at a U.S. research university dedicated to computational psychiatry. Psychiatry Research, Analytics & eXperimental Innovation Society at USC." />
-    <link rel="stylesheet" href="./style.css">
+    <title>PRAXIS — Computational Psychiatry</title>
+    <meta name="description" content="PRAXIS is an undergraduate research group advancing computational psychiatry from theory into tools that reach patients. Research projects, a journal club, and a speaker series." />
+    <link rel="icon" type="image/png" href="/praxis-mark.png" />
+    <meta property="og:title" content="PRAXIS — Computational Psychiatry" />
+    <meta property="og:description" content="An undergraduate research group advancing computational psychiatry from theory into tools that reach patients." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://uscpraxis.org/" />
+    <meta property="og:image" content="https://uscpraxis.org/praxis-mark.png" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <nav>
-      <div class="container nav-content">
-        <div class="logo">PRAXIS<span>.</span></div>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <nav class="nav">
+      <div class="nav-in">
+        <a class="brand" href="/">
+          <img src="/praxis-mark.png" alt="" />
+          <span>Praxis</span>
+        </a>
         <div class="nav-links">
-          <a href="index.html" class="active">Home</a>
-          <a href="syllabus.html">Curriculum</a>
-          <a href="research.html">Research</a>
-          <a href="speakers.html">Speakers</a>
+          <a href="/" aria-current="page">Home</a>
+          <a href="/research/">Research</a>
+          <a href="/speakers/">Speakers</a>
+          <a href="/syllabus/">Curriculum</a>
         </div>
       </div>
     </nav>
 
-    <main class="container page-transition">
-      <section class="hero" style="padding-bottom: 2rem;">
-        <div class="hero-content">
-          <h1>Pioneering Computational Psychiatry at USC.</h1>
-          <p style="font-size: 1.5rem; color: #fff; margin-bottom: 1rem; font-family: var(--font-heading);">Our Mission</p>
-          <p>The Psychiatry Research, Analytics & eXperimental Innovation Society (PRAXIS) exists to bridge the gap between artificial intelligence and mental health. We believe the future of psychiatry lies in objective, computational phenotypes. Our mission is to equip the next generation of undergraduates with the mathematical, programming, and neurobiological tools to pioneer this transition.</p>
-          <div class="hero-buttons" style="margin-top: 2.5rem;">
-            <a href="research.html" class="btn btn-primary">View Research</a>
-            <a href="syllabus.html" class="btn btn-secondary">Explore Curriculum</a>
+    <main id="main">
+
+      <section class="hero">
+        <canvas id="field" aria-hidden="true"></canvas>
+        <div class="hero-in">
+          <p class="eyebrow">Psychiatry Research, Analytics &amp; eXperimental Innovation Society</p>
+          <h1 class="display" style="margin-top: 1.5rem;">
+            From theory into tools that reach patients.
+          </h1>
+          <p class="lede">
+            PRAXIS is an undergraduate research group working at the intersection of machine
+            learning, neuroscience, and clinical mental health. We build, test, and publish —
+            and we train the researchers who will keep doing it.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/speakers/">Fall 2026 Speaker Series</a>
+            <a class="btn btn-ghost" href="/research/">Current Research</a>
           </div>
         </div>
       </section>
 
-      <section class="reveal">
-        <h2 class="section-title" style="text-align: left;">Open Source</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-          <a href="https://github.com/comp-psych" target="_blank" class="github-card">
-            <div class="github-title">@comp-psych Organization</div>
-            <div class="github-desc">Our GitHub organization for open-source computational psychiatry resources and reference implementations.</div>
+      <section class="band shell reveal">
+        <div class="band-head">
+          <span class="num">01</span>
+          <h2 class="h2">The north star</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 2.5rem;">
+          Four things we intend to be true within three years. Everything the group does is
+          measured against them.
+        </p>
+        <ul class="stars">
+          <li>
+            <span class="idx">01</span>
+            <p>Peer-reviewed research published with undergraduate members leading the work.</p>
+          </li>
+          <li>
+            <span class="idx">02</span>
+            <p>At least one clinical tool built, deployed, and validated on real patient data.</p>
+          </li>
+          <li>
+            <span class="idx">03</span>
+            <p>A recognized undergraduate hub for computational psychiatry, with a pipeline that
+            outlasts any single cohort.</p>
+          </li>
+          <li>
+            <span class="idx">04</span>
+            <p>Members who go on to top PhD programs, NIH intramural positions, and industry
+            research roles.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="band shell reveal">
+        <div class="band-head">
+          <span class="num">02</span>
+          <h2 class="h2">A research group first</h2>
+        </div>
+        <div class="grid grid-3">
+          <div>
+            <span class="card-k">Projects</span>
+            <h3 class="h3">Original research</h3>
+            <p class="card-body">
+              Applying machine learning to clinical populations. Current work covers vocal
+              biomarker extraction and dopaminergic modeling of anhedonia. Members join an
+              existing project or pitch their own.
+            </p>
+          </div>
+          <div>
+            <span class="card-k">Curriculum</span>
+            <h3 class="h3">Journal club</h3>
+            <p class="card-body">
+              A twenty-paper sequence taking undergraduates from reinforcement learning and
+              active inference through to reading and writing primary literature.
+            </p>
+          </div>
+          <div>
+            <span class="card-k">Series</span>
+            <h3 class="h3">Speaker series</h3>
+            <p class="card-body">
+              Biweekly technical talks with principal investigators and postdocs from the NIMH
+              and leading research institutions. Recorded, with consent, as a podcast.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="band shell reveal">
+        <div class="band-head">
+          <span class="num">03</span>
+          <h2 class="h2">Open source</h2>
+        </div>
+        <div class="grid grid-2">
+          <a class="grid-link" href="https://github.com/comp-psych" target="_blank" rel="noopener">
+            <span class="card-k">Organization</span>
+            <h3 class="h3">@comp-psych</h3>
+            <p class="card-body">
+              Open-source computational psychiatry resources and reference implementations.
+            </p>
           </a>
-          <a href="https://github.com/comp-psych/comp-psych-syllabus" target="_blank" class="github-card">
-            <div class="github-title">comp-psych-syllabus</div>
-            <div class="github-desc">A 20-paper undergraduate curriculum covering foundations of RL, active inference, and computational models of mood.</div>
+          <a class="grid-link" href="https://github.com/comp-psych/comp-psych-syllabus" target="_blank" rel="noopener">
+            <span class="card-k">Repository</span>
+            <h3 class="h3">comp-psych-syllabus</h3>
+            <p class="card-body">
+              The twenty-paper undergraduate curriculum: foundations of RL, active inference, and
+              computational models of mood.
+            </p>
           </a>
         </div>
       </section>
 
-      <section class="reveal">
-        <h2 class="section-title" style="text-align: left;">Core Pillars</h2>
-        <div class="features-grid">
-          <div class="glass-card">
-            <div class="feature-icon">▣</div>
-            <h3 class="feature-title">Advanced Curriculum</h3>
-            <p class="feature-desc">A curated undergraduate syllabus covering reinforcement learning, active inference, and predictive coding models of psychiatric disorders.</p>
-          </div>
-          <div class="glass-card">
-            <div class="feature-icon">▤</div>
-            <h3 class="feature-title">Original Research</h3>
-            <p class="feature-desc">Applying AI to clinical populations. Current projects involve vocal biomarker extraction and Dopaminergic modeling of anhedonia.</p>
-          </div>
-          <div class="glass-card">
-            <div class="feature-icon">▥</div>
-            <h3 class="feature-title">Speaker Series</h3>
-            <p class="feature-desc">Connecting students directly with Principal Investigators from the NIMH, USC, and leading research institutions across the country.</p>
-          </div>
+      <section class="band shell reveal">
+        <div class="band-head">
+          <span class="num">04</span>
+          <h2 class="h2">Who runs it</h2>
+        </div>
+        <div class="team">
+          <a class="member" href="https://www.linkedin.com/in/chengdong-zhou/" target="_blank" rel="noopener">
+            <img class="member-photo" src="/peter-zhou.jpg" alt="Peter Zhou" width="462" height="462" />
+            <p class="member-name">Peter Zhou</p>
+            <p class="member-role">Founder</p>
+          </a>
+          <a class="member" href="https://www.linkedin.com/in/meihui-lily-wu/" target="_blank" rel="noopener">
+            <div class="member-ph" aria-hidden="true">LW</div>
+            <p class="member-name">Lily Wu</p>
+            <p class="member-role">Co-Lead · Research</p>
+          </a>
+          <a class="member" href="https://www.linkedin.com/in/yiming-dora-xiang-bbbb4b230/" target="_blank" rel="noopener">
+            <div class="member-ph" aria-hidden="true">DX</div>
+            <p class="member-name">Dora Xiang</p>
+            <p class="member-role">Co-Lead · Programming</p>
+          </a>
         </div>
       </section>
 
-      <section class="reveal">
-        <h2 class="section-title" style="text-align: left;">Leadership Team</h2>
-        <div class="team-grid">
-          <a href="https://www.linkedin.com/in/chengdong-zhou/" target="_blank" class="team-member" style="text-decoration: none;">
-            <div class="team-name">Peter Zhou</div>
-            <div class="team-role">Founder</div>
-          </a>
-          <a href="https://www.linkedin.com/in/meihui-lily-wu/" target="_blank" class="team-member" style="text-decoration: none;">
-            <div class="team-name">Lily Wu</div>
-            <div class="team-role">Co-Lead</div>
-          </a>
-          <a href="https://www.linkedin.com/in/yiming-dora-xiang-bbbb4b230/" target="_blank" class="team-member" style="text-decoration: none;">
-            <div class="team-name">Dora Xiang</div>
-            <div class="team-role">Co-Lead</div>
-          </a>
-        </div>
-      </section>
     </main>
 
-    <footer>
-      <div class="container">
+    <footer class="foot">
+      <img class="foot-mark" src="/praxis-mark.png" alt="" aria-hidden="true" />
+      <div class="foot-in shell">
         <p>&copy; 2026 PRAXIS. Founded by Peter Zhou.</p>
-        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #555;">University of Southern California</p>
+        <p>
+          PRAXIS is a student-founded research group and is not a registered student
+          organization. It is not affiliated with, endorsed by, or sponsored by any university.
+        </p>
       </div>
     </footer>
-    <script type="module" src="/main.js"></script>
+
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

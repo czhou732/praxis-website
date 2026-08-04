@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found — PRAXIS</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href="/praxis-mark.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --ground: #080B11;
+        --ink: #E9EDF4;
+        --ink-2: #AEB9C9;
+        --muted: #6F7C90;
+        --cool: #6E9BFF;
+        --hairline: rgba(233, 237, 244, 0.13);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: "IBM Plex Sans", ui-sans-serif, -apple-system, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        -webkit-font-smoothing: antialiased;
+      }
+      .box { max-width: 34rem; }
+      .code {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 1.25rem;
+      }
+      h1 {
+        font-family: "Newsreader", ui-serif, Georgia, serif;
+        font-weight: 400;
+        font-size: clamp(2.2rem, 6vw, 3.4rem);
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        margin: 0 0 1.25rem;
+        text-wrap: balance;
+      }
+      p { color: var(--ink-2); line-height: 1.65; margin: 0 0 2rem; }
+      .links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+      a {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--ink);
+        border: 1px solid var(--hairline);
+        border-radius: 2px;
+        padding: 0.75rem 1.35rem;
+        transition: border-color 0.18s ease, color 0.18s ease;
+      }
+      a:hover { border-color: var(--cool); color: var(--cool); }
+      a:focus-visible { outline: 2px solid var(--cool); outline-offset: 3px; }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p class="code">Error 404</p>
+      <h1>This page doesn't exist.</h1>
+      <p>
+        The link may be out of date, or the address mistyped. Everything on the site is reachable
+        from the pages below.
+      </p>
+      <div class="links">
+        <a href="/">Home</a>
+        <a href="/research/">Research</a>
+        <a href="/speakers/">Speakers</a>
+        <a href="/syllabus/">Curriculum</a>
+      </div>
+    </div>
+  </body>
+</html>
