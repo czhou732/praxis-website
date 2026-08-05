@@ -77,14 +77,14 @@ export default function Home () {
                   <img
                     src={m.photo}
                     alt={m.name}
-                    width="462"
-                    height="462"
-                    className="aspect-square w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale transition-[filter] duration-300 group-hover:grayscale-0"
+                    width="384"
+                    height="512"
+                    className="aspect-[3/4] w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale transition-[filter] duration-300 group-hover:grayscale-0"
                   />
                 ) : (
                   <div
                     aria-hidden="true"
-                    className="flex aspect-square w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted"
+                    className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted"
                   >
                     {m.initials}
                   </div>

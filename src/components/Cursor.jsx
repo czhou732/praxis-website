@@ -88,8 +88,9 @@ export function Cursor () {
         ctx.clearRect(0, 0, w, h)
 
         if (visible) {
-          const cool = readToken('--color-cool', '#6E9BFF')
-          const warm = readToken('--color-warm', '#FF7F6B')
+          // Monochrome by design. A two-colour cursor competes with the page for
+          // attention; a white instrument reads as part of the interface.
+          const ink = readToken('--color-ink', '#E9EDF4')
 
           if (reduced) {
             rx = px
@@ -100,14 +101,14 @@ export function Cursor () {
 
             // signal trace
             if (trail.length > 1) {
-              ctx.lineWidth = 1.2
-              ctx.strokeStyle = cool
+              ctx.lineWidth = 1
+              ctx.strokeStyle = ink
               for (let i = 1; i < trail.length; i++) {
                 const a = trail[i]
                 const b = trail[i - 1]
                 const amp = (a.v / MAX_V) * 8
                 ctx.beginPath()
-                ctx.globalAlpha = a.a * 0.42
+                ctx.globalAlpha = a.a * 0.22
                 ctx.moveTo(b.x, b.y + Math.sin((i - 1) * 0.85) * amp)
                 ctx.lineTo(a.x, a.y + Math.sin(i * 0.85) * amp)
                 ctx.stroke()
@@ -120,17 +121,18 @@ export function Cursor () {
 
           const radius = locked ? 24 : 14
 
-          // ring
+          // ring — the lock state reads as weight and size, never as hue
           ctx.beginPath()
           ctx.arc(rx, ry, radius, 0, Math.PI * 2)
-          ctx.strokeStyle = locked ? warm : cool
-          ctx.lineWidth = locked ? 1.8 : 1.2
-          ctx.globalAlpha = locked ? 1 : 0.7
+          ctx.strokeStyle = ink
+          ctx.lineWidth = locked ? 1.5 : 1
+          ctx.globalAlpha = locked ? 0.85 : 0.4
           ctx.stroke()
 
           // reticle ticks, so hovering reads as an instrument acquiring a target
           if (locked) {
-            ctx.lineWidth = 1.4
+            ctx.lineWidth = 1.2
+            ctx.globalAlpha = 0.85
             for (let i = 0; i < 4; i++) {
               const angle = (Math.PI / 2) * i
               const dx = Math.cos(angle)
@@ -143,11 +145,13 @@ export function Cursor () {
           }
           ctx.globalAlpha = 1
 
-          // core
+          // core — the one element that tracks the pointer exactly
           ctx.beginPath()
-          ctx.arc(px, py, locked ? 1.4 : 2.6, 0, Math.PI * 2)
-          ctx.fillStyle = warm
+          ctx.arc(px, py, locked ? 1.2 : 2.2, 0, Math.PI * 2)
+          ctx.fillStyle = ink
+          ctx.globalAlpha = 0.95
           ctx.fill()
+          ctx.globalAlpha = 1
 
           velocity *= 0.9
 
