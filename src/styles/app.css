@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PRAXIS design tokens.
+   Committed to a single dark theme: the subject is signal and
+   instrumentation, and the mark is white-on-black.
+   @theme also emits these as :root custom properties, which the
+   canvas components read at runtime.
+   ============================================================ */
+
+@theme {
+  --color-ground:    #080B11;
+  --color-surface:   #0E141D;
+  --color-surface-2: #151D28;
+
+  --color-ink:    #E9EDF4;
+  --color-ink-2:  #AEB9C9;
+  --color-muted:  #6F7C90;
+
+  /* a diverging pair, the way an activation map reads */
+  --color-cool: #6E9BFF;
+  --color-warm: #FF7F6B;
+
+  --color-good: #4FC79B;
+  --color-hold: #D9AE52;
+
+  --font-serif: "Newsreader", ui-serif, "Iowan Old Style", Georgia, serif;
+  --font-sans:  "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:  "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* The custom cursor replaces the native one only while it is mounted
+     and actually drawing. Removing the class always restores the default. */
+  body[data-cursor="on"],
+  body[data-cursor="on"] a,
+  body[data-cursor="on"] button {
+    cursor: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cool);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+}
+
+@layer utilities {
+  .hairline   { border-color: color-mix(in srgb, var(--color-ink) 13%, transparent); }
+  .hairline-2 { border-color: color-mix(in srgb, var(--color-ink) 6%, transparent); }
+  .measure    { max-width: 66ch; }
+  .tnum       { font-variant-numeric: tabular-nums; }
+}
+
+/* ---------- scroll reveal ----------
+   The hidden state applies only under html.js, set by an inline script before
+   paint. A prerendered page whose JavaScript never runs shows everything. */
+
+@layer components {
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+  }
+
+  html.js .reveal[data-shown="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Magic UI-style border beam: a gradient arc travelling the card edge. */
+  .beam-arc {
+    background: radial-gradient(circle, var(--color-cool) 0%, transparent 65%);
+    opacity: 0.55;
+    offset-anchor: 50% 50%;
+    offset-path: rect(0 auto auto 0 round 70px);
+    animation: beam var(--beam-duration, 7s) linear var(--beam-delay, 0s) infinite;
+  }
+
+  .grid-pattern {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  }
+}
+
+@keyframes beam {
+  to { offset-distance: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .beam-arc { animation: none; opacity: 0; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

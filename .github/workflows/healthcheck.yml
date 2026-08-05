@@ -1,0 +1,68 @@
+name: Health check
+
+# The site has broken twice without anyone noticing for days: once when the
+# build silently dropped three pages, and once when a nameserver change stopped
+# the domain resolving. This runs the same live smoke test on a schedule and
+# opens an issue the moment either happens again.
+
+on:
+  schedule:
+    - cron: '17 14 * * *'   # 14:17 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Smoke test the live site
+        id: smoke
+        run: npm run smoke 2>&1 | tee smoke.log
+      - name: Open an issue if the site is down
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'uscpraxis.org health check failed'
+            const { data: open } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'healthcheck'
+            })
+            const body = [
+              'The scheduled health check failed.',
+              '',
+              `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              '',
+              'Most likely causes, in order of how often they have actually happened:',
+              '1. DNS — check the nameservers are Namecheap BasicDNS and the four',
+              '   `185.199.10x.153` A records are still on `@`.',
+              '2. A deploy that shipped without all pages (the build should now block this).',
+              '3. GitHub Pages incident — check https://www.githubstatus.com.'
+            ].join('\n')
+            if (open.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['healthcheck']
+              })
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: open[0].number,
+                body
+              })
+            }
