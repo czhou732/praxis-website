@@ -80,17 +80,26 @@ function Nav({ current }) {
   )
 }
 
-/* No footer. The signal strip, the clock, the sys readout and the duplicated
-   copyright were chrome — they told a visitor nothing. What is left is the one
-   sentence that keeps every other page on this site accurate: PRAXIS is not a
-   registered student organization. That cannot be dropped along with the
-   furniture, so it stays as a single colophon line. */
-function Colophon() {
+/* Credit line, the non-affiliation disclaimer, and the mark set large and very
+   low-contrast behind them. No signal strip, no clock, no sys readout — those
+   were chrome. */
+function Footer() {
   return (
-    <footer className="mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)]">
-      <p className="m-0 max-w-[62ch] border-t border-ink/6 py-7 font-mono text-[0.72rem] leading-[1.7] text-muted">
-        © 2026 PRAXIS · {SITE.disclaimer}
-      </p>
+    <footer className="relative overflow-hidden border-t border-ink/6">
+      <img
+        src="/praxis-mark.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-4 -bottom-10 h-[15rem] w-auto select-none opacity-[0.045]"
+      />
+      <div className="relative mx-auto max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] pt-10 pb-12">
+        <p className="mb-4 font-mono text-[0.75rem] text-muted">
+          © 2026 PRAXIS. Founded by Peter Zhou.
+        </p>
+        <p className="m-0 max-w-[52ch] font-mono text-[0.75rem] leading-[1.75] text-muted">
+          {SITE.disclaimer}
+        </p>
+      </div>
     </footer>
   )
 }
@@ -118,7 +127,7 @@ export function Layout({ current, children }) {
       <ScrollProgress />
       <Nav current={current} />
       <main id="main">{children}</main>
-      <Colophon />
+      <Footer />
       <Cursor />
     </>
   )

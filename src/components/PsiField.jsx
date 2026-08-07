@@ -14,7 +14,12 @@ import { useEffect, useRef } from 'react'
  * that the hero is blank for anyone whose rAF never runs.
  */
 const CHANNELS = 8
-const PER_CHANNEL = 150
+/* Points per channel. The mark is only as solid as the number of points that
+   land on it: the glyph's 4px sample lattice holds ~3300 positions at desktop
+   size, so 1200 points filled barely a third of it and the strokes read as
+   stringy. Sized to fill the lattice on wide screens, and kept low on narrow
+   ones where the canvas — and the lattice — are much smaller. */
+const perChannelFor = (w) => (w > 900 ? 410 : 170)
 const BUCKETS = 8
 
 /* Two slow sines carry the rhythm; the fifth-power term fires rarely and
@@ -80,12 +85,10 @@ export function PsiField() {
       o.font = `400 ${size}px ${readToken('--font-serif', 'serif')}`
       o.textAlign = 'center'
       o.textBaseline = 'middle'
-      /* The mark is condensed — skinnier than the serif's default letterform.
-         Horizontal compression on the offscreen canvas, so the sampled dots
-         (and the glyph they fold into) carry the same narrow shape. */
-      o.setTransform(0.8, 0, 0, 1, 0, 0)
-      o.fillText('Ψ', cx / 0.8, cy)
-      o.setTransform(1, 0, 0, 1, 0, 0)
+      /* No horizontal compression. Squeezing the letterform to 0.8 made the
+         strokes too narrow to carry more than a couple of dots across, so the
+         mark read as stringy rather than solid. */
+      o.fillText('Ψ', cx, cy)
 
       const data = o.getImageData(0, 0, off.width, off.height).data
       const targets = []
@@ -204,7 +207,10 @@ export function PsiField() {
           mutedRgb[1] + (coolRgb[1] - mutedRgb[1]) * f
         )},${Math.round(mutedRgb[2] + (coolRgb[2] - mutedRgb[2]) * f)})`
         ctx.globalAlpha = 0.45 + f * 0.45
-        const rr = 1.15 + f * 0.85
+        /* Kept under half the 4px sample spacing so the resolved mark stays a
+           legible lattice of separate dots. At 2.0 the dots met and the glyph
+           filled in solid, which loses the point-cloud entirely. */
+        const rr = 1.0 + f * 0.35
         ctx.beginPath()
         for (const q of pts) {
           if (Math.min(BUCKETS - 1, Math.floor(q.lp * BUCKETS)) !== b) continue
@@ -247,24 +253,25 @@ export function PsiField() {
 
       const targets = sampleGlyph()
       const gap = h / (CHANNELS + 1)
-      const total = CHANNELS * PER_CHANNEL
+      const perChannel = perChannelFor(w)
+      const total = CHANNELS * perChannel
       pts = []
       rows = []
       let k = 0
       for (let c = 0; c < CHANNELS; c++) {
         const row = []
-        for (let i = 0; i < PER_CHANNEL; i++) {
+        for (let i = 0; i < perChannel; i++) {
           const tgt = targets.length
             ? targets[Math.min(targets.length - 1, Math.floor((k * targets.length) / total))]
             : { x: w / 2, y: h / 2 }
           const p = {
-            x0: (i / (PER_CHANNEL - 1)) * w,
+            x0: (i / (perChannel - 1)) * w,
             base: gap * (c + 1),
             amp: gap * 0.38,
             ph: c * 1.7 + i * 0.045,
             tx: tgt.x,
             ty: tgt.y,
-            delay: (i / (PER_CHANNEL - 1)) * 0.82 + Math.random() * 0.18,
+            delay: (i / (perChannel - 1)) * 0.82 + Math.random() * 0.18,
             x: 0,
             y: 0,
             lp: 0,
