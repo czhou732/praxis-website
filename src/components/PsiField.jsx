@@ -68,28 +68,11 @@ export function PsiField() {
       off.height = Math.round(h)
       const o = off.getContext('2d')
 
-      /* The mark is positioned by a reserved grid column, not by guessing a
-         percentage. The headline and [data-glyph-slot] are grid siblings, so
-         no viewport width can make them overlap — which is what a tuned 0.79
-         could never guarantee. Falls back to the old placement if the slot is
-         absent or collapsed (narrow screens). */
-      let cx, cy, size
-      const slot = document.querySelector('[data-glyph-slot]')
-      if (slot) {
-        const s = slot.getBoundingClientRect()
-        const r = canvas.getBoundingClientRect()
-        if (s.width > 40 && s.height > 40) {
-          cx = s.left - r.left + s.width / 2
-          cy = s.top - r.top + s.height / 2
-          size = Math.min(s.width * 1.7, s.height * 0.95)
-        }
-      }
-      if (cx == null) {
-        const wide = w > 900
-        size = wide ? Math.min(w * 0.38, h * 0.86) : Math.min(w * 0.62, h * 0.5)
-        cx = wide ? w * 0.79 : w * 0.5
-        cy = wide ? h * 0.5 : h * 0.66
-      }
+      // Wide screens put the mark right of the headline; narrow ones centre it.
+      const wide = w > 900
+      const size = wide ? Math.min(w * 0.38, h * 0.86) : Math.min(w * 0.62, h * 0.5)
+      const cx = wide ? w * 0.79 : w * 0.5
+      const cy = wide ? h * 0.5 : h * 0.66
       glyphCx = cx
       glyphCy = cy
 

@@ -9,26 +9,18 @@ export default function Home() {
       <section id="hero" className="relative flex min-h-[min(86vh,780px)] items-center overflow-hidden border-b border-ink/6">
         <div aria-hidden="true" className="grid-pattern pointer-events-none absolute inset-0 z-0" />
         <PsiField />
-        {/* Two columns above 1024px: type on the left, a reserved slot for the
-            mark on the right. They are grid siblings, so the headline can never
-            run into the glyph at any width — the previous layout positioned
-            both independently and overlapped by 72px at 1440. */}
-        <div className="relative z-1 mx-auto grid w-full max-w-[74rem] grid-cols-1 items-center gap-x-10 px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
-          <div>
-            <div data-boot>
-              <Eyebrow>{SITE.expansion}</Eyebrow>
-            </div>
-            <h1 data-boot className="mt-6 max-w-[17ch] font-serif text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.02] tracking-[-0.025em]">
-              From theory into tools that reach patients.
-            </h1>
-            <p data-boot className="measure mt-7 text-[1.15rem] leading-[1.6] text-ink-2">{SITE.mission}</p>
-            <div data-boot className="mt-10 flex flex-wrap gap-3">
-              <Button href="/speakers/">Fall 2026 Speaker Series</Button>
-              <Button href="/research/" variant="ghost">Current Research</Button>
-            </div>
+        <div className="relative z-1 mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)]">
+          <div data-boot>
+            <Eyebrow>{SITE.expansion}</Eyebrow>
           </div>
-          {/* Reserves the column PsiField centres the mark in. Empty by design. */}
-          <div data-glyph-slot aria-hidden="true" className="hidden lg:block lg:h-[34rem]" />
+          <h1 data-boot className="mt-6 max-w-[17ch] font-serif text-[clamp(2.6rem,7vw,5.1rem)] leading-[1.02] tracking-[-0.025em]">
+            From theory into tools that reach patients.
+          </h1>
+          <p data-boot className="measure mt-7 text-[1.15rem] leading-[1.6] text-ink-2">{SITE.mission}</p>
+          <div data-boot className="mt-10 flex flex-wrap gap-3">
+            <Button href="/speakers/">Fall 2026 Speaker Series</Button>
+            <Button href="/research/" variant="ghost">Current Research</Button>
+          </div>
         </div>
       </section>
 

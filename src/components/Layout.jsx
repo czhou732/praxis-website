@@ -3,7 +3,9 @@ import { Cursor } from './Cursor'
 import { NAV, SITE } from '../data/site'
 import { cn } from './ui'
 
-/* Recording-position readout: a 1px cool fill under the nav tracking scroll.
+/* Recording-position readout: a vertical track pinned to the right edge, the
+   way a scrollbar reads, rather than a bar under the nav — at the top it
+   competed with the nav's own underline and looked like a loading state.
    Client-only; the prerendered markup carries an empty track. */
 function ScrollProgress() {
   const [p, setP] = useState(0)
@@ -30,10 +32,16 @@ function ScrollProgress() {
     }
   }, [])
   return (
-    <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px">
-      <div className="h-full bg-cool" style={{ width: `${p * 100}%` }} />
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed top-0 right-0 z-90 hidden h-full w-px bg-ink/8 md:block"
+    >
+      <div className="w-full bg-cool" style={{ height: `${p * 100}%` }} />
       {p > 0.005 && (
-        <span className="tnum absolute right-[clamp(1.25rem,5vw,4rem)] -bottom-[1.1rem] font-mono text-[0.58rem] tracking-[0.1em] text-cool">
+        <span
+          className="tnum absolute right-3 font-mono text-[0.58rem] tracking-[0.1em] whitespace-nowrap text-cool"
+          style={{ top: `calc(${p * 100}% - 0.55rem)` }}
+        >
           {Math.round(p * 100)}%
         </span>
       )}
@@ -44,7 +52,6 @@ function ScrollProgress() {
 function Nav({ current }) {
   return (
     <nav data-boot className="vt-nav sticky top-0 z-100 border-b border-ink/6 bg-ground/85 backdrop-blur-[14px]">
-      <ScrollProgress />
       <div className="mx-auto flex max-w-[74rem] flex-col items-start justify-between gap-3 px-[clamp(1.25rem,5vw,4rem)] py-3.5 sm:flex-row sm:items-center sm:gap-6">
         <a href="/" className="flex items-center gap-2.5 text-ink no-underline">
           <img src="/praxis-mark.png" alt="" className="vt-mark h-[26px] w-auto" />
@@ -106,6 +113,9 @@ export function Layout({ current, children }) {
       >
         Skip to content
       </a>
+      {/* Outside <Nav>: its backdrop-filter would become the containing block
+         for a fixed child and pin the track to the nav instead of the viewport. */}
+      <ScrollProgress />
       <Nav current={current} />
       <main id="main">{children}</main>
       <Colophon />
