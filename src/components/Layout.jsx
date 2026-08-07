@@ -90,7 +90,7 @@ function Footer() {
         src="/praxis-mark.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -right-4 -bottom-10 h-[15rem] w-auto select-none opacity-[0.045]"
+        className="pointer-events-none absolute right-[clamp(1.25rem,5vw,4rem)] bottom-7 h-[9.5rem] w-auto select-none opacity-[0.05]"
       />
       <div className="relative mx-auto max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] pt-10 pb-12">
         <p className="mb-4 font-mono text-[0.75rem] text-muted">

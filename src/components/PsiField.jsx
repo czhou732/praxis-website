@@ -66,28 +66,18 @@ export function PsiField() {
     const readToken = (name, fallback) =>
       getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback
 
-    function sampleGlyph() {
-      if (w < 2 || h < 2) return [] /* zero-size canvas guard */
+    /* Rasterise the glyph at a given size and return its sample lattice.
+       No horizontal compression — squeezing the letterform to 0.8 made the
+       strokes too narrow to carry more than a couple of dots across. */
+    function sampleAt(size, cx, cy) {
       const off = document.createElement('canvas')
       off.width = Math.round(w)
       off.height = Math.round(h)
       const o = off.getContext('2d')
-
-      // Wide screens put the mark right of the headline; narrow ones centre it.
-      const wide = w > 900
-      const size = wide ? Math.min(w * 0.38, h * 0.86) : Math.min(w * 0.62, h * 0.5)
-      const cx = wide ? w * 0.79 : w * 0.5
-      const cy = wide ? h * 0.5 : h * 0.66
-      glyphCx = cx
-      glyphCy = cy
-
       o.fillStyle = '#fff'
       o.font = `400 ${size}px ${readToken('--font-serif', 'serif')}`
       o.textAlign = 'center'
       o.textBaseline = 'middle'
-      /* No horizontal compression. Squeezing the letterform to 0.8 made the
-         strokes too narrow to carry more than a couple of dots across, so the
-         mark read as stringy rather than solid. */
       o.fillText('Ψ', cx, cy)
 
       const data = o.getImageData(0, 0, off.width, off.height).data
@@ -97,27 +87,78 @@ export function PsiField() {
           if (data[(y * off.width + x) * 4 + 3] > 130) targets.push({ x, y })
         }
       }
+      return targets
+    }
+
+    function inkBox(targets) {
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity
+      for (const q of targets) {
+        if (q.x < minX) minX = q.x
+        if (q.x > maxX) maxX = q.x
+        if (q.y < minY) minY = q.y
+        if (q.y > maxY) maxY = q.y
+      }
+      return { minX, maxX, minY, maxY, w: maxX - minX, h: maxY - minY }
+    }
+
+    const HEADLINE_GAP = 44 /* clear space between the headline and the mark */
+
+    function sampleGlyph() {
+      if (w < 2 || h < 2) return [] /* zero-size canvas guard */
+
+      // Wide screens put the mark right of the headline; narrow ones centre it.
+      const wide = w > 900
+      let size = wide ? Math.min(w * 0.38, h * 0.86) : Math.min(w * 0.62, h * 0.5)
+      let cx = wide ? w * 0.79 : w * 0.5
+      const cy = wide ? h * 0.5 : h * 0.66
+
+      let targets = sampleAt(size, cx, cy)
+      if (!targets.length) {
+        glyphCx = cx
+        glyphCy = cy
+        return []
+      }
+
+      /* The hero is a single column, so nothing in the layout keeps the mark
+         off the headline — measure it. The mark is scaled down only if it
+         cannot fit the space to the right of the type, then pushed as far
+         right as the margin allows. This is why it clears "tools" at every
+         width instead of only the one it was eyeballed at. */
+      if (wide) {
+        const h1 = canvas.parentElement?.querySelector('h1')
+        if (h1) {
+          const rect = canvas.getBoundingClientRect()
+          const leftBound = h1.getBoundingClientRect().right - rect.left + HEADLINE_GAP
+          const rightBound = w - w * 0.032
+          const band = rightBound - leftBound
+
+          if (band > 60) {
+            let ink = inkBox(targets)
+            if (ink.w > band) {
+              size *= band / ink.w
+              targets = sampleAt(size, cx, cy)
+              ink = inkBox(targets)
+            }
+            cx = rightBound - ink.w / 2
+          }
+        }
+      }
 
       // Sorted top-to-bottom so the top trace folds into the top of the mark.
       targets.sort((a, b) => a.y - b.y || a.x - b.x)
 
       // Centre on the glyph's real ink box. textBaseline "middle" centres the
       // em box, not the letterform, which leaves Ψ visibly high in the frame.
-      if (targets.length) {
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity
-        for (const q of targets) {
-          if (q.x < minX) minX = q.x
-          if (q.x > maxX) maxX = q.x
-          if (q.y < minY) minY = q.y
-          if (q.y > maxY) maxY = q.y
-        }
-        const ox = cx - (minX + maxX) / 2
-        const oy = cy - (minY + maxY) / 2
-        for (const q of targets) {
-          q.x += ox
-          q.y += oy
-        }
+      const ink = inkBox(targets)
+      const ox = cx - (ink.minX + ink.maxX) / 2
+      const oy = cy - (ink.minY + ink.maxY) / 2
+      for (const q of targets) {
+        q.x += ox
+        q.y += oy
       }
+
+      glyphCx = cx
+      glyphCy = cy
       return targets
     }
 
