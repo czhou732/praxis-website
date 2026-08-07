@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PRAXIS — Round 4: Footer Redesign & Micro-enhancements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet" />
+<style>
+:root{--paper:#F5F4F1;--panel:#FFF;--ink:#1A1D24;--ink-2:#4A5260;--muted:#8A93A3;--cool:#3B63D8;--hairline:rgba(26,29,36,.12);--hairline-2:rgba(26,29,36,.06);--ground:#080B11;--d-ink:#E9EDF4;--d-muted:#6F7C90;--d-cool:#6E9BFF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.page{max-width:47rem;margin:0 auto;padding:4.5rem 1.5rem 7rem}
+.mono{font-family:"IBM Plex Mono",monospace}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:2.25rem}
+h1{font-family:"Newsreader",serif;font-weight:400;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:1.5rem}
+.lede{color:var(--ink-2);font-size:1.08rem;max-width:60ch;margin-bottom:3rem}
+ol.index{list-style:none;border-top:1px solid var(--hairline);margin-bottom:4.5rem}
+ol.index li{display:grid;grid-template-columns:3rem 1fr;gap:1rem;padding:1.05rem 0;border-bottom:1px solid var(--hairline-2);align-items:baseline}
+ol.index .n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--cool);font-variant-numeric:tabular-nums}
+ol.index .t{font-family:"Newsreader",serif;font-size:1.2rem}
+section{margin-bottom:4.5rem}
+h2{font-family:"Newsreader",serif;font-weight:400;font-size:1.75rem;letter-spacing:-.015em}
+h2 .n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--cool);letter-spacing:.08em;margin-right:.9rem}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.tier{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cool);border:1px solid rgba(59,99,216,.4);padding:.2rem .6rem;border-radius:2px;white-space:nowrap}
+.tier.rec{color:#2E7D5B;border-color:rgba(46,125,91,.4)}
+p.body{color:var(--ink-2);max-width:64ch}
+section p+p{margin-top:.8rem}
+.panel{background:var(--panel);border:1px solid var(--hairline);border-radius:4px;margin-top:1.6rem;overflow:hidden}
+.panel .bar{display:flex;justify-content:space-between;padding:.7rem 1rem;border-bottom:1px solid var(--hairline-2);font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.panel .stage{padding:1.5rem}
+.panel .stage.flush{padding:0}
+.panel.dark{background:var(--ground);border-color:rgba(233,237,244,.1)}
+.panel.dark .bar{border-bottom-color:rgba(233,237,244,.07);color:var(--d-muted)}
+.caption{margin-top:.7rem;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* footer mockups (dark) */
+.ffooter{border-top:1px solid rgba(233,237,244,.08)}
+.fstrip{height:72px;display:block;width:100%}
+.fcontent{padding:1.5rem;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--d-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1.5rem}
+.fcontent .ok{color:var(--d-cool)}
+.fnote{padding:0 1.5rem 1.5rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.06em;color:var(--d-muted);text-transform:none;max-width:60ch}
+.watermark{position:relative}
+.watermark .wm{position:absolute;right:.5rem;bottom:-1.2rem;font-family:"Newsreader",serif;font-size:9rem;line-height:1;color:rgba(233,237,244,.05);pointer-events:none}
+
+/* underline sweep demo */
+.sweep a{color:var(--ink);text-decoration:none;background:linear-gradient(var(--cool),var(--cool)) left bottom / 0% 1px no-repeat;transition:background-size .3s ease;padding-bottom:2px}
+.sweep a:hover{background-size:100% 1px}
+
+/* selection tint demo */
+.seldemo::selection{background:rgba(59,99,216,.28)}
+.seldemo ::selection{background:rgba(59,99,216,.28)}
+
+/* scroll progress mock */
+.progmock{position:relative;height:64px}
+.progline{position:absolute;left:0;right:0;top:32px;height:1px;background:var(--hairline-2)}
+.progfill{position:absolute;left:0;top:32px;height:1px;background:var(--cool);width:38%}
+.prognum{position:absolute;left:calc(38% + 8px);top:22px;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;color:var(--cool)}
+
+/* hero readout mock */
+.readout{position:relative;height:120px;background:var(--ground);border-radius:3px;overflow:hidden}
+.readout .tag{position:absolute;right:1rem;bottom:.8rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--d-muted)}
+.readout .tag b{color:var(--d-cool);font-weight:500}
+.pick{border-top:1px solid var(--hairline);padding-top:2.5rem}
+</style>
+</head>
+<body>
+<div class="page">
+
+<p class="eyebrow">Praxis · Round 4 · Footer Redesign & Micro-enhancements — Visual Proposal</p>
+<h1>Quiet the foot of the page</h1>
+<p class="lede">
+  The live signal behind the footer text was doing too much — traces crossing under type is
+  noise, not instrumentation. Two redesigns below, both live. Then five micro-enhancements.
+  Design skills from GitHub (anthropics/skills, frontend-design, web-design-reviewer,
+  creativetimofficial/ui) are installed and informed this round.
+</p>
+
+<ol class="index">
+  <li><span class="n">01</span><span class="t">Footer option A — strip in its own band</span></li>
+  <li><span class="n">02</span><span class="t">Footer option B — the quiet footer</span></li>
+  <li><span class="n">03</span><span class="t">Micro-enhancements, a–e</span></li>
+  <li><span class="n">04</span><span class="t">Order of work</span></li>
+</ol>
+
+<section>
+  <div class="sechead"><h2><span class="n">01</span>Footer A — strip in its own band</h2><span class="tier rec">Recommended</span></div>
+  <p class="body">
+    The traces get their own 72px band, closed by hairlines above and below, and never share
+    space with text. The instrument line and legal copy sit underneath on clean ground.
+    Move your pointer across the strip — the middle channel's gain rises around the cursor.
+    Reduced motion renders one static frame.
+  </p>
+  <div class="panel dark">
+    <div class="bar"><span>Footer A — live</span><span>Strip · banded</span></div>
+    <div class="stage flush">
+      <div class="ffooter">
+        <canvas class="fstrip" id="stripA"></canvas>
+        <div style="border-top:1px solid rgba(233,237,244,.08)">
+          <div class="fcontent"><span>© 2026 Praxis</span><span>19:42:07 local</span><span class="ok">sys: ok</span></div>
+          <div class="fnote">Praxis is a student-founded research group and is not a registered student organization. It is not affiliated with, endorsed by, or sponsored by any university.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Live · traces never touch the type</p>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">02</span>Footer B — the quiet footer</h2><span class="tier">Alternative</span></div>
+  <p class="body">
+    No canvas at all. The instrument line, the disclaimer, and a very faint serif Ψ watermark
+    at the right edge — the mark at 5% ink, like a colophon. The calmest option, and zero
+    JavaScript. If the footer keeps fighting you, this is the honest answer.
+  </p>
+  <div class="panel dark">
+    <div class="bar"><span>Footer B</span><span>No canvas</span></div>
+    <div class="stage flush">
+      <div class="ffooter watermark">
+        <div class="fcontent"><span>© 2026 Praxis</span><span>19:42:07 local</span><span class="ok">sys: ok</span></div>
+        <div class="fnote">Praxis is a student-founded research group and is not a registered student organization. It is not affiliated with, endorsed by, or sponsored by any university.</div>
+        <span class="wm" aria-hidden="true">Ψ</span>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Static · the mark as colophon</p>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">03</span>Micro-enhancements, a–e</h2><span class="tier">Pick any</span></div>
+
+  <p class="body"><strong class="mono" style="color:var(--cool)">a&nbsp;·&nbsp;</strong><strong>Scroll progress hairline.</strong> A 1px cool line under the nav with a mono readout tracking position — the page as a recording. Static mock:</p>
+  <div class="panel"><div class="bar"><span>Nav — progress</span><span>Mockup</span></div><div class="stage"><div class="progmock"><div class="progline"></div><div class="progfill"></div><span class="prognum">38%</span></div></div></div>
+
+  <p class="body" style="margin-top:2rem"><strong class="mono" style="color:var(--cool)">b&nbsp;·&nbsp;</strong><strong>Link underline sweeps.</strong> Underlines that draw left-to-right on hover. This one is live — hover the links:</p>
+  <div class="panel"><div class="bar"><span>Links — sweep</span><span>Live · hover</span></div><div class="stage sweep"><p><a href="#">Research</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#">Speakers</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#">Curriculum</a></p></div></div>
+
+  <p class="body" style="margin-top:2rem"><strong class="mono" style="color:var(--cool)">c&nbsp;·&nbsp;</strong><strong>Selection tint.</strong> Text selects in cool instead of OS blue. Live — select this sentence:</p>
+  <div class="panel"><div class="bar"><span>Selection</span><span>Live · select</span></div><div class="stage"><p class="seldemo body">Select any part of this paragraph to see the tint. One line of CSS, works everywhere, removes nothing.</p></div></div>
+
+  <p class="body" style="margin-top:2rem"><strong class="mono" style="color:var(--cool)">d&nbsp;·&nbsp;</strong><strong>Hero structure readout.</strong> The prototype's corner label, shipped: a small mono "structure N%" in the hero that tracks the fold as you scroll. Mock on dark:</p>
+  <div class="panel dark"><div class="bar"><span>Hero — readout</span><span>Mockup</span></div><div class="stage flush"><div class="readout"><span class="tag">structure <b>64%</b></span></div></div></div>
+
+  <p class="body" style="margin-top:2rem"><strong class="mono" style="color:var(--cool)">e&nbsp;·&nbsp;</strong><strong>Back-to-top control.</strong> A mono "↑ top" in the footer instrument line, appearing after one viewport of scroll. No mock needed — it's one link.</p>
+</section>
+
+<section class="pick">
+  <h2><span class="n">04</span>Order of work</h2>
+  <p class="body">
+    Pick a footer (A or B) and any of a–e. Everything verified with a build after each change.
+    Nothing commits or pushes until you ask.
+  </p>
+</section>
+
+</div>
+
+<script>
+/* footer A: banded oscilloscope strip */
+(function(){
+  var canvas=document.getElementById('stripA'),ctx=canvas.getContext('2d');
+  var w=0,h=0,clock=0,last=performance.now(),mx=-9999;
+  function waveAt(x,ph,c){return Math.sin(x*.021+c*1.6+ph)*.55+Math.sin(x*.052-c*2.3+ph*1.7)*.26+Math.pow(Math.sin(x*.011+c*.9+ph*.5),5)*.5;}
+  function resize(){var r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0);}
+  canvas.addEventListener('pointermove',function(e){var r=canvas.getBoundingClientRect();mx=e.clientX-r.left;});
+  canvas.addEventListener('pointerleave',function(){mx=-9999;});
+  function frame(now){
+    var dt=Math.min(.05,(now-last)/1000);last=now;clock+=dt;
+    if(w>=2&&h>=2){
+      ctx.clearRect(0,0,w,h);
+      var gap=h/4;
+      for(var c=0;c<3;c++){
+        var base=gap*(c+1),amp=gap*.42,cool=c===1;
+        ctx.strokeStyle=cool?'#6E9BFF':'#6F7C90';ctx.globalAlpha=cool?.55:.35;ctx.lineWidth=1;
+        ctx.beginPath();
+        for(var x=0;x<=w;x+=3){
+          var g=1;
+          if(cool&&mx>-900){var dx=x-mx;g=1+1.6*Math.exp(-(dx*dx)/12000);}
+          var y=base+waveAt(x,c*1.7,clock)*amp*g;
+          x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+    }
+    requestAnimationFrame(frame);
+  }
+  resize();addEventListener('resize',resize);
+  requestAnimationFrame(function(t){last=t;frame(t);});
+})();
+</script>
+</body>
+</html>

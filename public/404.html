@@ -1,86 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page not found — PRAXIS</title>
-    <meta name="robots" content="noindex" />
-    <link rel="icon" type="image/png" href="/praxis-mark.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet" />
-    <style>
-      :root {
-        --ground: #080B11;
-        --ink: #E9EDF4;
-        --ink-2: #AEB9C9;
-        --muted: #6F7C90;
-        --cool: #6E9BFF;
-        --hairline: rgba(233, 237, 244, 0.13);
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — PRAXIS</title>
+  <meta name="description" content="This channel carries nothing." />
+  <link rel="icon" type="image/png" href="/praxis-mark.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --ground: #080B11;
+      --ink: #E9EDF4;
+      --muted: #6F7C90;
+      --cool: #6E9BFF;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--ground);
+      color: var(--ink);
+      font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      text-align: center;
+      padding: 2rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mark {
+      font-family: "Newsreader", ui-serif, Georgia, serif;
+      font-size: clamp(4rem, 14vw, 7rem);
+      line-height: 1;
+      color: var(--ink);
+    }
+    .code {
+      margin-top: 1.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .msg {
+      margin-top: 1.1rem;
+      font-family: "Newsreader", ui-serif, Georgia, serif;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      letter-spacing: -0.01em;
+    }
+    a {
+      display: inline-block;
+      margin-top: 2.2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cool);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(110, 155, 255, 0.4);
+      padding-bottom: 3px;
+    }
+    a:hover { border-bottom-color: var(--cool); }
+  </style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
+  <div style="position:relative;z-index:1">
+    <div class="mark" aria-hidden="true">Ψ</div>
+    <p class="code">404 · signal lost</p>
+    <p class="msg">This channel carries nothing.</p>
+    <a href="/">← back to the site</a>
+  </div>
+  <script>
+    (function () {
+      /* The same 8-channel trace field as the hero — a dead end that still
+         feels like the site. Static (single paint) under reduced motion. */
+      var cv = document.getElementById('field')
+      var ctx = cv.getContext('2d')
+      var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+      var w = 0, h = 0, clock = 0, last = performance.now()
+      function waveAt(x, ph, c) {
+        return Math.sin(x * 0.021 + c * 1.6 + ph) * 0.55 +
+               Math.sin(x * 0.052 - c * 2.3 + ph * 1.7) * 0.26 +
+               Math.pow(Math.sin(x * 0.011 + c * 0.9 + ph * 0.5), 5) * 0.5
       }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background: var(--ground);
-        color: var(--ink);
-        font-family: "IBM Plex Sans", ui-sans-serif, -apple-system, sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        -webkit-font-smoothing: antialiased;
+      function resize() {
+        var d = Math.min(devicePixelRatio || 1, 2)
+        w = innerWidth; h = innerHeight
+        cv.width = w * d; cv.height = h * d
+        ctx.setTransform(d, 0, 0, d, 0, 0)
       }
-      .box { max-width: 34rem; }
-      .code {
-        font-family: "IBM Plex Mono", ui-monospace, monospace;
-        font-size: 0.72rem;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin: 0 0 1.25rem;
+      function paint() {
+        if (w < 2 || h < 2) return
+        ctx.clearRect(0, 0, w, h)
+        var gap = h / 9
+        for (var c = 0; c < 8; c++) {
+          var base = gap * (c + 1)
+          ctx.strokeStyle = c === 3 ? '#6E9BFF' : '#6F7C90'
+          ctx.globalAlpha = c === 3 ? 0.45 : 0.25
+          ctx.lineWidth = 1
+          ctx.beginPath()
+          for (var x = 0; x <= w; x += 4) {
+            var y = base + waveAt(x, c * 1.7, clock) * gap * 0.38
+            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+          }
+          ctx.stroke()
+        }
+        ctx.globalAlpha = 1
       }
-      h1 {
-        font-family: "Newsreader", ui-serif, Georgia, serif;
-        font-weight: 400;
-        font-size: clamp(2.2rem, 6vw, 3.4rem);
-        line-height: 1.05;
-        letter-spacing: -0.025em;
-        margin: 0 0 1.25rem;
-        text-wrap: balance;
+      function loop(now) {
+        var dt = Math.min(0.05, (now - last) / 1000)
+        last = now
+        clock += dt
+        paint()
+        requestAnimationFrame(loop)
       }
-      p { color: var(--ink-2); line-height: 1.65; margin: 0 0 2rem; }
-      .links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-      a {
-        font-family: "IBM Plex Mono", ui-monospace, monospace;
-        font-size: 0.78rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        text-decoration: none;
-        color: var(--ink);
-        border: 1px solid var(--hairline);
-        border-radius: 2px;
-        padding: 0.75rem 1.35rem;
-        transition: border-color 0.18s ease, color 0.18s ease;
-      }
-      a:hover { border-color: var(--cool); color: var(--cool); }
-      a:focus-visible { outline: 2px solid var(--cool); outline-offset: 3px; }
-    </style>
-  </head>
-  <body>
-    <div class="box">
-      <p class="code">Error 404</p>
-      <h1>This page doesn't exist.</h1>
-      <p>
-        The link may be out of date, or the address mistyped. Everything on the site is reachable
-        from the pages below.
-      </p>
-      <div class="links">
-        <a href="/">Home</a>
-        <a href="/research/">Research</a>
-        <a href="/speakers/">Speakers</a>
-        <a href="/syllabus/">Curriculum</a>
-      </div>
-    </div>
-  </body>
+      resize()
+      addEventListener('resize', function () { resize(); if (reduced) paint() })
+      if (reduced) paint()
+      else requestAnimationFrame(function (t) { last = t; loop(t) })
+    })()
+  </script>
+</body>
 </html>

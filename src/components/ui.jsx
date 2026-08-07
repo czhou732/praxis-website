@@ -9,7 +9,7 @@ export const cn = (...args) => twMerge(clsx(args))
    only under `html.js`, which an inline script sets before paint, so a prerendered
    page with broken or blocked JavaScript still shows all of its content. */
 
-export function Reveal ({ children, delay = 0, className }) {
+export function Reveal({ children, delay = 0, className }) {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -19,6 +19,9 @@ export function Reveal ({ children, delay = 0, className }) {
       el.dataset.shown = 'true'
       return
     }
+    /* CSS animation-timeline: view() drives the reveal where supported;
+       the observer is only the fallback. */
+    if (window.CSS?.supports?.('animation-timeline: view()')) return
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -40,30 +43,6 @@ export function Reveal ({ children, delay = 0, className }) {
   )
 }
 
-/* ---------- border beam (Magic UI pattern, ported to CSS) ---------- */
-
-export function BorderBeam ({ duration = 7, delay = 0 }) {
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
-      <div
-        className="beam-arc absolute aspect-square w-[70px]"
-        style={{ '--beam-duration': `${duration}s`, '--beam-delay': `${delay}s` }}
-      />
-    </div>
-  )
-}
-
-/* ---------- grid pattern ---------- */
-
-export function GridPattern ({ className }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn('grid-pattern pointer-events-none absolute inset-0', className)}
-    />
-  )
-}
-
 /* ---------- primitives ---------- */
 
 const PILL_TONE = {
@@ -72,7 +51,7 @@ const PILL_TONE = {
   info: 'bg-cool/15 text-cool'
 }
 
-export function Pill ({ tone = 'info', children }) {
+export function Pill({ tone = 'info', children }) {
   return (
     <span
       className={cn(
@@ -85,7 +64,7 @@ export function Pill ({ tone = 'info', children }) {
   )
 }
 
-export function Button ({ href, variant = 'primary', children, ...rest }) {
+export function Button({ href, variant = 'primary', children, ...rest }) {
   return (
     <a
       href={href}
@@ -102,7 +81,7 @@ export function Button ({ href, variant = 'primary', children, ...rest }) {
   )
 }
 
-export function Eyebrow ({ children, className }) {
+export function Eyebrow({ children, className }) {
   return (
     <p className={cn('font-mono text-[0.72rem] uppercase tracking-[0.16em] text-muted', className)}>
       {children}
@@ -110,18 +89,31 @@ export function Eyebrow ({ children, className }) {
   )
 }
 
-export function SectionHead ({ num, title }) {
+export function SectionHead({ num, title, id }) {
   return (
-    <div className="mb-10 flex flex-col items-baseline gap-1.5 sm:flex-row sm:gap-[1.1rem]">
-      {num && <span className="shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool">{num}</span>}
+    <div id={id} className="group mb-10 flex scroll-mt-24 items-baseline gap-[1.1rem] border-b border-ink/6 pb-4">
+      {num && (
+        <span className="tnum shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool">
+          {num}
+        </span>
+      )}
       <h2 className="font-serif text-[clamp(1.85rem,4vw,2.7rem)] leading-[1.12] tracking-[-0.02em]">
         {title}
       </h2>
+      {id && (
+        <a
+          href={`#${id}`}
+          aria-label={`Link to ${title}`}
+          className="font-mono text-[0.9rem] text-muted no-underline opacity-0 transition-all hover:text-cool focus-visible:opacity-100 group-hover:opacity-100"
+        >
+          ¶
+        </a>
+      )}
     </div>
   )
 }
 
-export function Band ({ children, className, first = false }) {
+export function Band({ children, className, first = false }) {
   return (
     <section
       className={cn(
@@ -137,7 +129,7 @@ export function Band ({ children, className, first = false }) {
 
 /* ---------- hairline card grid ---------- */
 
-export function CardGrid ({ children, cols = 3 }) {
+export function CardGrid({ children, cols = 3 }) {
   return (
     <div
       className={cn(
@@ -152,7 +144,7 @@ export function CardGrid ({ children, cols = 3 }) {
   )
 }
 
-export function Card ({ kicker, title, body, href }) {
+export function Card({ kicker, title, body, href }) {
   const Tag = href ? 'a' : 'div'
   return (
     <Tag
@@ -163,7 +155,6 @@ export function Card ({ kicker, title, body, href }) {
         href && 'block transition-colors duration-200 hover:bg-surface'
       )}
     >
-      {href && <BorderBeam />}
       <span className="mb-3.5 block font-mono text-[0.7rem] uppercase tracking-[0.13em] text-cool">
         {kicker}
       </span>

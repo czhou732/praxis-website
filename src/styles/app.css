@@ -9,13 +9,13 @@
    ============================================================ */
 
 @theme {
-  --color-ground:    #080B11;
-  --color-surface:   #0E141D;
+  --color-ground: #080B11;
+  --color-surface: #0E141D;
   --color-surface-2: #151D28;
 
-  --color-ink:    #E9EDF4;
-  --color-ink-2:  #AEB9C9;
-  --color-muted:  #6F7C90;
+  --color-ink: #E9EDF4;
+  --color-ink-2: #AEB9C9;
+  --color-muted: #6F7C90;
 
   /* a diverging pair, the way an activation map reads */
   --color-cool: #6E9BFF;
@@ -25,8 +25,8 @@
   --color-hold: #D9AE52;
 
   --font-serif: "Newsreader", ui-serif, "Iowan Old Style", Georgia, serif;
-  --font-sans:  "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono:  "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 @layer base {
@@ -59,16 +59,116 @@
     border-radius: 2px;
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     text-wrap: balance;
   }
 }
 
 @layer utilities {
-  .hairline   { border-color: color-mix(in srgb, var(--color-ink) 13%, transparent); }
-  .hairline-2 { border-color: color-mix(in srgb, var(--color-ink) 6%, transparent); }
-  .measure    { max-width: 66ch; }
-  .tnum       { font-variant-numeric: tabular-nums; }
+  .hairline {
+    border-color: color-mix(in srgb, var(--color-ink) 13%, transparent);
+  }
+
+  .hairline-2 {
+    border-color: color-mix(in srgb, var(--color-ink) 6%, transparent);
+  }
+
+  .measure {
+    max-width: 66ch;
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Measurement grid behind the hero. Masked to a soft ellipse so it reads as
+     depth under the mark rather than as a tiled background. */
+  .grid-pattern {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px);
+    background-size: 58px 58px;
+    mask-image: radial-gradient(ellipse at center, black 15%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 15%, transparent 78%);
+  }
+}
+
+/* ---------- view transitions ---------- */
+
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vt-nav {
+    view-transition-name: site-nav;
+  }
+
+  .vt-mark {
+    view-transition-name: psi-mark;
+  }
+}
+
+/* ---------- status readouts ---------- */
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot-cool {
+  background: var(--color-cool);
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+.status-dot-hold {
+  background: var(--color-hold);
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+.status-dot-good {
+  background: var(--color-good);
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ---------- load fade-in ----------
+   html.boot is set by an inline script before paint on every page. [data-boot]
+   elements hold below their resting position; after hydration, Layout adds
+   .boot-in with a short stagger. The inline script force-removes html.boot
+   after 1.4s, so a hydration failure can never leave the page invisible, and
+   a no-JS prerender shows everything. No overlay: the page itself fades in. */
+
+html.boot [data-boot] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+html.boot [data-boot].boot-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* fade only — no travel */
+  html.boot [data-boot] {
+    transform: none;
+  }
 }
 
 /* ---------- scroll reveal ----------
@@ -88,42 +188,47 @@
     opacity: 1;
     transform: none;
   }
+}
 
-  /* Magic UI-style border beam: a gradient arc travelling the card edge. */
-  .beam-arc {
-    background: radial-gradient(circle, var(--color-cool) 0%, transparent 65%);
-    opacity: 0.55;
-    offset-anchor: 50% 50%;
-    offset-path: rect(0 auto auto 0 round 70px);
-    animation: beam var(--beam-duration, 7s) linear var(--beam-delay, 0s) infinite;
-  }
-
-  .grid-pattern {
-    background-image:
-      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+/* Where scroll-driven animations exist, the view() timeline replaces the
+   IntersectionObserver entirely — the reveal runs with zero JavaScript.
+   The observer stays as the fallback in ui.jsx for everything else. */
+@supports (animation-timeline: view()) {
+  html.js .reveal {
+    transition: none;
+    animation: reveal-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 55%;
   }
 }
 
-@keyframes beam {
-  to { offset-distance: 100%; }
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 
   html.js .reveal {
     opacity: 1;
     transform: none;
     transition: none;
+    animation: none;
   }
 
-  .beam-arc { animation: none; opacity: 0; }
-
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

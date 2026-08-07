@@ -1,16 +1,40 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Hero field: a particle cloud that resolves out of noise into the psi mark,
- * then dissolves again as the hero scrolls away.
+ * Hero field: eight channels of EEG-like trace that fold, left to right like
+ * a playhead, into the psi mark. The same points that draw the waves become
+ * the glyph — nothing is discarded. Raw signal into clinical tool, drawn
+ * literally.
  *
- * Psi is both the psyche and the wave function, so resolving noise into that
- * glyph is the mission — theory into tools — drawn literally.
+ * s (structure) resolves as the hero enters and dissolves as it scrolls away.
+ * Reduced motion freezes the wave clock — the traces hold still — but s still
+ * animates, so the fold still happens. Reduced, never removed.
  *
- * Always paints one frame synchronously. Without that the hero is blank for
- * anyone whose rAF never runs: reduced-motion users and background tabs.
+ * Always paints one frame synchronously when built in a hidden tab. Without
+ * that the hero is blank for anyone whose rAF never runs.
  */
-export function PsiField () {
+const CHANNELS = 8
+const PER_CHANNEL = 150
+const BUCKETS = 8
+
+/* Two slow sines carry the rhythm; the fifth-power term fires rarely and
+   sharply, which is what gives a real trace its spikes. */
+function waveAt(x, phase, clock) {
+  return (
+    Math.sin(x * 0.021 + clock * 1.6 + phase) * 0.55 +
+    Math.sin(x * 0.052 - clock * 2.3 + phase * 1.7) * 0.26 +
+    Math.pow(Math.sin(x * 0.011 + clock * 0.9 + phase * 0.5), 5) * 0.5
+  )
+}
+
+function hexToRgb(hex, fallback) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim())
+  if (!m) return fallback
+  const v = parseInt(m[1], 16)
+  return [(v >> 16) & 255, (v >> 8) & 255, v & 255]
+}
+
+export function PsiField() {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -20,111 +44,214 @@ export function PsiField () {
     const ctx = canvas.getContext('2d')
     const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 
-    let points = []
+    let pts = []
+    let rows = []
     let raf = null
-    let frame = 0
+    let clock = 0
+    let last = performance.now()
     let started = performance.now()
     let w = 0
     let h = 0
     let resizeTimer = null
+    let mx = -9999
+    let my = -9999
+    let glyphCx = 0
+    let glyphCy = 0
 
     const readToken = (name, fallback) =>
       getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback
 
-    function glyphTargets () {
+    function sampleGlyph() {
+      if (w < 2 || h < 2) return [] /* zero-size canvas guard */
       const off = document.createElement('canvas')
-      off.width = Math.max(1, Math.round(w))
-      off.height = Math.max(1, Math.round(h))
+      off.width = Math.round(w)
+      off.height = Math.round(h)
       const o = off.getContext('2d')
 
-      // Wide screens put the mark right of the headline; narrow ones centre it.
-      const wide = w > 900
-      const size = wide ? Math.min(w * 0.31, h * 0.78) : Math.min(w * 0.62, h * 0.5)
-      const cx = wide ? w * 0.79 : w * 0.5
-      const cy = wide ? h * 0.5 : h * 0.66
+      /* The mark is positioned by a reserved grid column, not by guessing a
+         percentage. The headline and [data-glyph-slot] are grid siblings, so
+         no viewport width can make them overlap — which is what a tuned 0.79
+         could never guarantee. Falls back to the old placement if the slot is
+         absent or collapsed (narrow screens). */
+      let cx, cy, size
+      const slot = document.querySelector('[data-glyph-slot]')
+      if (slot) {
+        const s = slot.getBoundingClientRect()
+        const r = canvas.getBoundingClientRect()
+        if (s.width > 40 && s.height > 40) {
+          cx = s.left - r.left + s.width / 2
+          cy = s.top - r.top + s.height / 2
+          size = Math.min(s.width * 1.7, s.height * 0.95)
+        }
+      }
+      if (cx == null) {
+        const wide = w > 900
+        size = wide ? Math.min(w * 0.38, h * 0.86) : Math.min(w * 0.62, h * 0.5)
+        cx = wide ? w * 0.79 : w * 0.5
+        cy = wide ? h * 0.5 : h * 0.66
+      }
+      glyphCx = cx
+      glyphCy = cy
 
       o.fillStyle = '#fff'
       o.font = `400 ${size}px ${readToken('--font-serif', 'serif')}`
       o.textAlign = 'center'
       o.textBaseline = 'middle'
-      o.fillText('Ψ', cx, cy)
+      /* The mark is condensed — skinnier than the serif's default letterform.
+         Horizontal compression on the offscreen canvas, so the sampled dots
+         (and the glyph they fold into) carry the same narrow shape. */
+      o.setTransform(0.8, 0, 0, 1, 0, 0)
+      o.fillText('Ψ', cx / 0.8, cy)
+      o.setTransform(1, 0, 0, 1, 0, 0)
 
       const data = o.getImageData(0, 0, off.width, off.height).data
-      const found = []
+      const targets = []
       for (let y = 0; y < off.height; y += 4) {
         for (let x = 0; x < off.width; x += 4) {
-          if (data[(y * off.width + x) * 4 + 3] > 130) found.push({ x, y })
+          if (data[(y * off.width + x) * 4 + 3] > 130) targets.push({ x, y })
         }
       }
-      return found
+
+      // Sorted top-to-bottom so the top trace folds into the top of the mark.
+      targets.sort((a, b) => a.y - b.y || a.x - b.x)
+
+      // Centre on the glyph's real ink box. textBaseline "middle" centres the
+      // em box, not the letterform, which leaves Ψ visibly high in the frame.
+      if (targets.length) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity
+        for (const q of targets) {
+          if (q.x < minX) minX = q.x
+          if (q.x > maxX) maxX = q.x
+          if (q.y < minY) minY = q.y
+          if (q.y > maxY) maxY = q.y
+        }
+        const ox = cx - (minX + maxX) / 2
+        const oy = cy - (minY + maxY) / 2
+        for (const q of targets) {
+          q.x += ox
+          q.y += oy
+        }
+      }
+      return targets
     }
 
-    /**
-     * `pos` moves particles from noise to the glyph; `alpha` fades them in.
-     * Splitting the two is what lets reduced motion still have an entrance:
-     * the mark assembles in opacity while every particle stays put, so nothing
-     * travels across the screen.
-     */
-    function render (pos, alpha) {
+    function render(s) {
       ctx.clearRect(0, 0, w, h)
-      if (!points.length || alpha <= 0) return
+      if (!pts.length || w < 2 || h < 2) return
 
-      const cool = readToken('--color-cool', '#6E9BFF')
-      const muted = readToken('--color-muted', '#6F7C90')
       const reduced = reducedQuery.matches
+      const mutedRgb = hexToRgb(readToken('--color-muted', '#6F7C90'), [111, 124, 144])
+      const coolRgb = hexToRgb(readToken('--color-cool', '#6E9BFF'), [110, 155, 255])
+      const calm = 1 - s
 
-      // soft bloom so the mark reads against the ground
-      if (pos > 0.15) {
-        const mid = points[Math.floor(points.length / 2)]
-        const glow = ctx.createRadialGradient(mid.tx, mid.ty, 0, mid.tx, mid.ty, Math.min(w, h) * 0.42)
-        glow.addColorStop(0, `rgba(110, 155, 255, ${(0.13 * pos * alpha).toFixed(3)})`)
-        glow.addColorStop(1, 'rgba(110, 155, 255, 0)')
-        ctx.fillStyle = glow
+      for (const p of pts) {
+        // Left-to-right, so the fold sweeps like a playhead. A uniform morph
+        // just squeezes the traces inward and the mark never appears to emerge.
+        let lp = (s - p.delay * 0.5) / 0.5
+        lp = lp < 0 ? 0 : lp > 1 ? 1 : lp
+        lp = lp * lp * (3 - 2 * lp) /* smoothstep */
+
+        const wy = p.base + waveAt(p.x0, p.ph, clock) * p.amp * (1 - lp)
+        let x = p.x0 + (p.tx - p.x0) * lp
+        let y = wy + (p.ty - wy) * lp
+
+        // Pointer reactivity ties the custom cursor and the hero into one system.
+        if (!reduced && mx > -900) {
+          const dx = x - mx
+          const dy = y - my
+          const d2 = dx * dx + dy * dy
+          if (d2 < 7000 && d2 > 0.01) {
+            const f = ((1 - d2 / 7000) * 16) / Math.sqrt(d2)
+            x += dx * f
+            y += dy * f
+          }
+        }
+        p.x = x
+        p.y = y
+        p.lp = lp
+        p.wy = wy
+      }
+
+      // Blue backlight: a broad wash that fades across the whole field, with a
+      // tighter core right behind the mark — the mark is lit, not just drawn.
+      if (s > 0.15) {
+        const R = Math.min(w, h)
+        const wash = ctx.createRadialGradient(glyphCx, glyphCy, 0, glyphCx, glyphCy, R * 0.72)
+        wash.addColorStop(0, `rgba(${coolRgb[0]},${coolRgb[1]},${coolRgb[2]},${(0.16 * s).toFixed(3)})`)
+        wash.addColorStop(0.55, `rgba(${coolRgb[0]},${coolRgb[1]},${coolRgb[2]},${(0.07 * s).toFixed(3)})`)
+        wash.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = wash
+        ctx.fillRect(0, 0, w, h)
+
+        const core = ctx.createRadialGradient(glyphCx, glyphCy, 0, glyphCx, glyphCy, R * 0.34)
+        core.addColorStop(0, `rgba(${coolRgb[0]},${coolRgb[1]},${coolRgb[2]},${(0.2 * s).toFixed(3)})`)
+        core.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = core
         ctx.fillRect(0, 0, w, h)
       }
 
-      ctx.fillStyle = pos > 0.55 ? cool : muted
-      for (let i = 0; i < points.length; i++) {
-        const p = points[i]
-        const drift = reduced ? 0 : Math.sin(frame * 0.011 + p.phase) * (1 - pos) * 8
-        // Once resolved, each particle keeps breathing on its own phase, so the
-        // mark stays alive rather than freezing into a static logo.
-        const pulse = reduced ? 1 : 1 + Math.sin(frame * 0.02 + p.phase) * 0.32 * pos
-        // Staggering the fade by height makes the mark develop top-to-bottom
-        // like a scan rather than flashing on all at once. It is the entrance
-        // reduced-motion users get in place of the travelling particles.
-        const local = alpha >= 1 ? 1 : Math.max(0, Math.min(1, alpha * 1.6 - p.stagger * 0.6))
+      // Traces are drawn through the UNDISPLACED wave position (x0, wy), and
+      // only where the fold has not arrived — otherwise the line is dragged
+      // into the glyph as diagonal streaks.
+      if (calm > 0.01) {
+        ctx.strokeStyle = `rgb(${mutedRgb[0]},${mutedRgb[1]},${mutedRgb[2]})`
+        ctx.lineWidth = 1
+        ctx.globalAlpha = Math.pow(calm, 1.5) * 0.55
+        for (const row of rows) {
+          let open = false
+          ctx.beginPath()
+          for (let j = 0; j < row.length; j++) {
+            if (row[j].lp < 0.5) {
+              if (open) ctx.lineTo(row[j].x0, row[j].wy)
+              else {
+                ctx.moveTo(row[j].x0, row[j].wy)
+                open = true
+              }
+            } else open = false
+          }
+          ctx.stroke()
+        }
+      }
+
+      // Samples coloured by their OWN progress, quantised into 8 buckets so
+      // fillStyle is set 8 times a frame instead of 1200 times.
+      for (let b = 0; b < BUCKETS; b++) {
+        const f = b / (BUCKETS - 1)
+        ctx.fillStyle = `rgb(${Math.round(mutedRgb[0] + (coolRgb[0] - mutedRgb[0]) * f)},${Math.round(
+          mutedRgb[1] + (coolRgb[1] - mutedRgb[1]) * f
+        )},${Math.round(mutedRgb[2] + (coolRgb[2] - mutedRgb[2]) * f)})`
+        ctx.globalAlpha = 0.45 + f * 0.45
+        const rr = 1.15 + f * 0.85
         ctx.beginPath()
-        ctx.arc(
-          p.nx + (p.tx - p.nx) * pos + drift,
-          p.ny + (p.ty - p.ny) * pos + drift * 0.55,
-          1.35 + pos * 0.85,
-          0,
-          Math.PI * 2
-        )
-        ctx.globalAlpha = (0.24 + pos * 0.56) * local * pulse
+        for (const q of pts) {
+          if (Math.min(BUCKETS - 1, Math.floor(q.lp * BUCKETS)) !== b) continue
+          ctx.moveTo(q.x + rr, q.y)
+          ctx.arc(q.x, q.y, rr, 0, Math.PI * 2)
+        }
         ctx.fill()
       }
       ctx.globalAlpha = 1
     }
 
-    function loop () {
-      frame++
+    function loop(now) {
+      const dt = Math.min(0.05, (now - last) / 1000)
+      last = now
       const reduced = reducedQuery.matches
+      if (!reduced) clock += dt
+
       const e = Math.min(1, (performance.now() - started) / (reduced ? 1400 : 2400))
       const eased = e * e * (3 - 2 * e)
       const scrolled = Math.min(1, window.scrollY / Math.max(1, window.innerHeight * 0.9))
-
-      // Reduced motion: particles are already home, the entrance is pure fade,
-      // and scrolling dissolves the mark by opacity instead of by displacement.
-      if (reduced) render(1, Math.max(0, eased - scrolled))
-      else render(Math.max(0, eased - scrolled), 1)
+      render(Math.max(0, eased - scrolled))
 
       raf = requestAnimationFrame(loop)
     }
 
-    function build () {
-      if (raf) { cancelAnimationFrame(raf); raf = null }
+    function build() {
+      if (raf) {
+        cancelAnimationFrame(raf)
+        raf = null
+      }
 
       const rect = canvas.getBoundingClientRect()
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -133,32 +260,45 @@ export function PsiField () {
       canvas.width = Math.max(1, Math.round(w * dpr))
       canvas.height = Math.max(1, Math.round(h * dpr))
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      if (w < 2 || h < 2) return
 
-      const targets = glyphTargets()
-      const cap = window.innerWidth < 700 ? 700 : 1500
-      const count = Math.min(targets.length, cap)
-      const top = Math.min(...targets.map((t) => t.y))
-      const span = Math.max(1, Math.max(...targets.map((t) => t.y)) - top)
-      points = []
-      for (let i = 0; i < count; i++) {
-        const t = targets[Math.floor((i * targets.length) / count)]
-        if (!t) continue
-        points.push({
-          nx: Math.random() * w,
-          ny: Math.random() * h,
-          tx: t.x,
-          ty: t.y,
-          phase: Math.random() * Math.PI * 2,
-          // mostly a top-to-bottom sweep, softened so the edge is not a hard line
-          stagger: Math.min(1, ((t.y - top) / span) * 0.85 + Math.random() * 0.15)
-        })
+      const targets = sampleGlyph()
+      const gap = h / (CHANNELS + 1)
+      const total = CHANNELS * PER_CHANNEL
+      pts = []
+      rows = []
+      let k = 0
+      for (let c = 0; c < CHANNELS; c++) {
+        const row = []
+        for (let i = 0; i < PER_CHANNEL; i++) {
+          const tgt = targets.length
+            ? targets[Math.min(targets.length - 1, Math.floor((k * targets.length) / total))]
+            : { x: w / 2, y: h / 2 }
+          const p = {
+            x0: (i / (PER_CHANNEL - 1)) * w,
+            base: gap * (c + 1),
+            amp: gap * 0.38,
+            ph: c * 1.7 + i * 0.045,
+            tx: tgt.x,
+            ty: tgt.y,
+            delay: (i / (PER_CHANNEL - 1)) * 0.82 + Math.random() * 0.18,
+            x: 0,
+            y: 0,
+            lp: 0,
+            wy: 0
+          }
+          row.push(p)
+          pts.push(p)
+          k++
+        }
+        rows.push(row)
       }
 
       started = performance.now()
+      last = performance.now()
       // A hidden tab never runs rAF, so paint the resolved mark straight away
-      // rather than leaving the hero empty. A visible tab starts from noise and
-      // is allowed to animate — that entrance is the whole point of the hero.
-      if (document.hidden) render(1, 1)
+      // rather than leaving the hero empty.
+      if (document.hidden) render(1)
       raf = requestAnimationFrame(loop)
     }
 
@@ -179,9 +319,21 @@ export function PsiField () {
       seen = true
       started = performance.now()
     }
+    // The canvas sits behind text and is pointer-events: none, so listen at
+    // the window and convert to canvas-local coordinates.
+    const onPointer = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mx = e.clientX - rect.left
+      my = e.clientY - rect.top
+    }
+    const onLeave = () => {
+      mx = my = -9999
+    }
 
     window.addEventListener('resize', onResize)
     document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('pointermove', onPointer)
+    window.addEventListener('pointerleave', onLeave)
     reducedQuery.addEventListener('change', build)
 
     return () => {
@@ -189,9 +341,20 @@ export function PsiField () {
       if (raf) cancelAnimationFrame(raf)
       window.removeEventListener('resize', onResize)
       document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('pointermove', onPointer)
+      window.removeEventListener('pointerleave', onLeave)
       reducedQuery.removeEventListener('change', build)
     }
   }, [])
 
-  return <canvas ref={ref} aria-hidden="true" className="absolute inset-0 z-0 h-full w-full" />
+  /* Below lg there is no reserved column, so the mark sits behind the mission
+     paragraph. It drops to a watermark there — at full strength it made the
+     body copy genuinely hard to read. Text wins; the mark is decoration. */
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden="true"
+      className="absolute inset-0 z-0 h-full w-full opacity-25 lg:opacity-100"
+    />
+  )
 }

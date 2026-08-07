@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PRAXIS — Round 3: Fixes & Enhancements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #F5F4F1;
+    --panel: #FFFFFF;
+    --ink: #1A1D24;
+    --ink-2: #4A5260;
+    --muted: #8A93A3;
+    --cool: #3B63D8;
+    --warm: #D96A55;
+    --hairline: rgba(26, 29, 36, 0.12);
+    --hairline-2: rgba(26, 29, 36, 0.06);
+    /* site tokens, for dark mockup panels */
+    --ground: #080B11;
+    --d-ink: #E9EDF4;
+    --d-muted: #6F7C90;
+    --d-cool: #6E9BFF;
+    --d-warm: #FF7F6B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", ui-sans-serif, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 47rem; margin: 0 auto; padding: 4.5rem 1.5rem 7rem; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .serif { font-family: "Newsreader", ui-serif, Georgia, serif; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 2.25rem;
+  }
+  h1 {
+    font-family: "Newsreader", ui-serif, Georgia, serif; font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1.05;
+    letter-spacing: -0.02em; margin-bottom: 1.5rem;
+  }
+  .lede { color: var(--ink-2); font-size: 1.08rem; max-width: 60ch; margin-bottom: 3rem; }
+
+  ol.index { list-style: none; border-top: 1px solid var(--hairline); margin-bottom: 4.5rem; }
+  ol.index li {
+    display: grid; grid-template-columns: 3rem 1fr; align-items: baseline;
+    gap: 1rem; padding: 1.05rem 0; border-bottom: 1px solid var(--hairline-2);
+  }
+  ol.index .n { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--cool); font-variant-numeric: tabular-nums; }
+  ol.index .t { font-family: "Newsreader", serif; font-size: 1.2rem; letter-spacing: -0.01em; }
+
+  section { margin-bottom: 4.5rem; }
+  .sechead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
+  h2 {
+    font-family: "Newsreader", serif; font-weight: 400; font-size: 1.75rem;
+    letter-spacing: -0.015em;
+  }
+  h2 .n {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--cool);
+    letter-spacing: 0.08em; margin-right: 0.9rem; font-variant-numeric: tabular-nums;
+  }
+  .tier {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--cool);
+    border: 1px solid rgba(59, 99, 216, 0.4); padding: 0.2rem 0.6rem; border-radius: 2px;
+    white-space: nowrap;
+  }
+  p.body, section > ul { color: var(--ink-2); max-width: 64ch; }
+  section p + p { margin-top: 0.8rem; }
+  section > ul { padding-left: 1.2rem; margin-top: 0.6rem; }
+  section > ul > li { margin-bottom: 0.5rem; }
+  code { font-family: "IBM Plex Mono", monospace; font-size: 0.85em; }
+
+  /* mockup panel: hairline card with mono corner labels, like the reference */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    margin-top: 1.6rem;
+    overflow: hidden;
+  }
+  .panel .bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--hairline-2);
+    font-family: "IBM Plex Mono", monospace; font-size: 0.64rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  }
+  .panel .stage { padding: 1.5rem; }
+  .panel .stage.flush { padding: 0; }
+  .panel.dark { background: var(--ground); border-color: rgba(233,237,244,0.1); }
+  .panel.dark .bar { border-bottom-color: rgba(233,237,244,0.07); color: var(--d-muted); }
+  .caption {
+    margin-top: 0.7rem;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.66rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.6rem; }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .minipanel {
+    background: var(--panel); border: 1px solid var(--hairline); border-radius: 4px; overflow: hidden;
+  }
+  .minipanel .tag {
+    padding: 0.7rem 1rem; border-bottom: 1px solid var(--hairline-2);
+    font-family: "IBM Plex Mono", monospace; font-size: 0.62rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .minipanel .tag.cut { color: var(--warm); }
+  .minipanel .tag.keep { color: #2E7D5B; }
+  .minipanel .body { padding: 1.25rem 1rem; }
+
+  /* section-head mock */
+  .sh-mock { display: flex; align-items: baseline; gap: 0.9rem; border-bottom: 1px solid var(--hairline-2); padding-bottom: 0.7rem; }
+  .sh-mock .num { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--cool); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+  .sh-mock .ttl { font-family: "Newsreader", serif; font-size: 1.5rem; letter-spacing: -0.015em; }
+  .sh-mock.stacked { display: block; }
+  .sh-mock.stacked .num { display: block; margin-bottom: 0.35rem; }
+
+  /* speaker rail mock */
+  .rail { position: relative; padding-left: 1.6rem; }
+  .rail::before {
+    content: ""; position: absolute; left: 5px; top: 10px; bottom: 10px;
+    width: 1px; background: rgba(26,29,36,0.15);
+  }
+  .rail .slot { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.55rem 0; }
+  .rail .slot::before {
+    content: ""; position: absolute; left: -1.6rem; top: 50%; transform: translate(1px, -50%);
+    width: 7px; height: 7px; border-radius: 50%;
+    border: 1.5px solid var(--cool); background: var(--panel);
+  }
+  .rail .slot.confirmed::before { background: var(--cool); }
+  .rail .d { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .rail .who { font-family: "Newsreader", serif; font-size: 1.05rem; }
+  .rail .who.tba { color: var(--muted); font-style: italic; }
+
+  /* status dot mock */
+  .statusrow { display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0; border-bottom: 1px solid var(--hairline-2); }
+  .statusrow:last-child { border-bottom: none; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cool); animation: pulse 2.4s ease-in-out infinite; }
+  .dot.hold { background: #B8923D; }
+  .dot.steady { background: #2E7D5B; animation: none; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  .statusrow .s { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+  .statusrow .p { font-family: "Newsreader", serif; font-size: 1.05rem; margin-left: auto; }
+
+  /* hero channel legend mock (dark) */
+  .legendmock { display: flex; gap: 1.4rem; align-items: stretch; }
+  .legendmock .chs {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 0.4rem 0;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+    color: var(--d-muted); text-transform: uppercase;
+  }
+  .legendmock .waves { flex: 1; }
+
+  /* footer instrument line mock (dark) */
+  .instr {
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.1em;
+    color: var(--d-muted); text-transform: uppercase;
+  }
+  .instr .ok { color: var(--d-cool); }
+
+  /* 404 mock (dark) */
+  .nf { text-align: center; padding: 2rem 0 2.2rem; }
+  .nf .mark { font-family: "Newsreader", serif; font-size: 3.2rem; color: var(--d-ink); }
+  .nf .code { font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; letter-spacing: 0.22em; color: var(--d-muted); text-transform: uppercase; margin-top: 0.6rem; }
+  .nf .msg { font-family: "Newsreader", serif; font-size: 1.3rem; color: var(--d-ink); margin-top: 0.9rem; }
+  .nf a { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.12em; color: var(--d-cool); text-transform: uppercase; text-decoration: none; border-bottom: 1px solid rgba(110,155,255,0.4); padding-bottom: 2px; }
+
+  .note {
+    border-left: 2px solid var(--cool); padding: 0.9rem 1.1rem;
+    background: rgba(59, 99, 216, 0.05); color: var(--ink-2);
+    font-size: 0.95rem; margin-top: 1.4rem;
+  }
+  .pick { border-top: 1px solid var(--hairline); padding-top: 2.5rem; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="eyebrow">Praxis · Round 3 · Fixes & Enhancements — Visual Proposal</p>
+  <h1>Sharper, not louder</h1>
+  <p class="lede">
+    Three corrections to round 2, each shown working below — the curriculum graph that clipped
+    its own text, the numeral that drifted below its title, and a footer that looked static.
+    Then five small enhancements as live mockups. Nothing here ships until you pick.
+  </p>
+
+  <ol class="index">
+    <li><span class="n">01</span><span class="t">Curriculum graph: text overflow</span></li>
+    <li><span class="n">02</span><span class="t">Numerals beside titles</span></li>
+    <li><span class="n">03</span><span class="t">A footer you can push around</span></li>
+    <li><span class="n">04</span><span class="t">Enhancements, a–e</span></li>
+    <li><span class="n">05</span><span class="t">Order of work</span></li>
+  </ol>
+
+  <!-- 01 ---------------------------------------------------- -->
+  <section>
+    <div class="sechead">
+      <h2><span class="n">01</span>Curriculum graph: text overflow</h2>
+      <span class="tier">Fix</span>
+    </div>
+    <p class="body">
+      The viewBox was 720 units wide; the longest citations ran to its right edge and clipped.
+      The fix: viewBox widened to 800, readings at 10px mono, and the module summary line removed
+      from the graph (number, title, readings only). This panel renders the real
+      <code>MODULES</code> data at the real geometry — the longest line now clears the edge with
+      margin, and the wrapper still scrolls instead of forcing the page sideways at 375px.
+    </p>
+    <div class="panel">
+      <div class="bar"><span>Curriculum graph — fixed geometry</span><span>Live · real data</span></div>
+      <div class="stage flush" style="overflow-x:auto;">
+        <svg id="graph" viewBox="0 0 800 284" role="img" aria-label="Curriculum dependency graph mockup"
+             style="display:block;width:100%;min-width:34rem;height:auto;"></svg>
+      </div>
+    </div>
+    <p class="caption">Generated from site.js · adding a module adds a node, no other edit</p>
+  </section>
+
+  <!-- 02 ---------------------------------------------------- -->
+  <section>
+    <div class="sechead">
+      <h2><span class="n">02</span>Numerals beside titles</h2>
+      <span class="tier">Fix</span>
+    </div>
+    <p class="body">
+      Round 2 stacked the numeral above the title. Back to what you asked for: tabular-mono
+      numeral on the same baseline as the serif title, hairline rule underneath.
+    </p>
+    <div class="grid2">
+      <div class="minipanel">
+        <div class="tag cut">Round 2 — stacked</div>
+        <div class="body">
+          <div class="sh-mock stacked"><span class="num">01</span><span class="ttl">The north star</span></div>
+        </div>
+      </div>
+      <div class="minipanel">
+        <div class="tag keep">Round 3 — inline</div>
+        <div class="body">
+          <div class="sh-mock"><span class="num">01</span><span class="ttl">The north star</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 ---------------------------------------------------- -->
+  <section>
+    <div class="sechead">
+      <h2><span class="n">03</span>A footer you can push around</h2>
+      <span class="tier">Fix · Live</span>
+    </div>
+    <p class="body">
+      The double-well portrait animated too slowly and faintly to notice. Three changes:
+      the pointer becomes a force that perturbs nearby trajectories — you can shove a state out
+      of one well and watch it fall into the other; ring markers at x&nbsp;=&nbsp;±1 make the two
+      stable states read as destinations; and integration runs fast enough that drift is visible
+      within a couple of seconds. Reduced motion still gets the integrated static portrait.
+    </p>
+    <div class="panel dark">
+      <div class="bar"><span>Footer prototype — live</span><span>dx/dt = y · dy/dt = −cy + x − x³</span></div>
+      <div class="stage flush">
+        <canvas id="wells" style="display:block;width:100%;height:300px;cursor:crosshair;"></canvas>
+      </div>
+    </div>
+    <p class="caption">Move your pointer across the panel — trajectories bend around it</p>
+  </section>
+
+  <!-- 04 ---------------------------------------------------- -->
+  <section>
+    <div class="sechead">
+      <h2><span class="n">04</span>Enhancements, a–e</h2>
+      <span class="tier">Pick any</span>
+    </div>
+    <p class="body">Five small additions, all using real content that already exists on the site.</p>
+
+    <p class="body" style="margin-top:1.6rem;"><strong class="mono" style="color:var(--cool);">a&nbsp;·&nbsp;</strong><strong>Speaker schedule rail.</strong> A hairline spine with node ticks — filled for confirmed, hollow for invited. The schedule becomes a timeline, echoing the curriculum graph.</p>
+    <div class="panel">
+      <div class="bar"><span>Speakers — rail treatment</span><span>Mockup</span></div>
+      <div class="stage">
+        <div class="rail">
+          <div class="slot confirmed"><span class="who">Dr. Laurent Itti</span><span class="d">SEP 10</span></div>
+          <div class="slot confirmed"><span class="who">Phil Newsome</span><span class="d">SEP 24</span></div>
+          <div class="slot"><span class="who tba">Speaker to be announced</span><span class="d">OCT 08</span></div>
+          <div class="slot"><span class="who tba">Speaker to be announced</span><span class="d">OCT 22</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:2rem;"><strong class="mono" style="color:var(--cool);">b&nbsp;·&nbsp;</strong><strong>Research status readouts.</strong> A pulsing status dot beside the real status strings already in <code>site.js</code> — CSS only, still under reduced motion.</p>
+    <div class="panel">
+      <div class="bar"><span>Research — status readouts</span><span>Mockup</span></div>
+      <div class="stage">
+        <div class="statusrow"><span class="dot"></span><span class="s">Active</span><span class="p">Dopaminergic Voice</span></div>
+        <div class="statusrow"><span class="dot steady"></span><span class="s">Preprint → journal</span><span class="p">ClinicalWhisper</span></div>
+        <div class="statusrow"><span class="dot hold"></span><span class="s">Ongoing</span><span class="p">fMRI benchmark</span></div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:2rem;"><strong class="mono" style="color:var(--cool);">c&nbsp;·&nbsp;</strong><strong>Hero channel field.</strong> Eight channels of EEG-like trace that fold, left to right like a playhead, into the Ψ — the same points that draw the waves become the mark. Drag the control; move your pointer across the panel and the field responds. This is the exact algorithm that would run in the hero.</p>
+    <div class="panel dark">
+      <div class="bar"><span>Hero prototype — live</span><span>Structure&nbsp;&nbsp;<span id="structure">0%</span></span></div>
+      <div class="stage flush">
+        <canvas id="hero" style="display:block;width:100%;height:400px;"></canvas>
+        <div style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1rem;border-top:1px solid rgba(233,237,244,0.07);">
+          <span class="mono" style="font-size:0.62rem;letter-spacing:0.14em;color:var(--d-muted);text-transform:uppercase;">Raw signal</span>
+          <input id="fold" type="range" min="0" max="100" value="0" style="flex:1;accent-color:#6E9BFF;" aria-label="Fold traces into the psi mark" />
+          <span class="mono" style="font-size:0.62rem;letter-spacing:0.14em;color:var(--d-muted);text-transform:uppercase;">Clinical tool</span>
+        </div>
+      </div>
+    </div>
+    <p class="caption">Drag the control. Move your pointer across the panel — the field responds.</p>
+
+    <p class="body" style="margin-top:2rem;"><strong class="mono" style="color:var(--cool);">d&nbsp;·&nbsp;</strong><strong>Footer instrument line.</strong> Local time and a status word in small mono. Client-side clock only — no claims, no data. The clock below is actually running.</p>
+    <div class="panel dark">
+      <div class="bar"><span>Footer — instrument line</span><span>Live clock</span></div>
+      <div class="stage">
+        <div class="instr">
+          <span>© 2026 PRAXIS</span>
+          <span id="clock">--:--:--</span>
+          <span class="ok">sys: ok</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:2rem;"><strong class="mono" style="color:var(--cool);">e&nbsp;·&nbsp;</strong><strong>404 page.</strong> Currently unstyled. Same ground, the mark, and a mono "signal lost" — a dead route should still sound like the instrument.</p>
+    <div class="panel dark">
+      <div class="bar"><span>404 — treatment</span><span>Mockup</span></div>
+      <div class="stage">
+        <div class="nf">
+          <div class="mark">Ψ</div>
+          <div class="code">404 · signal lost</div>
+          <div class="msg">This channel carries nothing.</div>
+          <p style="margin-top:1.2rem;"><a href="#">← back to the site</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      Still blocked, as before: the advisors band (awaiting written wording from both) and
+      per-project sparklines (awaiting real, publishable data).
+    </div>
+  </section>
+
+  <!-- 05 ---------------------------------------------------- -->
+  <section class="pick">
+    <h2><span class="n">05</span>Order of work</h2>
+    <p class="body">
+      01 and 02 are already applied in the working tree (uncommitted). 03 follows on approval,
+      then whichever of a–e you pick. Build verification after each. No commits, no push —
+      everything stays local until you ask.
+    </p>
+  </section>
+
+</div>
+
+<script>
+/* ---------- 01 · curriculum graph, real data, fixed geometry ---------- */
+(function () {
+  var MODULES = [
+    { n: '01', title: 'Foundations of RL and active inference', readings: [
+      'Sutton & Barto (2018) — Reinforcement Learning: An Introduction, selected chapters',
+      'Friston (2010) — The free-energy principle: a unified brain theory?'
+    ]},
+    { n: '02', title: 'Models of mood and anhedonia', readings: [
+      'Huys et al. (2013) — Decision-theoretic psychiatry',
+      'Eldar et al. (2016) — The roles of dopamine in learning and memory'
+    ]},
+    { n: '03', title: 'Phenotyping and biomarkers', readings: [
+      'Montague et al. (2012) — Computational and categorical formalisms in psychiatry',
+      'Low et al. (2020) — Automated vocal analysis of depression'
+    ]}
+  ];
+  var SPINE = 116, PITCH = 92, TOP = 56, NS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('graph');
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  svg.appendChild(el('line', {
+    x1: SPINE, y1: TOP, x2: SPINE, y2: TOP + (MODULES.length - 1) * PITCH,
+    stroke: 'rgba(26,29,36,0.15)', 'stroke-width': 1
+  }));
+  MODULES.forEach(function (m, i) {
+    var y = TOP + i * PITCH;
+    var g = el('g', {});
+    var d = 'M ' + SPINE + ' ' + y + ' V ' + (y + 34 + (m.readings.length - 1) * 18) + ' ' +
+      m.readings.map(function (_, j) { return 'M ' + SPINE + ' ' + (y + 34 + j * 18) + ' H 130'; }).join(' ');
+    g.appendChild(el('path', { d: d, fill: 'none', stroke: 'rgba(26,29,36,0.15)', 'stroke-width': 1 }));
+    g.appendChild(el('circle', { cx: SPINE, cy: y, r: 5, fill: '#FFFFFF', stroke: '#3B63D8', 'stroke-width': 1.5 }));
+    g.appendChild(el('text', { x: SPINE - 18, y: y + 4, 'text-anchor': 'end', fill: '#3B63D8',
+      'font-family': '"IBM Plex Mono", monospace', 'font-size': 11, 'letter-spacing': 1 }, m.n));
+    g.appendChild(el('text', { x: 140, y: y + 5, fill: '#1A1D24',
+      'font-family': '"Newsreader", serif', 'font-size': 19, 'letter-spacing': -0.2 }, m.title));
+    m.readings.forEach(function (r, j) {
+      g.appendChild(el('text', { x: 140, y: y + 34 + j * 18 + 4, fill: '#8A93A3',
+        'font-family': '"IBM Plex Mono", monospace', 'font-size': 10 }, r));
+    });
+    svg.appendChild(g);
+  });
+})();
+
+/* ---------- 03 · interactive double-well portrait ---------- */
+(function () {
+  var canvas = document.getElementById('wells');
+  var ctx = canvas.getContext('2d');
+  var DAMP = 0.26, DT = 0.045, COUNT = 44, TRAIL = 26;
+  var w = 0, h = 0, particles = [];
+  var mx = -9999, my = -9999; /* pointer in state space */
+
+  function toPx(x, y) { return [((x + 2.2) / 4.4) * w, ((1.6 - y) / 3.2) * h]; }
+  function toState(px, py) { return [(px / w) * 4.4 - 2.2, 1.6 - (py / h) * 3.2]; }
+  function spawn(p) {
+    p.x = (Math.random() - 0.5) * 4;
+    p.y = (Math.random() - 0.5) * 2.8;
+    p.life = 120 + Math.floor(Math.random() * 260);
+    p.trail = [];
+    return p;
+  }
+  function resize() {
+    var rect = canvas.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = rect.width; h = rect.height;
+    canvas.width = Math.max(1, Math.round(w * dpr));
+    canvas.height = Math.max(1, Math.round(h * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  canvas.addEventListener('pointermove', function (e) {
+    var r = canvas.getBoundingClientRect();
+    var s = toState(e.clientX - r.left, e.clientY - r.top);
+    mx = s[0]; my = s[1];
+  });
+  canvas.addEventListener('pointerleave', function () { mx = my = -9999; });
+
+  function frame() {
+    if (w >= 2 && h >= 2) {
+      ctx.clearRect(0, 0, w, h);
+
+      /* attractor rings at x = ±1 */
+      ctx.strokeStyle = 'rgba(233,237,244,0.35)';
+      ctx.lineWidth = 1;
+      [[1, 0], [-1, 0]].forEach(function (a) {
+        var p = toPx(a[0], a[1]);
+        ctx.beginPath(); ctx.arc(p[0], p[1], 9, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(p[0], p[1], 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(233,237,244,0.5)'; ctx.fill();
+      });
+
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        var ax = p.y;
+        var ay = -DAMP * p.y + p.x - p.x * p.x * p.x;
+        /* pointer as a repulsive force in state space */
+        var dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+        if (d2 < 0.55 && d2 > 0.0001) {
+          var f = (1 - d2 / 0.55) * 3.2 / Math.sqrt(d2);
+          ax += dx * f; ay += dy * f;
+        }
+        p.x += ax * DT; p.y += ay * DT;
+        p.trail.push([p.x, p.y]);
+        if (p.trail.length > TRAIL) p.trail.shift();
+        if (--p.life <= 0) spawn(p);
+
+        var col = p.x >= 0 ? '#6E9BFF' : '#FF7F6B';
+        ctx.strokeStyle = col; ctx.globalAlpha = 0.42; ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var j = 0; j < p.trail.length; j++) {
+          var q = toPx(p.trail[j][0], p.trail[j][1]);
+          if (j === 0) ctx.moveTo(q[0], q[1]); else ctx.lineTo(q[0], q[1]);
+        }
+        ctx.stroke();
+        if (p.trail.length) {
+          var hd = toPx(p.trail[p.trail.length - 1][0], p.trail[p.trail.length - 1][1]);
+          ctx.globalAlpha = 0.85; ctx.fillStyle = col;
+          ctx.beginPath(); ctx.arc(hd[0], hd[1], 1.3, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  for (var i = 0; i < COUNT; i++) particles.push(spawn({}));
+  requestAnimationFrame(frame);
+})();
+
+/* ---------- 04c · hero prototype: 8 channels fold into Ψ ---------- */
+(function () {
+  var canvas = document.getElementById('hero');
+  var ctx = canvas.getContext('2d');
+  var slider = document.getElementById('fold');
+  var readout = document.getElementById('structure');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var CHANNELS = 8, PER_CHANNEL = 150, BUCKETS = 8;
+  var w = 0, h = 0, pts = [], rows = [];
+  var s = 0, sTarget = 0, clock = 0, last = performance.now();
+  var mx = -9999, my = -9999;
+
+  var mutedRgb = [111, 124, 144], coolRgb = [110, 155, 255];
+  function mixRgb(a, b, f) {
+    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' +
+      Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ')';
+  }
+
+  function waveAt(x, phase, clk) {
+    return Math.sin(x * 0.021 + clk * 1.6 + phase) * 0.55 +
+           Math.sin(x * 0.052 - clk * 2.3 + phase * 1.7) * 0.26 +
+           Math.pow(Math.sin(x * 0.011 + clk * 0.9 + phase * 0.5), 5) * 0.5;
+  }
+
+  function sampleGlyph() {
+    if (w < 2 || h < 2) return [];
+    var off = document.createElement('canvas');
+    off.width = Math.round(w); off.height = Math.round(h);
+    var o = off.getContext('2d');
+    o.fillStyle = '#000';
+    var size = Math.min(w * 0.42, h * 0.8);
+    o.font = '500 ' + size + 'px "Newsreader", Georgia, serif';
+    o.textAlign = 'center'; o.textBaseline = 'middle';
+    o.fillText('Ψ', w / 2, h / 2);
+    var data = o.getImageData(0, 0, off.width, off.height).data;
+    var targets = [];
+    for (var y = 0; y < off.height; y += 3)
+      for (var x = 0; x < off.width; x += 3)
+        if (data[(y * off.width + x) * 4 + 3] > 128) targets.push({ x: x, y: y });
+    targets.sort(function (a, b) { return a.y - b.y || a.x - b.x; });
+    if (targets.length) {
+      var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      for (var t = 0; t < targets.length; t++) {
+        var q = targets[t];
+        if (q.x < minX) minX = q.x; if (q.x > maxX) maxX = q.x;
+        if (q.y < minY) minY = q.y; if (q.y > maxY) maxY = q.y;
+      }
+      var ox = w / 2 - (minX + maxX) / 2, oy = h / 2 - (minY + maxY) / 2;
+      for (var u = 0; u < targets.length; u++) { targets[u].x += ox; targets[u].y += oy; }
+    }
+    return targets;
+  }
+
+  function build() {
+    var rect = canvas.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = rect.width; h = rect.height;
+    canvas.width = Math.max(1, Math.round(w * dpr));
+    canvas.height = Math.max(1, Math.round(h * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (w < 2 || h < 2) return;
+
+    var targets = sampleGlyph();
+    var gap = h / (CHANNELS + 1);
+    var total = CHANNELS * PER_CHANNEL;
+    pts = []; rows = [];
+    var k = 0;
+    for (var c = 0; c < CHANNELS; c++) {
+      var row = [];
+      for (var i = 0; i < PER_CHANNEL; i++) {
+        var tgt = targets.length
+          ? targets[Math.min(targets.length - 1, Math.floor(k * targets.length / total))]
+          : { x: w / 2, y: h / 2 };
+        var p = {
+          x0: (i / (PER_CHANNEL - 1)) * w,
+          base: gap * (c + 1),
+          amp: gap * 0.38,
+          ph: c * 1.7 + i * 0.045,
+          tx: tgt.x, ty: tgt.y,
+          delay: (i / (PER_CHANNEL - 1)) * 0.82 + Math.random() * 0.18,
+          x: 0, y: 0, lp: 0, wy: 0
+        };
+        row.push(p); pts.push(p); k++;
+      }
+      rows.push(row);
+    }
+  }
+
+  canvas.addEventListener('pointermove', function (e) {
+    var r = canvas.getBoundingClientRect();
+    mx = e.clientX - r.left; my = e.clientY - r.top;
+  });
+  canvas.addEventListener('pointerleave', function () { mx = my = -9999; });
+  slider.addEventListener('input', function () { sTarget = slider.value / 100; });
+
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!reduced) clock += dt;
+    s += (sTarget - s) * (reduced ? 1 : 0.09);
+    if (Math.abs(sTarget - s) < 0.001) s = sTarget;
+    readout.textContent = Math.round(s * 100) + '%';
+
+    if (w >= 2 && h >= 2) {
+      ctx.clearRect(0, 0, w, h);
+      var calm = 1 - s;
+
+      for (var m = 0; m < pts.length; m++) {
+        var p = pts[m];
+        var lp = (s - p.delay * 0.5) / 0.5;
+        lp = lp < 0 ? 0 : lp > 1 ? 1 : lp;
+        lp = lp * lp * (3 - 2 * lp);
+        var wy = p.base + waveAt(p.x0, p.ph, clock) * p.amp * (1 - lp);
+        var x = p.x0 + (p.tx - p.x0) * lp;
+        var y = wy + (p.ty - wy) * lp;
+        if (!reduced && mx > -900) {
+          var dx = x - mx, dy = y - my, d2 = dx * dx + dy * dy;
+          if (d2 < 7000 && d2 > 0.01) {
+            var f = (1 - d2 / 7000) * 16 / Math.sqrt(d2);
+            x += dx * f; y += dy * f;
+          }
+        }
+        p.x = x; p.y = y; p.lp = lp; p.wy = wy;
+      }
+
+      /* traces: undisplaced positions, only where the fold hasn't arrived */
+      if (calm > 0.01) {
+        ctx.strokeStyle = 'rgb(111,124,144)'; ctx.lineWidth = 1;
+        ctx.globalAlpha = Math.pow(calm, 1.5) * 0.55;
+        for (var r = 0; r < rows.length; r++) {
+          var row = rows[r], open = false;
+          ctx.beginPath();
+          for (var j = 0; j < row.length; j++) {
+            if (row[j].lp < 0.5) {
+              if (open) ctx.lineTo(row[j].x0, row[j].wy);
+              else { ctx.moveTo(row[j].x0, row[j].wy); open = true; }
+            } else open = false;
+          }
+          ctx.stroke();
+        }
+      }
+
+      /* samples: bucketed colouring, 8 fillStyle changes per frame */
+      for (var b = 0; b < BUCKETS; b++) {
+        var fb = b / (BUCKETS - 1);
+        ctx.fillStyle = mixRgb(mutedRgb, coolRgb, fb);
+        ctx.globalAlpha = 0.45 + fb * 0.45;
+        var rr = 1.15 + fb * 0.85;
+        ctx.beginPath();
+        for (var q2 = 0; q2 < pts.length; q2++) {
+          var pq = pts[q2];
+          if (Math.min(BUCKETS - 1, Math.floor(pq.lp * BUCKETS)) !== b) continue;
+          ctx.moveTo(pq.x + rr, pq.y);
+          ctx.arc(pq.x, pq.y, rr, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function start() { build(); requestAnimationFrame(function (t) { last = t; frame(t); }); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start, start);
+  else start();
+
+  var rt = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt); rt = setTimeout(build, 180);
+  });
+})();
+
+/* ---------- 04d · live clock ---------- */
+(function () {
+  var el = document.getElementById('clock');
+  function tick() {
+    var d = new Date();
+    function p(n) { return String(n).padStart(2, '0'); }
+    el.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) + ' local';
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>

@@ -39,6 +39,22 @@ export const TEAM = [
   }
 ]
 
+// Advisors back the group; they do not run it, so they are listed apart from
+// the team. No affiliation lines, no photos. Rows link only where a personal
+// page is known.
+export const ADVISORS = [
+  {
+    name: 'Dr. Laurent Itti',
+    role: 'Faculty sponsor',
+    href: 'https://ilab.usc.edu/'
+  },
+  {
+    name: 'Phil Newsome',
+    role: 'Graduate advisor',
+    href: null
+  }
+]
+
 export const NORTH_STAR = [
   'Peer-reviewed research published with undergraduate members leading the work.',
   'At least one clinical tool built, deployed, and validated on real patient data.',
@@ -66,22 +82,53 @@ export const PILLARS = [
 
 export const PROJECTS = [
   {
-    title: 'Dopaminergic Voice — crossbenching anhedonia',
+    title: 'Vocal Biomarkers — crossbenching anhedonia',
     status: 'Active',
+    stage: 1,
     body: 'Extracting acoustic and semantic biomarkers of anhedonia from spontaneous speech using ClinicalWhisper. By crossbenching anhedonia against computational phenotypes, the next step is integrating large language models with reinforcement learning to model reward-prediction errors in vocal flat affect.',
     tags: ['LLM + RL', 'Audio processing', 'Clinical data']
   },
   {
     title: 'ClinicalWhisper',
     status: 'Preprint → journal',
+    stage: 2,
     body: 'A speech model adapted for clinical interview audio, and the tool the group is furthest along on building. A preprint was posted to bioRxiv in June 2026; the work is being prepared for peer-reviewed submission alongside continued validation.',
-    tags: ['Speech models', 'Reproducible pipeline', 'Open source']
+    tags: ['Speech models', 'Reproducible pipeline', 'Open source'],
+    links: [
+      { label: 'bioRxiv preprint', href: 'https://www.biorxiv.org/content/10.64898/2026.06.08.728970v1' },
+      { label: 'Pipeline on GitHub', href: 'https://github.com/czhou732/Clinical-Whisper-Pipeline' }
+    ],
+    citation:
+      'Zhou, C., Wu, M., Xiang, Y., & Itti, L. (2026). Cross-modal benchmarking of acoustic prosody and ventral striatal BOLD for depression-related anhedonia classification: A pre-registered study with the ClinicalWhisper pipeline. bioRxiv. doi:10.64898/2026.06.08.728970'
   },
   {
     title: 'fMRI benchmark analysis',
     status: 'Ongoing',
+    stage: 1,
     body: 'A parallel analysis track benchmarking computational phenotypes against functional imaging data, run alongside the voice work.',
     tags: ['Neuroimaging', 'Benchmarking']
+  }
+]
+
+export const NEWS = {
+  kicker: 'New · Jun 2026',
+  text: 'ClinicalWhisper is on bioRxiv — a pre-registered study benchmarking vocal biomarkers against task-based fMRI.',
+  linkLabel: 'Read the preprint',
+  href: 'https://www.biorxiv.org/content/10.64898/2026.06.08.728970v1'
+}
+
+export const JOIN = [
+  {
+    k: 'Who',
+    v: 'Undergraduates interested in computational psychiatry — machine learning, neuroscience, or clinical mental health.'
+  },
+  {
+    k: 'What',
+    v: 'The journal club first, then a seat on a live project — or a pitch of your own at the monthly session.'
+  },
+  {
+    k: 'How',
+    v: 'Email czhou732@usc.edu with a sentence about what you want to work on.'
   }
 ]
 
@@ -115,6 +162,34 @@ export const MODULES = [
   }
 ]
 
+/* BibTeX for curriculum readings. Only entries verified against the publisher
+   record ship here — an unverified reading gets no export control. */
+export const BIB = [
+  {
+    label: 'Sutton & Barto (2018)',
+    bib: `@book{sutton2018reinforcement,
+  author    = {Sutton, Richard S. and Barto, Andrew G.},
+  title     = {Reinforcement Learning: An Introduction},
+  edition   = {2},
+  publisher = {MIT Press},
+  year      = {2018},
+  isbn      = {9780262039246}
+}`
+  },
+  {
+    label: 'Friston (2010)',
+    bib: `@article{friston2010freeenergy,
+  author  = {Friston, Karl},
+  title   = {The free-energy principle: a unified brain theory?},
+  journal = {Nature Reviews Neuroscience},
+  volume  = {11},
+  pages   = {127--138},
+  year    = {2010},
+  doi     = {10.1038/nrn2787}
+}`
+  }
+]
+
 export const REPOS = [
   {
     kicker: 'Organization',
@@ -127,5 +202,11 @@ export const REPOS = [
     title: 'comp-psych-syllabus',
     body: 'The twenty-paper undergraduate curriculum: foundations of RL, active inference, and computational models of mood.',
     href: 'https://github.com/comp-psych/comp-psych-syllabus'
+  },
+  {
+    kicker: 'Repository',
+    title: 'Clinical-Whisper-Pipeline',
+    body: 'The code behind ClinicalWhisper — the speech model adapted for clinical interview audio.',
+    href: 'https://github.com/czhou732/Clinical-Whisper-Pipeline'
   }
 ]

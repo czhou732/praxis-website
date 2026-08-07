@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PRAXIS — Round 6: Hero Collision, Dateline, Quiet Footer, Speaker Deck, E</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet" />
+<style>
+:root{--paper:#F5F4F1;--panel:#FFF;--ink:#1A1D24;--ink-2:#4A5260;--muted:#8A93A3;--cool:#3B63D8;--hairline:rgba(26,29,36,.12);--hairline-2:rgba(26,29,36,.06);--ground:#080B11;--d-ink:#E9EDF4;--d-ink2:#AEB9C9;--d-muted:#6F7C90;--d-cool:#6E9BFF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.page{max-width:47rem;margin:0 auto;padding:4.5rem 1.5rem 7rem}
+.mono{font-family:"IBM Plex Mono",monospace}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:2.25rem}
+h1{font-family:"Newsreader",serif;font-weight:400;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:1.5rem}
+.lede{color:var(--ink-2);font-size:1.08rem;max-width:60ch;margin-bottom:3rem}
+ol.index{list-style:none;border-top:1px solid var(--hairline);margin-bottom:4.5rem}
+ol.index li{display:grid;grid-template-columns:3rem 1fr;gap:1rem;padding:1.05rem 0;border-bottom:1px solid var(--hairline-2);align-items:baseline}
+ol.index .n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--cool);font-variant-numeric:tabular-nums}
+ol.index .t{font-family:"Newsreader",serif;font-size:1.2rem}
+section{margin-bottom:4.5rem}
+h2{font-family:"Newsreader",serif;font-weight:400;font-size:1.75rem;letter-spacing:-.015em}
+h2 .n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--cool);letter-spacing:.08em;margin-right:.9rem}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.tier{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cool);border:1px solid rgba(59,99,216,.4);padding:.2rem .6rem;border-radius:2px;white-space:nowrap}
+.tier.rec{color:#2E7D5B;border-color:rgba(46,125,91,.4)}
+p.body{color:var(--ink-2);max-width:64ch}
+section p+p{margin-top:.8rem}
+.panel{background:var(--panel);border:1px solid var(--hairline);border-radius:4px;margin-top:1.6rem;overflow:hidden}
+.panel .bar{display:flex;justify-content:space-between;padding:.7rem 1rem;border-bottom:1px solid var(--hairline-2);font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.panel .stage{padding:1.5rem}
+.panel .stage.flush{padding:0}
+.panel.dark{background:var(--ground);border-color:rgba(233,237,244,.1)}
+.panel.dark .bar{border-bottom-color:rgba(233,237,244,.07);color:var(--d-muted)}
+.caption{margin-top:.7rem;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* hero mockups — both simulate the site's real container (max-w 74rem,
+   clamp padding), not the panel's edges */
+.hero{position:relative;height:320px;overflow:hidden;display:flex;align-items:center;padding:0 clamp(1.25rem,5vw,4rem)}
+.hero canvas{position:absolute;top:0;height:100%}
+.hero .type{position:relative;z-index:1;max-width:17ch}
+.hero .type .h{font-family:"Newsreader",serif;font-size:2rem;line-height:1.05;letter-spacing:-.02em;color:var(--d-ink)}
+.hero .type .s{font-size:.78rem;color:var(--d-muted);margin-top:.8rem;max-width:38ch}
+.hero.bad canvas{left:0;width:100%}
+.hero.bad .overlap-mark{position:absolute;inset:0;background:linear-gradient(90deg,transparent 58%,rgba(217,106,85,.14) 58%,rgba(217,106,85,.14) 78%,transparent 78%)}
+.hero.bad .overlap-tag{position:absolute;left:60%;top:1rem;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.1em;color:#D96A55;text-transform:uppercase}
+/* good: canvas owns the right column only; the column is centred in the
+   remaining space, not pushed to the right edge */
+.hero.good canvas{right:clamp(1.25rem,5vw,4rem);width:38%}
+.hero.good .colrule{position:absolute;top:12%;bottom:12%;right:calc(clamp(1.25rem,5vw,4rem) + 38% + 2rem);width:1px;background:rgba(233,237,244,.07)}
+
+/* dateline */
+.dateline{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;align-items:baseline;padding:0 1.6rem 1.4rem;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--d-muted)}
+.dateline b{color:var(--d-ink2);font-weight:400}
+.dateline a{color:var(--d-cool);text-decoration:none;border-bottom:1px solid rgba(110,155,255,.4);padding-bottom:1px}
+
+/* quiet footer */
+.qfoot{border-top:1px solid rgba(233,237,244,.08);padding:1.3rem 1.5rem;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--d-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1.5rem}
+.qfoot .ok{color:var(--d-cool)}
+
+/* speaker deck */
+.deck{background:var(--ground);padding:1.4rem 1.5rem 1.1rem}
+.deck .sig{display:block;width:100%;height:64px;margin-bottom:1.1rem}
+.deck .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(79,199,155,.5);color:#4FC79B;border-radius:2px;padding:.15rem .55rem;margin-bottom:.7rem}
+.deck .pill.inv{border-color:rgba(233,237,244,.2);color:var(--d-muted)}
+.deck .nm{font-family:"Newsreader",serif;font-size:1.5rem;color:var(--d-ink);letter-spacing:-.01em}
+.deck .tp{font-size:.85rem;color:var(--d-ink2);margin-top:.25rem}
+.deck .meta{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.1em;color:var(--d-muted);text-transform:uppercase;margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(233,237,244,.08);display:flex;gap:1.2rem;flex-wrap:wrap}
+.deck .meta a{color:var(--d-cool);text-decoration:none;border-bottom:1px solid rgba(110,155,255,.4)}
+.deckbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 1.5rem;border-top:1px solid rgba(233,237,244,.07)}
+.deckbar button{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--d-ink2);background:none;border:1px solid rgba(233,237,244,.18);border-radius:2px;padding:.3rem .8rem;cursor:pointer}
+.deckbar button:hover{border-color:var(--d-cool);color:var(--d-cool)}
+.dots{display:flex;gap:.45rem}
+.dots i{width:14px;height:2px;background:rgba(233,237,244,.15)}
+.dots i.on{background:var(--d-cool)}
+
+/* pipeline track */
+.track{display:flex;align-items:center;gap:0;padding:1.4rem 1.5rem;flex-wrap:nowrap;overflow-x:auto}
+.track .st{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--d-muted);white-space:nowrap;display:flex;align-items:center;gap:.5rem}
+.track .st::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(233,237,244,.25)}
+.track .st.done{color:var(--d-ink2)}
+.track .st.done::before{background:var(--d-cool);border-color:var(--d-cool)}
+.track .st.now{color:var(--d-cool)}
+.track .st.now::before{background:var(--d-cool);border-color:var(--d-cool);box-shadow:0 0 0 4px rgba(110,155,255,.18)}
+.track .ln{width:2.2rem;height:1px;background:rgba(233,237,244,.13);flex-shrink:0}
+.pick{border-top:1px solid var(--hairline);padding-top:2.5rem}
+</style>
+</head>
+<body>
+<div class="page">
+
+<p class="eyebrow">Praxis · Round 6 · Hero Collision, Dateline, Quiet Footer, Speaker Deck, E — Visual Proposal</p>
+<h1>Structure, not tuning</h1>
+<p class="lede">
+  Your diagnosis is right on all counts. Every fix below is structural — a guarantee that
+  holds at every viewport, not a number tuned until one screen looks fine. Live mockups use
+  the site's real data. Nothing here has been built yet.
+</p>
+
+<ol class="index">
+  <li><span class="n">A</span><span class="t">Hero as a two-column grid — the collision, killed structurally</span></li>
+  <li><span class="n">B</span><span class="t">Preprint as a dateline inside the hero</span></li>
+  <li><span class="n">C</span><span class="t">Remove the footer animation</span></li>
+  <li><span class="n">D</span><span class="t">The speaker series as a deck, with signal signatures</span></li>
+  <li><span class="n">E</span><span class="t">Pipeline track, anchors, 404 field, calendar, BibTeX</span></li>
+</ol>
+
+<section>
+  <div class="sechead"><h2><span class="n">A</span>Hero: two columns, no possible collision</h2><span class="tier rec">Recommended</span></div>
+  <p class="body">
+    Today the type's max-width and the glyph's 79% placement are independent promises — and
+    at 1280px they both break, "tools" landing on the mark. The fix is layout, not numbers:
+    above ~900px the hero becomes a two-column grid, type left, canvas right, the Ψ centred
+    in its own column. Below ~900px it stacks: type on top, field full-width behind/below.
+    No width can ever produce the collision again.
+  </p>
+  <div class="panel dark">
+    <div class="bar"><span>Now — overlap at 1280px</span><span>Broken</span></div>
+    <div class="stage flush">
+      <div class="hero bad" id="heroBad">
+        <canvas></canvas>
+        <div class="overlap-mark"></div>
+        <span class="overlap-tag">99px overlap</span>
+        <div class="type"><div class="h">From theory into tools that reach patients.</div><div class="s">Type and glyph positioned independently in one band.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel dark">
+    <div class="bar"><span>Proposed — balanced columns inside the container</span><span>Live · real traces</span></div>
+    <div class="stage flush">
+      <div class="hero good" id="heroGood">
+        <canvas></canvas>
+        <div class="colrule" aria-hidden="true"></div>
+        <div class="type"><div class="h">From theory into tools that reach patients.</div><div class="s">The type keeps the site's left measure; the field column sits beside it, its Ψ centred — nothing pinned to an edge.</div></div>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Live canvases · resize the window — the proposed hero cannot collide</p>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">B</span>Preprint as a dateline, inside the hero</h2><span class="tier rec">Recommended</span></div>
+  <p class="body">
+    The boxed callout reads as an alert, floats in no-man's-land, competes with the hero
+    buttons, and its "NEW" badge is already two months stale. Move it inside the hero, under
+    the buttons, as a masthead dateline — a quiet mono line with a real date that never
+    decays:
+  </p>
+  <div class="panel dark">
+    <div class="bar"><span>Dateline — real data</span><span>Proposed</span></div>
+    <div class="stage flush">
+      <div class="dateline">
+        <b>Preprint</b><span>bioRxiv · Jun 2026</span><b>ClinicalWhisper</b>
+        <a href="https://www.biorxiv.org/content/10.64898/2026.06.08.728970v1">Read ↗</a>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Replaces the boxed banner · lives in the hero, below the buttons</p>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">C</span>Footer: animation removed</h2><span class="tier rec">As instructed</span></div>
+  <p class="body">
+    The strip goes. The footer becomes the quiet colophon — instrument line and disclaimer on
+    clean ground. Nothing behind the text, nothing moving:
+  </p>
+  <div class="panel dark">
+    <div class="bar"><span>Footer — final</span><span>No canvas</span></div>
+    <div class="stage flush">
+      <div class="qfoot"><span>© 2026 Praxis</span><span>21:02:44 local</span><span class="ok">sys: ok</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">D</span>The speaker series as a deck</h2><span class="tier">Live · Real data</span></div>
+  <p class="body">
+    Seven slots become seven cards, one at a time, with prev/next and arrow keys. Each
+    confirmed speaker gets a <strong>signal signature</strong> — a waveform generated
+    deterministically from their name, like a GitHub identicon drawn in this site's language.
+    It is ornament, never labelled as data. Held dates render the held card with no name, as
+    they do now. This demo is the real Fall 2026 list:
+  </p>
+  <div class="panel dark">
+    <div class="bar"><span>Speaker deck — live</span><span id="deckCount">1 / 7</span></div>
+    <div class="stage flush">
+      <div class="deck" id="deckCard"></div>
+      <div class="deckbar">
+        <button id="prev">‹ Prev</button>
+        <div class="dots" id="dots"></div>
+        <button id="next">Next ›</button>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Arrow keys work too · opens on the next upcoming session</p>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">E</span>Five enhancements</h2><span class="tier">Pick any</span></div>
+  <p class="body"><strong class="mono" style="color:var(--cool)">1&nbsp;·&nbsp;</strong><strong>Add to calendar (.ics), confirmed talks only.</strong> A small "Add to calendar" link on each confirmed card generates a real .ics client-side — title, date, time, location. No dependency, nothing invented.</p>
+  <p class="body" style="margin-top:1rem"><strong class="mono" style="color:var(--cool)">2&nbsp;·&nbsp;</strong><strong>BibTeX copy on the curriculum.</strong> A "copy .bib" control per reading — but only with verified citation keys. I'll confirm each entry against the publisher before it ships; anything unverifiable ships without the control.</p>
+  <p class="body" style="margin-top:1rem"><strong class="mono" style="color:var(--cool)">3&nbsp;·&nbsp;</strong><strong>Research as a pipeline track, not a status word.</strong> idea → analysis → preprint → review → published, with the current stage marked. Live mock with real stages:</p>
+  <div class="panel dark">
+    <div class="bar"><span>ClinicalWhisper — pipeline</span><span>Mockup · real stage</span></div>
+    <div class="stage flush">
+      <div class="track">
+        <span class="st done">Idea</span><span class="ln"></span>
+        <span class="st done">Analysis</span><span class="ln"></span>
+        <span class="st now">Preprint</span><span class="ln"></span>
+        <span class="st">Review</span><span class="ln"></span>
+        <span class="st">Published</span>
+      </div>
+    </div>
+  </div>
+  <p class="body" style="margin-top:1rem"><strong class="mono" style="color:var(--cool)">4&nbsp;·&nbsp;</strong><strong>Deep-linkable section anchors.</strong> Every SectionHead gets an id and a hover ¶ anchor — members can link straight to /#join or a specific module.</p>
+  <p class="body" style="margin-top:1rem"><strong class="mono" style="color:var(--cool)">5&nbsp;·&nbsp;</strong><strong>The 404 runs the wave field.</strong> Same traces as the hero behind "signal lost" — a dead end that still feels like the site.</p>
+</section>
+
+<section class="pick">
+  <h2>Order of work</h2>
+  <p class="body">
+    Reply with what to build — e.g. "A B C D, E1 E3 E4". I build, verify with a build after
+    each, and stop before any commit.
+  </p>
+</section>
+
+</div>
+
+<script>
+/* --- hero mockups: bad (glyph at 79% over type) vs good (glyph confined to right column) --- */
+/* glyph centred in whatever canvas it's given; the layout decides where the
+   canvas lives — that's the whole point */
+function heroField(id, glyphX){
+  var host=document.getElementById(id),cv=host.querySelector('canvas'),ctx=cv.getContext('2d');
+  var w=0,h=0,clock=0,last=performance.now();
+  function waveAt(x,ph,c){return Math.sin(x*.021+c*1.6+ph)*.55+Math.sin(x*.052-c*2.3+ph*1.7)*.26+Math.pow(Math.sin(x*.011+c*.9+ph*.5),5)*.5;}
+  function resize(){var r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);}
+  function frame(now){
+    var dt=Math.min(.05,(now-last)/1000);last=now;clock+=dt;
+    if(w>=2&&h>=2){
+      ctx.clearRect(0,0,w,h);
+      var gap=h/9;
+      for(var c=0;c<8;c++){
+        var base=gap*(c+1);
+        ctx.strokeStyle=c===3?'#6E9BFF':'#6F7C90';ctx.globalAlpha=c===3?.5:.3;ctx.lineWidth=1;
+        ctx.beginPath();
+        for(var x=0;x<=w;x+=4){
+          var y=base+waveAt(x,c*1.7,clock)*gap*.38;
+          x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+      }
+      ctx.globalAlpha=.9;ctx.fillStyle='#E9EDF4';
+      ctx.font='300 '+Math.min(h*.62,150)+'px Newsreader, Georgia, serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('Ψ',w*glyphX,h/2);
+      ctx.globalAlpha=1;
+    }
+    requestAnimationFrame(frame);
+  }
+  resize();addEventListener('resize',resize);
+  requestAnimationFrame(function(t){last=t;frame(t);});
+}
+heroField('heroBad',0.68);   /* full-width canvas, glyph parked right — today's bug */
+heroField('heroGood',0.5);   /* right-column canvas, glyph dead centre of its column */
+
+/* --- speaker deck, real Fall 2026 data --- */
+var SPEAKERS=[
+  {date:'Sep 10',iso:'2026-09-10',time:'4:00 PM PT',mode:'In person',status:'confirmed',name:'Dr. Laurent Itti',topic:'Attention and Computational Vision — series kickoff'},
+  {date:'Sep 24',iso:'2026-09-24',time:'Evening, time TBC',mode:'In person',status:'confirmed',name:'Phil Newsome',topic:'NIH Postbac and SIP pipeline: how to get in'},
+  {date:'Oct 8',iso:'2026-10-08',time:'4:00 PM PT',mode:'In person',status:'invited'},
+  {date:'Oct 22',iso:'2026-10-22',time:'1:00 PM PT',mode:'Remote',status:'invited'},
+  {date:'Nov 5',iso:'2026-11-05',time:'1:00 PM PT',mode:'Remote',status:'invited'},
+  {date:'Nov 19',iso:'2026-11-19',time:'4:00 PM PT',mode:'In person',status:'invited'},
+  {date:'Dec 3',iso:'2026-12-03',time:'1:00 PM PT',mode:'Remote · capstone',status:'invited'}
+];
+var idx=0;
+function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function sigPath(name,w,h){
+  var seed=hash(name),pts=[],n=48;
+  for(var i=0;i<n;i++){
+    seed=(Math.imul(seed,1103515245)+12345)>>>0;
+    var x=i/(n-1)*w;
+    var y=h/2+Math.sin(i*.5+seed%7)*h*.16+((seed%100)/100-.5)*h*.28;
+    pts.push((i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1));
+  }
+  return pts.join(' ');
+}
+function render(){
+  var s=SPEAKERS[idx],ok=s.status==='confirmed';
+  var sig=ok?'<svg class="sig" viewBox="0 0 600 64" preserveAspectRatio="none" aria-hidden="true"><path d="'+sigPath(s.name,600,64)+'" fill="none" stroke="#6E9BFF" stroke-width="1.4" opacity="0.8"/></svg>':'<svg class="sig" viewBox="0 0 600 64" aria-hidden="true"><path d="M0 32 H600" stroke="rgba(233,237,244,.14)" stroke-width="1" stroke-dasharray="3 5"/></svg>';
+  document.getElementById('deckCard').innerHTML=sig+
+    '<span class="pill '+(ok?'':'inv')+'">'+(ok?'Confirmed':'Invited · held date')+'</span>'+
+    '<div class="nm">'+(ok?s.name:'Speaker to be announced')+'</div>'+
+    '<div class="tp">'+(ok?s.topic:'Name and topic publish on confirmation.')+'</div>'+
+    '<div class="meta"><span>'+s.date+'</span><span>'+s.time+'</span><span>'+s.mode+'</span>'+
+    (ok?'<a href="#" onclick="return false">Add to calendar ↓</a>':'')+'</div>';
+  document.getElementById('deckCount').textContent=(idx+1)+' / '+SPEAKERS.length;
+  var dots=document.getElementById('dots');dots.innerHTML='';
+  SPEAKERS.forEach(function(_,i){var d=document.createElement('i');if(i===idx)d.className='on';dots.appendChild(d);});
+}
+document.getElementById('prev').onclick=function(){idx=(idx+SPEAKERS.length-1)%SPEAKERS.length;render();};
+document.getElementById('next').onclick=function(){idx=(idx+1)%SPEAKERS.length;render();};
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft'){idx=(idx+SPEAKERS.length-1)%SPEAKERS.length;render();}
+  if(e.key==='ArrowRight'){idx=(idx+1)%SPEAKERS.length;render();}
+});
+render();
+</script>
+</body>
+</html>

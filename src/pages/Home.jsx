@@ -1,30 +1,58 @@
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
-import { Band, Button, Card, CardGrid, Eyebrow, GridPattern, Reveal, SectionHead } from '../components/ui'
-import { NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
+import { ADVISORS, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
 
-export default function Home () {
+export default function Home() {
   return (
     <Layout current="/">
-      <section className="relative flex min-h-[min(86vh,780px)] items-center overflow-hidden border-b border-ink/6">
-        <GridPattern />
+      <section id="hero" className="relative flex min-h-[min(86vh,780px)] items-center overflow-hidden border-b border-ink/6">
+        <div aria-hidden="true" className="grid-pattern pointer-events-none absolute inset-0 z-0" />
         <PsiField />
-        <div className="relative z-1 mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)]">
-          <Eyebrow>{SITE.expansion}</Eyebrow>
-          <h1 className="mt-6 max-w-[17ch] font-serif text-[clamp(2.6rem,7vw,5.1rem)] leading-[1.02] tracking-[-0.025em]">
-            From theory into tools that reach patients.
-          </h1>
-          <p className="measure mt-7 text-[1.15rem] leading-[1.6] text-ink-2">{SITE.mission}</p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button href="/speakers/">Fall 2026 Speaker Series</Button>
-            <Button href="/research/" variant="ghost">Current Research</Button>
+        {/* Two columns above 1024px: type on the left, a reserved slot for the
+            mark on the right. They are grid siblings, so the headline can never
+            run into the glyph at any width — the previous layout positioned
+            both independently and overlapped by 72px at 1440. */}
+        <div className="relative z-1 mx-auto grid w-full max-w-[74rem] grid-cols-1 items-center gap-x-10 px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+          <div>
+            <div data-boot>
+              <Eyebrow>{SITE.expansion}</Eyebrow>
+            </div>
+            <h1 data-boot className="mt-6 max-w-[17ch] font-serif text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.02] tracking-[-0.025em]">
+              From theory into tools that reach patients.
+            </h1>
+            <p data-boot className="measure mt-7 text-[1.15rem] leading-[1.6] text-ink-2">{SITE.mission}</p>
+            <div data-boot className="mt-10 flex flex-wrap gap-3">
+              <Button href="/speakers/">Fall 2026 Speaker Series</Button>
+              <Button href="/research/" variant="ghost">Current Research</Button>
+            </div>
           </div>
+          {/* Reserves the column PsiField centres the mark in. Empty by design. */}
+          <div data-glyph-slot aria-hidden="true" className="hidden lg:block lg:h-[34rem]" />
         </div>
       </section>
 
+      {/* the preprint: one hairline row in the page flow, dated so it never
+          decays the way a NEW badge does */}
+      <div className="mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)]">
+        <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 pt-7 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted">
+          <span className="text-ink-2">Preprint</span>
+          <span>bioRxiv · Jun 2026</span>
+          <span className="text-ink-2">ClinicalWhisper</span>
+          <a
+            href={NEWS.href}
+            target="_blank"
+            rel="noopener"
+            className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
+          >
+            {NEWS.linkLabel} ↗
+          </a>
+        </div>
+      </div>
+
       <Band>
         <Reveal>
-          <SectionHead num="01" title="The north star" />
+          <SectionHead num="01" title="The north star" id="north-star" />
           <p className="measure mb-10 text-[1.15rem] leading-[1.6] text-ink-2">
             Four things we intend to be true within three years. Everything the group does is
             measured against them.
@@ -33,7 +61,7 @@ export default function Home () {
             {NORTH_STAR.map((item, i) => (
               <li
                 key={item}
-                className="grid grid-cols-[2.6rem_1fr] items-start gap-4 border-t border-ink/6 py-5 first:border-ink/13"
+                className="grid grid-cols-[2.6rem_1fr] items-start gap-4 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
               >
                 <span className="pt-1.5 font-mono text-[0.72rem] text-cool">
                   {String(i + 1).padStart(2, '0')}
@@ -47,7 +75,7 @@ export default function Home () {
 
       <Band>
         <Reveal>
-          <SectionHead num="02" title="A research group first" />
+          <SectionHead num="02" title="A research group first" id="pillars" />
           <CardGrid cols={3}>
             {PILLARS.map((p) => (
               <Card key={p.title} kicker={p.kicker} title={p.title} body={p.body} />
@@ -58,7 +86,7 @@ export default function Home () {
 
       <Band>
         <Reveal>
-          <SectionHead num="03" title="Open source" />
+          <SectionHead num="03" title="Open source" id="code" />
           <CardGrid cols={2}>
             {REPOS.map((r) => (
               <Card key={r.href} kicker={r.kicker} title={r.title} body={r.body} href={r.href} />
@@ -69,7 +97,7 @@ export default function Home () {
 
       <Band>
         <Reveal>
-          <SectionHead num="04" title="Who runs it" />
+          <SectionHead num="04" title="Who runs it" id="team" />
           <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))]">
             {TEAM.map((m) => (
               <a key={m.name} href={m.href} target="_blank" rel="noopener" className="group block text-inherit no-underline">
@@ -95,6 +123,60 @@ export default function Home () {
                 </p>
               </a>
             ))}
+          </div>
+        </Reveal>
+      </Band>
+
+      <Band>
+        <Reveal>
+          <SectionHead num="05" title="Join" id="join" />
+          <ul className="list-none p-0 max-w-[46rem]">
+            {JOIN.map((row) => (
+              <li
+                key={row.k}
+                className="grid grid-cols-[3.4rem_1fr] items-baseline gap-5 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+              >
+                <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-cool">
+                  {row.k}
+                </span>
+                <p className="m-0 text-ink-2">{row.v}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`}>Get in touch</Button>
+          </div>
+        </Reveal>
+      </Band>
+
+      <Band>
+        <Reveal>
+          <SectionHead num="06" title="Advisors" id="advisors" />
+          <div className="max-w-[46rem]">
+            {ADVISORS.map((a) => {
+              const Tag = a.href ? 'a' : 'div'
+              return (
+                <Tag
+                  key={a.name}
+                  {...(a.href ? { href: a.href, target: '_blank', rel: 'noopener' } : {})}
+                  className="group flex items-baseline justify-between gap-6 border-t border-ink/6 py-5 text-inherit no-underline first:border-t-0 first:pt-0"
+                >
+                  <span
+                    className={
+                      a.href
+                        ? 'font-serif text-[1.35rem] tracking-[-0.012em] transition-colors group-hover:text-cool'
+                        : 'font-serif text-[1.35rem] tracking-[-0.012em]'
+                    }
+                  >
+                    {a.name}
+                  </span>
+                  <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-muted">
+                    {a.role}
+                    {a.href && <span aria-hidden="true"> ↗</span>}
+                  </span>
+                </Tag>
+              )
+            })}
           </div>
         </Reveal>
       </Band>
