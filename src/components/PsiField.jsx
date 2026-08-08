@@ -102,8 +102,6 @@ export function PsiField() {
     }
 
     const HEADLINE_CLEARANCE = 32 /* from the last letter, not the box edge */
-    const LEDE_CLEARANCE = 28 /* the mark stops above the mission paragraph */
-    const TRIM = 0.94 /* a touch under the space available, so it breathes */
 
     /* The h1 carries max-w-[17ch], so its box runs ~58px past where the text
        actually stops. Measuring the box left the mark looking marooned; the
@@ -125,8 +123,7 @@ export function PsiField() {
       const wide = w > 900
       let size = wide ? Math.min(w * 0.38, h * 0.86) : Math.min(w * 0.62, h * 0.5)
       let cx = wide ? w * 0.79 : w * 0.5
-
-      let cy = wide ? h * 0.5 : h * 0.66
+      const cy = wide ? h * 0.5 : h * 0.66
 
       let targets = sampleAt(size, cx, cy)
       if (!targets.length) {
@@ -136,42 +133,28 @@ export function PsiField() {
       }
 
       /* The hero is a single column, so nothing in the layout keeps the mark
-         off the type — measure it in both axes. Horizontally it clears the
-         last letter of the headline; vertically it stops above the mission
-         paragraph, so it never runs down beside the description or reaches
-         the buttons. Scaled to fit whichever axis binds first. */
+         off the headline — measure it. The mark is scaled down only if it
+         cannot fit the space to the right of the type, then pushed as far
+         right as the margin allows. This is why it clears "tools" at every
+         width instead of only the one it was eyeballed at. */
       if (wide) {
-        const section = canvas.parentElement
-        const h1 = section?.querySelector('h1')
-        const lede = section?.querySelector('h1 + p')
+        const h1 = canvas.parentElement?.querySelector('h1')
         if (h1) {
           const rect = canvas.getBoundingClientRect()
           const inkRight = headlineInkRight(h1, rect.left)
           const edge = inkRight ?? h1.getBoundingClientRect().right - rect.left
           const leftBound = edge + HEADLINE_CLEARANCE
           const rightBound = w - w * 0.008
-          const hBand = rightBound - leftBound
+          const band = rightBound - leftBound
 
-          const topBound = h * 0.05
-          const bottomBound = lede
-            ? lede.getBoundingClientRect().top - rect.top - LEDE_CLEARANCE
-            : h * 0.95
-          const vBand = bottomBound - topBound
-
-          if (hBand > 60 && vBand > 60) {
+          if (band > 60) {
             let ink = inkBox(targets)
-            const fit = Math.min(hBand / ink.w, vBand / ink.h, 1) * TRIM
-            if (fit < 0.995) {
-              size *= fit
+            if (ink.w > band) {
+              size *= band / ink.w
               targets = sampleAt(size, cx, cy)
               ink = inkBox(targets)
             }
-            /* Anchored to the type, not the right margin. Once the vertical
-               band binds, the mark is narrower than the space beside the
-               headline — right-aligning it then opens the gap back up, which
-               is exactly the "too far away" problem. */
-            cx = Math.min(leftBound + ink.w / 2, rightBound - ink.w / 2)
-            cy = (topBound + bottomBound) / 2
+            cx = rightBound - ink.w / 2
           }
         }
       }
