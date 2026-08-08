@@ -101,7 +101,20 @@ export function PsiField() {
       return { minX, maxX, minY, maxY, w: maxX - minX, h: maxY - minY }
     }
 
-    const HEADLINE_GAP = 44 /* clear space between the headline and the mark */
+    const HEADLINE_CLEARANCE = 32 /* from the last letter, not the box edge */
+
+    /* The h1 carries max-w-[17ch], so its box runs ~58px past where the text
+       actually stops. Measuring the box left the mark looking marooned; the
+       line rects give the real right edge of the type. */
+    function headlineInkRight(h1, canvasLeft) {
+      const range = document.createRange()
+      range.selectNodeContents(h1)
+      let right = -Infinity
+      for (const line of range.getClientRects()) {
+        if (line.width > 0 && line.right > right) right = line.right
+      }
+      return isFinite(right) ? right - canvasLeft : null
+    }
 
     function sampleGlyph() {
       if (w < 2 || h < 2) return [] /* zero-size canvas guard */
@@ -128,8 +141,10 @@ export function PsiField() {
         const h1 = canvas.parentElement?.querySelector('h1')
         if (h1) {
           const rect = canvas.getBoundingClientRect()
-          const leftBound = h1.getBoundingClientRect().right - rect.left + HEADLINE_GAP
-          const rightBound = w - w * 0.032
+          const inkRight = headlineInkRight(h1, rect.left)
+          const edge = inkRight ?? h1.getBoundingClientRect().right - rect.left
+          const leftBound = edge + HEADLINE_CLEARANCE
+          const rightBound = w - w * 0.008
           const band = rightBound - leftBound
 
           if (band > 60) {
