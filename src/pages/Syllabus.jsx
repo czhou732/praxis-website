@@ -5,11 +5,11 @@ import { BIB, MODULES } from '../data/site'
 
 /* BibTeX export for the readings whose publisher records are verified —
    BIB in site.js only ever carries those. */
-function BibRow({ label, bib }) {
+function CopyButton({ text, idle, done = 'Copied' }) {
   const [copied, setCopied] = useState(false)
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(bib)
+      await navigator.clipboard.writeText(text)
       setCopied(true)
       setTimeout(() => setCopied(false), 1600)
     } catch {
@@ -17,18 +17,34 @@ function BibRow({ label, bib }) {
     }
   }
   return (
+    <button
+      type="button"
+      onClick={copy}
+      className="cursor-pointer rounded-sm border border-ink/13 bg-transparent px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink-2 transition-colors hover:border-cool hover:text-cool"
+    >
+      {copied ? done : idle}
+    </button>
+  )
+}
+
+function BibRow({ label, doi, bib }) {
+  return (
     <div className="border-t border-ink/6 py-4 first:border-ink/13">
-      <div className="flex items-baseline justify-between gap-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
         <span className="font-mono text-[0.72rem] uppercase tracking-[0.1em] text-ink-2">
           {label}
         </span>
-        <button
-          type="button"
-          onClick={copy}
-          className="cursor-pointer rounded-sm border border-ink/13 bg-transparent px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink-2 transition-colors hover:border-cool hover:text-cool"
-        >
-          {copied ? 'Copied' : 'Copy .bib'}
-        </button>
+        <div className="flex items-center gap-3">
+          <a
+            href={`https://doi.org/${doi}`}
+            target="_blank"
+            rel="noopener"
+            className="font-mono text-[0.62rem] tracking-[0.06em] text-muted hover:text-cool"
+          >
+            {doi}
+          </a>
+          <CopyButton text={bib} idle="Copy .bib" />
+        </div>
       </div>
       <pre className="mt-3 overflow-x-auto font-mono text-[0.7rem] leading-[1.7] text-muted">
         {bib}
@@ -43,7 +59,11 @@ function BibRow({ label, bib }) {
    node with no other edit. Static SVG — fully present without JavaScript. */
 
 const SPINE_X = 116
-const PITCH = 92
+const READING_PITCH = 18
+const READING_TOP = 34
+/* Pitch has to clear the tallest module's reading stack or the rows collide
+   with the next node. Four readings occupy 34 + 3 × 18 = 88px. */
+const PITCH = 122
 const TOP = 56
 const BOTTOM = 44
 const WIDTH = 800
@@ -52,7 +72,9 @@ function ModuleGraph() {
   const height = TOP + (MODULES.length - 1) * PITCH + BOTTOM
   const label =
     'Curriculum dependency graph. Modules in prerequisite order: ' +
-    MODULES.map((m) => `${m.n}, ${m.title}`).join('; ') +
+    MODULES.map(
+      (m) => `${m.n}, ${m.title}, readings: ${m.readings.map((r) => r.cite).join(', ')}`,
+    ).join('; ') +
     '.'
 
   return (
@@ -75,7 +97,7 @@ function ModuleGraph() {
 
         {MODULES.map((m, i) => {
           const y = TOP + i * PITCH
-          const readingY = m.readings.map((_, j) => y + 34 + j * 18)
+          const readingY = m.readings.map((_, j) => y + READING_TOP + j * READING_PITCH)
           const lastReadingY = readingY[readingY.length - 1]
           return (
             <g key={m.n}>
@@ -128,14 +150,14 @@ function ModuleGraph() {
               {/* readings, small mono */}
               {m.readings.map((r, j) => (
                 <text
-                  key={r}
+                  key={r.doi}
                   x="140"
                   y={readingY[j] + 4}
                   fill="var(--color-muted)"
                   fontFamily="var(--font-mono)"
                   fontSize="10"
                 >
-                  {r}
+                  {r.cite} — {r.topic}
                 </text>
               ))}
             </g>
@@ -176,13 +198,20 @@ export default function Syllabus() {
       <Band>
         <Reveal>
           <SectionHead num="02" title="Bibliography" id="bibliography" />
-          <p className="measure mb-6 text-[0.9rem] text-muted">
-            BibTeX appears only for readings whose publisher records we have verified. The rest are
-            listed in the graph above and get an export control once verified.
-          </p>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+            <p className="measure text-[0.9rem] text-muted">
+              All {BIB.length} readings, with BibTeX pulled from the publisher record over DOI
+              content negotiation rather than typed by hand.
+            </p>
+            <CopyButton
+              text={BIB.map((b) => b.bib).join('\n\n')}
+              idle={`Copy all ${BIB.length}`}
+              done="Copied all"
+            />
+          </div>
           <div>
             {BIB.map((b) => (
-              <BibRow key={b.label} label={b.label} bib={b.bib} />
+              <BibRow key={b.doi} label={b.label} doi={b.doi} bib={b.bib} />
             ))}
           </div>
         </Reveal>
