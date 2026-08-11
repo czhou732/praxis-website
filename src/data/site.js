@@ -117,6 +117,9 @@ export const NEWS = {
   href: 'https://www.biorxiv.org/content/10.64898/2026.06.08.728970v1'
 }
 
+export const MAILING_LIST_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSfIxRajDCBTmRSF4xkpg-AjgoUEXio6m9TmP9s6A4_7Zob3lg/viewform'
+
 export const JOIN = [
   {
     k: 'Who',

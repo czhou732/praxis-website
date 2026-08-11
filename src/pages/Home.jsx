@@ -1,7 +1,7 @@
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
-import { ADVISORS, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+import { ADVISORS, JOIN, MAILING_LIST_URL, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
 
 export default function Home() {
   return (
@@ -135,8 +135,11 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`}>Get in touch</Button>
+            <Button href={MAILING_LIST_URL} variant="ghost" target="_blank" rel="noopener">
+              Join the mailing list
+            </Button>
           </div>
         </Reveal>
       </Band>
