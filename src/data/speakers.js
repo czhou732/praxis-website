@@ -28,7 +28,16 @@ export const SPEAKERS = [
     topic: 'NIH Postbac and SIP pipeline: how to get in'
   },
   { date: 'Oct 8', iso: '2026-10-08', time: '4:00 PM PT', mode: 'In person', status: 'invited' },
-  { date: 'Oct 22', iso: '2026-10-22', time: '1:00 PM PT', mode: 'Remote', status: 'invited' },
+  {
+    date: 'Oct 22',
+    iso: '2026-10-22',
+    time: '12:00 PM PT',
+    mode: 'Remote',
+    status: 'confirmed',
+    name: 'Dr. Mark Kvarta',
+    topic: 'Topic to be announced',
+    bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.'
+  },
   { date: 'Nov 5', iso: '2026-11-05', time: '1:00 PM PT', mode: 'Remote', status: 'invited' },
   { date: 'Nov 19', iso: '2026-11-19', time: '4:00 PM PT', mode: 'In person', status: 'invited' },
   { date: 'Dec 3', iso: '2026-12-03', time: '1:00 PM PT', mode: 'Remote · capstone', status: 'invited' }
