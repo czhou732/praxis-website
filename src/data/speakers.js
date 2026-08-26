@@ -27,7 +27,16 @@ export const SPEAKERS = [
     name: 'Phil Newsome',
     topic: 'NIH Postbac and SIP pipeline: how to get in'
   },
-  { date: 'Oct 8', iso: '2026-10-08', time: '4:00 PM PT', mode: 'In person', status: 'invited' },
+  {
+    date: 'Oct 8',
+    iso: '2026-10-08',
+    time: '4:00 PM PT',
+    mode: 'In person',
+    status: 'confirmed',
+    name: 'Dr. Stephen J. Read',
+    topic: 'Neural-network models of depression',
+    bio: 'Mendel B. Silberberg Professor of Social Psychology in the Department of Psychology at USC — work on neural-network models of personality and depression.'
+  },
   {
     date: 'Oct 22',
     iso: '2026-10-22',
