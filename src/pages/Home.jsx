@@ -21,6 +21,20 @@ export default function Home() {
             <Button href="/speakers/">Fall 2026 Speaker Series</Button>
             <Button href="/research/" variant="ghost">Current Research</Button>
           </div>
+          {/* Tertiary link, not a third button — the two CTAs above are the
+             primary paths. This is the "not ready to commit, but want to hear
+             when things happen" option. */}
+          <p data-boot className="mt-4 font-mono text-[0.72rem] uppercase tracking-[0.05em] text-muted">
+            Or{' '}
+            <a
+              href={MAILING_LIST_URL}
+              target="_blank"
+              rel="noopener"
+              className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
+            >
+              get updates by email <span aria-hidden="true">↗</span>
+            </a>
+          </p>
         </div>
       </section>
 

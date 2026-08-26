@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Cursor } from './Cursor'
-import { NAV, SITE } from '../data/site'
+import { MAILING_LIST_URL, NAV, SITE } from '../data/site'
 import { cn } from './ui'
 
 /* Recording-position readout: a vertical track pinned to the right edge, the
@@ -74,6 +74,17 @@ function Nav({ current }) {
               </a>
             )
           })}
+          {/* Subscribe is external (Google Form). Same weight as the internal
+             links so it reads as a nav item, not a CTA — the arrow signals the
+             cross-origin hop. */}
+          <a
+            href={MAILING_LIST_URL}
+            target="_blank"
+            rel="noopener"
+            className="whitespace-nowrap border-b border-transparent pb-0.5 text-muted no-underline transition-colors hover:text-cool"
+          >
+            Subscribe <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
     </nav>
