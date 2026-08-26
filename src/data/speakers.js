@@ -19,13 +19,13 @@ export const SPEAKERS = [
     bio: 'Professor of computer science, psychology, and neuroscience at USC, where he directs the iLab — work spanning visual attention, computational neuroscience, and machine vision.'
   },
   {
-    date: 'Sep 24',
-    iso: '2026-09-24',
-    time: 'Evening, time TBC',
+    date: 'Sep 25',
+    iso: '2026-09-25',
+    time: '1:00 PM PT',
     mode: 'In person',
     status: 'confirmed',
     name: 'Phil Newsome',
-    topic: 'NIH Postbac and SIP pipeline: how to get in'
+    topic: 'The NIH Postbac path to a PhD'
   },
   {
     date: 'Oct 8',

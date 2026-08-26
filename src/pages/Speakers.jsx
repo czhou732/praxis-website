@@ -233,9 +233,8 @@ export default function Speakers() {
           Speaker Series
         </h1>
         <p className="measure mt-6 text-[1.15rem] leading-[1.6] text-ink-2">
-          Seven biweekly talks, September through December. Sessions run on Thursdays.
-          In-person talks are at 4:00&nbsp;PM PT; remote talks scheduled to the speaker's
-          availability, usually early afternoon PT.
+          Seven talks across the fall, September through December. Times and format vary
+          by speaker; each session below carries its own date, time, and mode.
         </p>
         <NextTalk />
       </header>
