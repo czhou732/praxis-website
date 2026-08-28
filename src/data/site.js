@@ -393,14 +393,14 @@ export const CONFERENCES = [
   {
     kind: 'Presented',
     date: 'Apr 2026',
-    venue: 'USC Undergraduate Symposium for Scholarly and Creative Work',
+    venue: 'Undergraduate Symposium',
     title: 'The Dopaminergic Voice: Comparing Acoustic Prosody and Ventral Striatal Activation as Biomarkers for Anhedonia',
     body: 'Peter Zhou, Dora Xiang, Lily Wu. Poster session on cross-modal biomarkers of anhedonia — voice versus fMRI.',
     photo: '/conferences/usc-ugs-spring-2026.jpg'
   },
   {
     kind: 'Presented',
-    date: 'Spring 2026',
+    date: 'May 2026',
     venue: 'NeuroTech @ Berkeley',
     title: 'The Dopaminergic Voice: Comparing Acoustic Prosody and Ventral Striatal Activation as Biomarkers for Anhedonia',
     body: 'Dora Xiang, Lily Wu. Poster session at NeuroTech @ Berkeley.',
