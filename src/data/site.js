@@ -381,6 +381,33 @@ export const BIB = [
   }
 ]
 
+export const CONFERENCES = [
+  {
+    kind: 'Presented',
+    date: 'Jul 2026',
+    venue: 'Computational Psychiatry Conference',
+    title: 'Cross-Modal Benchmarking of Acoustic Prosody and Ventral Striatal BOLD for Depression-Related Anhedonia Classification',
+    body: 'Peter Zhou. First-author poster benchmarking a 15-minute voice recording against a $500+ fMRI scan for anhedonia classification.',
+    photo: '/conferences/cpc-2026.jpg'
+  },
+  {
+    kind: 'Presented',
+    date: 'Apr 2026',
+    venue: 'USC Undergraduate Symposium for Scholarly and Creative Work',
+    title: 'The Dopaminergic Voice: Comparing Acoustic Prosody and Ventral Striatal Activation as Biomarkers for Anhedonia',
+    body: 'Peter Zhou, Dora Xiang, Lily Wu. Poster session on cross-modal biomarkers of anhedonia — voice versus fMRI.',
+    photo: '/conferences/usc-ugs-spring-2026.jpg'
+  },
+  {
+    kind: 'Presented',
+    date: 'Spring 2026',
+    venue: 'NeuroTech @ Berkeley',
+    title: 'The Dopaminergic Voice: Comparing Acoustic Prosody and Ventral Striatal Activation as Biomarkers for Anhedonia',
+    body: 'Dora Xiang, Lily Wu. Poster session at NeuroTech @ Berkeley.',
+    photo: '/conferences/neurotech-berkeley-spring-2026.jpg'
+  }
+]
+
 export const REPOS = [
   {
     kicker: 'Organization',

@@ -82,6 +82,10 @@ export default function Home() {
       <Band>
         <Reveal>
           <SectionHead num="02" title="A research group first" id="pillars" />
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 pb-9 font-mono text-[0.75rem] uppercase tracking-[0.1em] text-muted">
+            <a href="/research/#conferences" className="border-b border-transparent pb-0.5 text-muted no-underline transition-colors hover:text-cool">Recent presentations <span aria-hidden="true">→</span></a>
+            <span className="text-ink-2">CPC · USC Symposium · NeuroTech @ UC Berkeley</span>
+          </div>
           <CardGrid cols={3}>
             {PILLARS.map((p) => (
               <Card key={p.title} kicker={p.kicker} title={p.title} body={p.body} />

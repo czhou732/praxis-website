@@ -1,6 +1,6 @@
 import { Layout } from '../components/Layout'
 import { Band, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
-import { PROJECTS, REPOS } from '../data/site'
+import { CONFERENCES, PROJECTS, REPOS } from '../data/site'
 
 /* Projects drawn as a pipeline track — idea → analysis → preprint → review →
    published — with the current stage marked. Honest about where things stand,
@@ -112,6 +112,42 @@ export default function Research () {
               <Card key={r.href} kicker={r.kicker} title={r.title} body={r.body} href={r.href} />
             ))}
           </CardGrid>
+        </Reveal>
+      </Band>
+
+      <Band>
+        <Reveal>
+          <SectionHead num="03" title="Presentations" id="conferences" />
+          <div className="flex flex-col lg:mx-[-5rem]">
+            {CONFERENCES.map((e, i) => (
+              <article
+                key={e.title}
+                className="border-t border-ink/13 py-12 first:border-t-0 first:pt-0"
+              >
+                <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-12">
+                  <div className="lg:w-[30rem] lg:shrink-0">
+                    <div className="relative rounded-sm border border-ink/13 bg-surface w-full max-w-[20rem] aspect-[4/3] overflow-hidden flex items-center justify-center">
+                      <img
+                        src={e.photo}
+                        alt={`${e.venue} — ${e.title}`}
+                        className="max-h-full max-w-full object-contain rounded-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="lg:min-w-0">
+                    <p className="m-0 font-mono text-[0.7rem] uppercase tracking-[0.14em]">
+                      <span className="text-cool">{e.kind}</span>
+                      <span className="text-muted"> · {e.date} · {e.venue}</span>
+                    </p>
+                    <h3 className="mt-2.5 mb-0 font-serif text-[1.35rem] leading-[1.2] tracking-[-0.012em]">
+                      {e.title}
+                    </h3>
+                    <p className="mt-2 mb-0 text-[0.95rem] text-ink-2 max-w-[62ch]">{e.body}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </Reveal>
       </Band>
     </Layout>
