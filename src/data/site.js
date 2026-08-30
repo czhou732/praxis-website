@@ -28,7 +28,7 @@ export const TEAM = [
   {
     name: 'Lily Wu',
     role: 'Co-Lead · Research',
-    initials: 'LW',
+    photo: '/lily-wu.jpg',
     href: 'https://www.linkedin.com/in/meihui-lily-wu/'
   },
   {

@@ -1,6 +1,16 @@
 /**
  * Fall 2026 speaker series.
  *
+ * Peter's Fall 2026 Class/Blocker Schedule:
+ * - Mon/Wed: 10:00–11:50 AM (PSYC 450)
+ * - Mon/Wed: 12:00–2:00 PM (Sacred block / workout)
+ * - Mon/Wed: 2:00–3:00 PM (GEOL 107L)
+ * - Mon/Wed: 3:30–4:50 PM (HIST 266)
+ * - Mon/Wed: 5:30–7:20 PM (THTR 205)
+ * - Wed: 8:00–9:00 AM (GEOL 107L lab)
+ * - Fri: 9:00–10:00 AM (PHED 144)
+ * - Tue/Thu: Free
+ *
  * Only talks with status 'confirmed' publish a speaker name and topic.
  * Everything else renders as a held date with the format only — publishing a
  * real person's name against a date they have not agreed to is not something
@@ -48,6 +58,6 @@ export const SPEAKERS = [
     bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.'
   },
   { date: 'Nov 5', iso: '2026-11-05', time: '1:00 PM PT', mode: 'Remote', status: 'invited' },
-  { date: 'Nov 19', iso: '2026-11-19', time: '4:00 PM PT', mode: 'In person', status: 'invited' },
+  { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   { date: 'Dec 3', iso: '2026-12-03', time: '1:00 PM PT', mode: 'Remote · capstone', status: 'invited' }
 ]
