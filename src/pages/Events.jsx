@@ -36,14 +36,15 @@ export default function Events() {
                 </h3>
                 <p className="mt-2 mb-0 max-w-[62ch] text-[0.95rem] text-ink-2">{e.body}</p>
                 {e.recording && (
-                  <a
-                    href={e.recording}
-                    target="_blank"
-                    rel="noopener"
-                    className="mt-4 inline-block border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
+                  <video
+                    controls
+                    preload="none"
+                    src={e.recording}
+                    className="mt-6 w-full max-w-[46rem] rounded-sm border border-ink/13 bg-black"
                   >
-                    Watch the recording ↗
-                  </a>
+                    Your browser does not support embedded video —{' '}
+                    <a href={e.recording} className="text-cool underline">download the recording</a>.
+                  </video>
                 )}
               </article>
             ))}

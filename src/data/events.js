@@ -6,10 +6,10 @@
  */
 export const EVENTS = [
   {
-    date: 'Sep 25, 2026',
-    venue: 'Live demo',
-    title: 'Wispr — voice-first input, live',
-    body: 'A live demonstration of Wispr — the voice-first input layer PRAXIS builds on for acoustic work — run in session and recorded. The recording is posted here once it is published.',
-    recording: null
+    date: 'Sep 1, 2026',
+    venue: 'Live demo · Leavey Library, Room 202L',
+    title: 'ClinicalWhisper, live on a real recording',
+    body: 'A live demonstration of ClinicalWhisper — the speech model adapted for clinical interview audio — run in session on a real recording: transcription, speaker separation, acoustic features, and the score. Recorded; the recording is embedded below.',
+    recording: '/media/cw-live-demo-sep-2026.mp4'
   }
 ]

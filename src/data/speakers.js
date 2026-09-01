@@ -63,8 +63,9 @@ export const SPEAKERS = [
     time: '1:00 PM PT',
     mode: 'Remote',
     status: 'confirmed',
-    name: 'Samika',
-    topic: 'Topic to be announced'
+    name: 'Dr. Samika Kumar',
+    topic: 'Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
+    bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.'
   },
   { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   { date: 'Dec 3', iso: '2026-12-03', time: '1:00 PM PT', mode: 'Remote · capstone', status: 'invited' }

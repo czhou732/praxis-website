@@ -118,7 +118,7 @@ export default function Research () {
       <Band>
         <Reveal>
           <SectionHead num="03" title="Presentations" id="conferences" />
-          <div className="flex flex-col lg:mx-[-5rem]">
+          <div className="flex flex-col">
             {CONFERENCES.map((e, i) => (
               <article
                 key={e.title}
@@ -126,15 +126,13 @@ export default function Research () {
               >
                 <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-12">
                   <div className="lg:w-[30rem] lg:shrink-0">
-                    {/* Portrait source photos overflow a 4:3 box, so the frame
-                        is sized to the photo: 4:3 landscape, 3:4 portrait. */}
-                    <div className="relative w-full max-w-[20rem] rounded-sm border border-ink/13 bg-surface p-2 flex items-center justify-center overflow-hidden">
-                      <img
-                        src={e.photo}
-                        alt={`${e.venue} — ${e.title}`}
-                        className="block max-h-[20rem] w-auto max-w-full rounded-sm object-contain"
-                      />
-                    </div>
+                    {/* Photo shown as-is, no frame — sized to the source
+                        (portrait or landscape), capped so it stays in column. */}
+                    <img
+                      src={e.photo}
+                      alt={`${e.venue} — ${e.title}`}
+                      className="block max-h-[22rem] w-auto max-w-full rounded-sm"
+                    />
                   </div>
                   <div className="lg:min-w-0">
                     <p className="m-0 font-mono text-[0.7rem] uppercase tracking-[0.14em]">
