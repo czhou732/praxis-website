@@ -57,7 +57,15 @@ export const SPEAKERS = [
     topic: 'Topic to be announced',
     bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.'
   },
-  { date: 'Nov 5', iso: '2026-11-05', time: '1:00 PM PT', mode: 'Remote', status: 'invited' },
+  {
+    date: 'Nov 5',
+    iso: '2026-11-05',
+    time: '1:00 PM PT',
+    mode: 'Remote',
+    status: 'confirmed',
+    name: 'Samika',
+    topic: 'Topic to be announced'
+  },
   { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   { date: 'Dec 3', iso: '2026-12-03', time: '1:00 PM PT', mode: 'Remote · capstone', status: 'invited' }
 ]

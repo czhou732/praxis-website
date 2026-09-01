@@ -126,11 +126,13 @@ export default function Research () {
               >
                 <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-12">
                   <div className="lg:w-[30rem] lg:shrink-0">
-                    <div className="relative rounded-sm border border-ink/13 bg-surface w-full max-w-[20rem] aspect-[4/3] overflow-hidden flex items-center justify-center">
+                    {/* Portrait source photos overflow a 4:3 box, so the frame
+                        is sized to the photo: 4:3 landscape, 3:4 portrait. */}
+                    <div className="relative w-full max-w-[20rem] rounded-sm border border-ink/13 bg-surface p-2 flex items-center justify-center overflow-hidden">
                       <img
                         src={e.photo}
                         alt={`${e.venue} — ${e.title}`}
-                        className="max-h-full max-w-full object-contain rounded-sm"
+                        className="block max-h-[20rem] w-auto max-w-full rounded-sm object-contain"
                       />
                     </div>
                   </div>

@@ -12,7 +12,8 @@ export const PAGES = {
   home: './index.html',
   research: './research/index.html',
   speakers: './speakers/index.html',
-  syllabus: './syllabus/index.html'
+  syllabus: './syllabus/index.html',
+  events: './events/index.html'
 }
 
 export default defineConfig({

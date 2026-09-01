@@ -7,10 +7,12 @@ import Home from './pages/Home'
 import Research from './pages/Research'
 import Speakers from './pages/Speakers'
 import Syllabus from './pages/Syllabus'
+import Events from './pages/Events'
 
 export const ROUTES = {
   'index.html': Home,
   'research/index.html': Research,
   'speakers/index.html': Speakers,
-  'syllabus/index.html': Syllabus
+  'syllabus/index.html': Syllabus,
+  'events/index.html': Events
 }

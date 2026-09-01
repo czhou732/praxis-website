@@ -246,7 +246,8 @@ export default function Speakers() {
           <p className="measure mt-8 text-[0.9rem] text-muted">
             Confirmed talks are listed with speaker and topic. Slots marked{' '}
             <Pill tone="wait">Invited</Pill> have a held date and a pending invitation; names and
-            topics are published once the speaker confirms.
+            topics are published once the speaker confirms. Sessions already held move to the{' '}
+            <a href="/events/" className="text-ink-2 underline decoration-cool/40 underline-offset-4 hover:decoration-cool">past-events record</a>.
           </p>
         </Reveal>
       </Band>
