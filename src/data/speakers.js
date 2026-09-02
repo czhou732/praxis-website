@@ -26,7 +26,8 @@ export const SPEAKERS = [
     status: 'confirmed',
     name: 'Dr. Laurent Itti',
     topic: 'Attention and Computational Vision — series kickoff',
-    bio: 'Professor of computer science, psychology, and neuroscience at USC, where he directs the iLab — work spanning visual attention, computational neuroscience, and machine vision.'
+    bio: 'Professor of computer science, psychology, and neuroscience at USC, where he directs the iLab — work spanning visual attention, computational neuroscience, and machine vision.',
+    rsvp: 'https://luma.com/rmqa5kmd'
   },
   {
     date: 'Sep 25',
@@ -35,7 +36,8 @@ export const SPEAKERS = [
     mode: 'In person',
     status: 'confirmed',
     name: 'Phil Newsome',
-    topic: 'The NIH Postbac path to a PhD'
+    topic: 'The NIH Postbac path to a PhD',
+    rsvp: 'https://luma.com/29agjygx'
   },
   {
     date: 'Oct 8',
@@ -45,7 +47,8 @@ export const SPEAKERS = [
     status: 'confirmed',
     name: 'Dr. Stephen J. Read',
     topic: 'Neural-network models of depression',
-    bio: 'Mendel B. Silberberg Professor of Social Psychology in the Department of Psychology at USC — work on neural-network models of personality and depression.'
+    bio: 'Mendel B. Silberberg Professor of Social Psychology in the Department of Psychology at USC — work on neural-network models of personality and depression.',
+    rsvp: 'https://luma.com/zxl3tv59'
   },
   {
     date: 'Oct 22',
@@ -54,8 +57,9 @@ export const SPEAKERS = [
     mode: 'Remote',
     status: 'confirmed',
     name: 'Dr. Mark Kvarta',
-    topic: 'Topic to be announced',
-    bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.'
+    topic: 'E/I balance and cortical gamma in treatment-resistant depression',
+    bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.',
+    rsvp: 'https://luma.com/afsnb6lx'
   },
   {
     date: 'Nov 5',
@@ -65,7 +69,8 @@ export const SPEAKERS = [
     status: 'confirmed',
     name: 'Dr. Samika Kumar',
     topic: 'Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
-    bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.'
+    bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.',
+    rsvp: 'https://luma.com/9n1yfsz7'
   },
   { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   { date: 'Dec 3', iso: '2026-12-03', time: '1:00 PM PT', mode: 'Remote · capstone', status: 'invited' }

@@ -44,6 +44,16 @@ function NextTalk() {
             {state.slot.date} · {state.slot.time} ·{' '}
             {state.slot.status === 'confirmed' ? state.slot.name : 'Speaker to be announced'}
           </span>
+          {state.slot.rsvp && (
+            <a
+              href={state.slot.rsvp}
+              target="_blank"
+              rel="noopener"
+              className="border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
+            >
+              Reserve a seat ↗
+            </a>
+          )}
         </>
       )}
     </div>
@@ -183,6 +193,16 @@ function Deck() {
             <span>{slot.date}</span>
             <span>{slot.time}</span>
             <span>{slot.mode}</span>
+            {confirmed && slot.rsvp && (
+              <a
+                href={slot.rsvp}
+                target="_blank"
+                rel="noopener"
+                className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
+              >
+                Reserve a seat ↗
+              </a>
+            )}
             {confirmed && (
               <a
                 href={icsHref(slot)}
@@ -234,8 +254,27 @@ export default function Speakers() {
         </h1>
         <p className="measure mt-6 text-[1.15rem] leading-[1.6] text-ink-2">
           Seven talks across the fall, September through December. Times and format vary
-          by speaker; each session below carries its own date, time, and mode.
+          by speaker; each session below carries its own date, time, and mode. Seats and
+          RSVPs are managed on{' '}
+          <a
+            href="https://luma.com/praxiscompsych"
+            target="_blank"
+            rel="noopener"
+            className="text-ink underline decoration-cool/40 underline-offset-4 hover:decoration-cool"
+          >
+            Luma
+          </a>
+          .
         </p>
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+          <a
+            href="/praxis-fall-2026-series.ics"
+            download="praxis-fall-2026-series.ics"
+            className="border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
+          >
+            Add the whole series ↓
+          </a>
+        </div>
         <NextTalk />
       </header>
 
@@ -254,7 +293,37 @@ export default function Speakers() {
 
       <Band>
         <Reveal>
-          <SectionHead num="02" title="Interested in speaking?" />
+          <SectionHead num="02" title="Reserve a seat" />
+          <p className="measure mb-8 text-[0.95rem] text-ink-2">
+            Seats and RSVPs are managed on Luma. Register for any session below — or follow the
+            calendar to be notified when new sessions are posted.
+          </p>
+          <div className="overflow-hidden rounded-sm border border-ink/13">
+            <iframe
+              src="https://lu.ma/embed/calendar/cal-3Ng1i4OSXczOw4O/events"
+              title="PRAXIS events on Luma"
+              className="block h-[32rem] w-full border-0 bg-surface"
+              loading="lazy"
+              allow="fullscreen; payment"
+            />
+          </div>
+          <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted">
+            Registration handled by Luma ·{' '}
+            <a
+              href="https://luma.com/praxiscompsych"
+              target="_blank"
+              rel="noopener"
+              className="text-ink-2 underline decoration-cool/40 underline-offset-4 hover:decoration-cool"
+            >
+              luma.com/praxiscompsych ↗
+            </a>
+          </p>
+        </Reveal>
+      </Band>
+
+      <Band>
+        <Reveal>
+          <SectionHead num="03" title="Interested in speaking?" />
           <div className="relative rounded-sm border border-ink/13 border-l-2 border-l-cool bg-surface p-8">
             <p className="measure">
               If you apply computational methods to psychiatric questions — modeling, imaging,
