@@ -1,7 +1,7 @@
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
-import { ADVISORS, JOIN, MAILING_LIST_URL, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+import { ADVISORS, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
 
 export default function Home() {
   return (
@@ -27,12 +27,12 @@ export default function Home() {
           <p data-boot className="mt-4 font-mono text-[0.72rem] uppercase tracking-[0.05em] text-muted">
             Or{' '}
             <a
-              href={MAILING_LIST_URL}
+              href={FOLLOW_URL}
               target="_blank"
               rel="noopener"
               className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
             >
-              get updates by email <span aria-hidden="true">↗</span>
+              get updates when sessions post <span aria-hidden="true">↗</span>
             </a>
           </p>
         </div>
@@ -155,8 +155,8 @@ export default function Home() {
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`}>Get in touch</Button>
-            <Button href={MAILING_LIST_URL} variant="ghost" target="_blank" rel="noopener">
-              Join the mailing list
+            <Button href={FOLLOW_URL} variant="ghost" target="_blank" rel="noopener">
+              Follow the series
             </Button>
           </div>
         </Reveal>

@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'PRAXIS',
   origin: 'https://uscpraxis.org',
-  contact: 'czhou732@usc.edu',
+  contact: 'praxis@uscpraxis.org',
   expansion: 'Psychiatry Research, Analytics & eXperimental Innovation Society',
   mission:
     'PRAXIS is an undergraduate research group working at the intersection of machine learning, neuroscience, and clinical mental health. We build, test, and publish — and we train the researchers who will keep doing it.',
@@ -118,8 +118,9 @@ export const NEWS = {
   href: 'https://www.biorxiv.org/content/10.64898/2026.06.08.728970v1'
 }
 
-export const MAILING_LIST_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSfIxRajDCBTmRSF4xkpg-AjgoUEXio6m9TmP9s6A4_7Zob3lg/viewform'
+// The public mailing list is Luma: followers of the calendar get new sessions
+// emailed to them automatically — no manual export anywhere in the pipeline.
+export const FOLLOW_URL = 'https://luma.com/praxiscompsych'
 
 export const JOIN = [
   {
@@ -132,7 +133,7 @@ export const JOIN = [
   },
   {
     k: 'How',
-    v: 'Email czhou732@usc.edu with a sentence about what you want to work on.'
+    v: 'Email praxis@uscpraxis.org with a sentence about what you want to work on.'
   }
 ]
 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PRAXIS — Round 8: One Channel, Automated</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet" />
+<style>
+:root{--paper:#F5F4F1;--panel:#FFF;--ink:#1A1D24;--ink-2:#4A5260;--muted:#8A93A3;--cool:#3B63D8;--hairline:rgba(26,29,36,.12);--ground:#080B11;--d-ink:#E9EDF4;--d-ink2:#AEB9C9;--d-muted:#6F7C90;--d-cool:#6E9BFF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.page{max-width:47rem;margin:0 auto;padding:4.5rem 1.5rem 7rem}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:2.25rem}
+h1{font-family:"Newsreader",serif;font-weight:400;font-size:clamp(2.2rem,5.5vw,3.2rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:1.5rem}
+.lede{color:var(--ink-2);font-size:1.08rem;max-width:64ch;margin-bottom:3rem}
+section{margin-bottom:4rem}
+h2{font-family:"Newsreader",serif;font-weight:400;font-size:1.6rem;letter-spacing:-.015em}
+h2 .n{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--cool);letter-spacing:.08em;margin-right:.7rem}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+.tier{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cool);border:1px solid rgba(59,99,216,.4);padding:.18rem .55rem;border-radius:2px;white-space:nowrap}
+.tier.rec{color:#2E7D5B;border-color:rgba(46,125,91,.4)}
+p.body{color:var(--ink-2);max-width:64ch}
+.panel{background:var(--ground);border:1px solid rgba(233,237,244,.1);border-radius:4px;margin-top:1.4rem;overflow:hidden}
+.panel .bar{display:flex;justify-content:space-between;padding:.65rem 1rem;border-bottom:1px solid rgba(233,237,244,.07);font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--d-muted)}
+.panel .stage{padding:1.6rem}
+.mocknav{display:flex;gap:1.6rem;align-items:baseline;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.05em}
+.mocknav span{color:var(--d-muted)}
+.mocknav .new{color:var(--d-cool);border-bottom:1px solid rgba(110,155,255,.45);padding-bottom:2px}
+.linkrow{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;align-items:baseline;font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--d-muted)}
+.linkrow a{color:var(--d-cool);text-decoration:none;border-bottom:1px solid rgba(110,155,255,.4);padding-bottom:2px}
+.embed{border:1px dashed rgba(233,237,244,.25);border-radius:3px;padding:1.2rem 1.4rem;color:var(--d-muted);font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.heroline{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--d-muted);margin-top:1.2rem}
+.heroline a{color:var(--d-cool);text-decoration:none;border-bottom:1px solid rgba(110,155,255,.4);padding-bottom:2px}
+.joinbtn{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--d-ink2);border:1px solid rgba(233,237,244,.22);border-radius:2px;padding:.45rem 1rem;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="page">
+
+<p class="eyebrow">Praxis · Round 8 · Events &amp; Luma, and the mailing list — Visual Proposal</p>
+<h1>One channel, automated</h1>
+<p class="lede">
+  Two threads. First: the Events page — the record — currently defers everything
+  forward-looking to Speakers. Second: the mailing list is a Google Form that collects
+  addresses someone must manually export, while Luma already automates exactly this:
+  following the calendar emails subscribers when new sessions post. This round folds both
+  into a single low-maintenance channel.
+</p>
+
+<section>
+  <div class="sechead"><h2><span class="n">A1</span>Events gets a Luma follow band</h2><span class="tier rec">Recommended</span></div>
+  <p class="body">
+    Events stops being past-only in framing: a second band ("Series on Luma") follows the
+    Sessions record, with two quiet links — follow the calendar, and the .ics download
+    that already exists on Speakers. The header sentence changes from "forward-looking
+    lives under Speakers" to pointing at the band below. No iframe; the embed stays
+    exclusive to the Speakers schedule.
+  </p>
+  <div class="panel">
+    <div class="bar"><span>Option A1 — link band on Events</span><span>Mockup</span></div>
+    <div class="stage">
+      <div class="linkrow">
+        <span>02 · Series on Luma</span>
+        <a href="#">Follow the calendar ↗</a>
+        <a href="#">Add the series ↓</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">A2</span>Mirror the embed on Events</h2><span class="tier">Alternative</span></div>
+  <p class="body">
+    The same 32rem iframe that sits in Speakers band 02, duplicated on the Events page after
+    the Sessions record. More surface for it, but also two instances of the same panel across
+    the site.
+  </p>
+  <div class="panel">
+    <div class="bar"><span>Option A2 — embed mirrored</span><span>Mockup</span></div>
+    <div class="stage">
+      <div class="embed">Luma calendar iframe · cal-3Ng1i4OSXczOw4O</div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="sechead"><h2><span class="n">B1</span>Retire the Google Form — Luma becomes "Subscribe"</h2><span class="tier rec">Recommended</span></div>
+  <p class="body">
+    <code>MAILING_LIST_URL</code> is replaced by <code>LUMA_URL
+    (luma.com/praxiscompsych)</code> and renamed <code>FOLLOW_URL</code>. All three current
+    usages — the nav's "Subscribe ↗", the hero's tertiary line, and the Join band's ghost
+    button — point at Luma. Labels shift where needed: the nav item becomes
+    "Follow ↗", the hero line "get updates when sessions post", Join "Follow the series".
+    Speakers' two hardcoded Luma URLs get refactored to the same constant. The Google Form
+    (docs.google.com/forms/...Zob3lg) is removed from the codebase.
+  </p>
+  <div class="panel">
+    <div class="bar"><span>Option B1 — nav before / after</span><span>Mockup</span></div>
+    <div class="stage">
+      <div class="mocknav">
+        <span>Home</span><span>Research</span><span>Speakers</span><span>Events</span><span>Curriculum</span>
+        <s style="color:var(--d-muted)">Subscribe ↗</s>
+        <span class="new">Follow ↗</span>
+      </div>
+      <div class="heroline">Or <a href="#">get updates when sessions post ↗</a></div>
+      <div class="joinbtn" style="margin-top:1.4rem">Follow the series</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">B2</span>Keep both channels</h2><span class="tier">Alternative</span></div>
+  <p class="body">
+    The Google Form stays (someone manually exports and emails), and the nav carries both
+    "Subscribe ↗" (Form) and a new "Luma ↗" item. More maintenance, one extra nav item,
+    but nothing that exists stops working.
+  </p>
+  <div class="panel">
+    <div class="bar"><span>Option B2 — two nav items</span><span>Mockup</span></div>
+    <div class="stage">
+      <div class="mocknav">
+        <span>Home</span><span>Research</span><span>Speakers</span><span>Events</span><span>Curriculum</span>
+        <span class="new">Subscribe ↗</span><span class="new">Luma ↗</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><h2><span class="n">✓</span>Pick one</h2></div>
+  <p class="body">
+    Any pairing of A and B — e.g. "A1 + B1". Defaults if you say "go": A1 + B1, the
+    automated version of both.
+  </p>
+</section>
+
+</div>
+</body>
+</html>
+

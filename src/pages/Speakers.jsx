@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Layout } from '../components/Layout'
 import { Band, Button, Eyebrow, Pill, Reveal, SectionHead } from '../components/ui'
 import { SPEAKERS } from '../data/speakers'
-import { SITE } from '../data/site'
+import { FOLLOW_URL, SITE } from '../data/site'
 
 /* ---------- next-talk readout ----------
    The countdown is computed only after hydration — the prerendered markup
@@ -257,7 +257,7 @@ export default function Speakers() {
           by speaker; each session below carries its own date, time, and mode. Seats and
           RSVPs are managed on{' '}
           <a
-            href="https://luma.com/praxiscompsych"
+            href={FOLLOW_URL}
             target="_blank"
             rel="noopener"
             className="text-ink underline decoration-cool/40 underline-offset-4 hover:decoration-cool"
@@ -310,7 +310,7 @@ export default function Speakers() {
           <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted">
             Registration handled by Luma ·{' '}
             <a
-              href="https://luma.com/praxiscompsych"
+              href={FOLLOW_URL}
               target="_blank"
               rel="noopener"
               className="text-ink-2 underline decoration-cool/40 underline-offset-4 hover:decoration-cool"

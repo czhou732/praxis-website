@@ -1,6 +1,7 @@
 import { Layout } from '../components/Layout'
 import { Band, Eyebrow, Reveal, SectionHead } from '../components/ui'
 import { EVENTS } from '../data/events'
+import { FOLLOW_URL } from '../data/site'
 
 /* The record of what PRAXIS has already done — talks and demos held, with a
    recording link where one exists. Distinct from Speakers, which is the
@@ -16,8 +17,9 @@ export default function Events() {
         </h1>
         <p className="measure mt-6 text-[1.15rem] leading-[1.6] text-ink-2">
           Talks and demos already held. Where a session was recorded, the recording is
-          linked. New sessions appear here after they happen; the forward-looking series
-          lives under <a className="text-ink underline decoration-cool/40 underline-offset-4 hover:decoration-cool" href="/speakers/">Speakers</a>.
+          linked. New sessions appear here after they happen; the forward-looking schedule
+          lives under <a className="text-ink underline decoration-cool/40 underline-offset-4 hover:decoration-cool" href="/speakers/">Speakers</a>. The series
+          itself posts on Luma — follow it below and new sessions reach you by email.
         </p>
       </header>
 
@@ -48,6 +50,34 @@ export default function Events() {
                 )}
               </article>
             ))}
+          </div>
+        </Reveal>
+      </Band>
+
+      <Band>
+        <Reveal>
+          <SectionHead num="02" title="Series on Luma" />
+          <p className="measure mb-6 text-[0.95rem] text-ink-2">
+            Every upcoming session posts to the Luma calendar. Follow the calendar and new
+            talks reach you by email the moment they go up — the record above stays for
+            what has already happened.
+          </p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <a
+              href={FOLLOW_URL}
+              target="_blank"
+              rel="noopener"
+              className="border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
+            >
+              Follow the calendar ↗
+            </a>
+            <a
+              href="/praxis-fall-2026-series.ics"
+              download="praxis-fall-2026-series.ics"
+              className="border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
+            >
+              Add the series ↓
+            </a>
           </div>
         </Reveal>
       </Band>
