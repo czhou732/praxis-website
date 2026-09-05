@@ -7,7 +7,7 @@
     "dev": "vite",
     "build:client": "vite build",
     "build:ssr": "vite build --ssr src/prerender-entry.jsx --outDir dist-ssr",
-    "build": "npm run build:client && npm run build:ssr && node scripts/prerender.mjs && npm run verify",
+    "build": "node scripts/generate-ics.mjs && npm run build:client && npm run build:ssr && node scripts/prerender.mjs && npm run verify",
     "verify": "node scripts/verify-build.mjs",
     "smoke": "node scripts/smoke.mjs",
     "preview": "vite preview"

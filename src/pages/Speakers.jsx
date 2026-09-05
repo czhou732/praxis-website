@@ -269,11 +269,13 @@ export default function Speakers() {
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
           <a
             href="/praxis-fall-2026-series.ics"
-            download="praxis-fall-2026-series.ics"
             className="border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
           >
-            Add the whole series ↓
+            Subscribe to the series ↓
           </a>
+          <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted">
+            Live feed — sessions update on every site rebuild.
+          </span>
         </div>
         <NextTalk />
       </header>

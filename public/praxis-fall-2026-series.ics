@@ -1,14 +1,15 @@
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//PRAXIS//Speaker Series Fall 2026//EN
+X-WR-CALNAME:PRAXIS Speaker Series — Fall 2026
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
 UID:praxis-2026-09-10@uscpraxis.org
 DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20260910
 DTEND;VALUE=DATE:20260911
-SUMMARY:PRAXIS — Attention and Computational Vision (Dr. Laurent Itti)
-DESCRIPTION:Series kickoff. In person at USC. RSVP: https://luma.com/rmqa5kmd
+SUMMARY:PRAXIS — Attention and Computational Vision — series kickoff (Dr. Laurent Itti)
+DESCRIPTION:In person. RSVP: https://luma.com/rmqa5kmd
 URL:https://luma.com/rmqa5kmd
 END:VEVENT
 BEGIN:VEVENT
@@ -17,7 +18,7 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20260925
 DTEND;VALUE=DATE:20260926
 SUMMARY:PRAXIS — The NIH Postbac path to a PhD (Phil Newsome)
-DESCRIPTION:In person at USC. RSVP: https://luma.com/29agjygx
+DESCRIPTION:In person. RSVP: https://luma.com/29agjygx
 URL:https://luma.com/29agjygx
 END:VEVENT
 BEGIN:VEVENT
@@ -26,7 +27,7 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
 SUMMARY:PRAXIS — Neural-network models of depression (Dr. Stephen J. Read)
-DESCRIPTION:In person at USC. RSVP: https://luma.com/zxl3tv59
+DESCRIPTION:In person. RSVP: https://luma.com/zxl3tv59
 URL:https://luma.com/zxl3tv59
 END:VEVENT
 BEGIN:VEVENT
@@ -43,7 +44,7 @@ UID:praxis-2026-11-05@uscpraxis.org
 DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261105
 DTEND;VALUE=DATE:20261106
-SUMMARY:PRAXIS — Sleep, depression, and the path from undergrad to NIMH (Dr. Samika Kumar)
+SUMMARY:PRAXIS — Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program (Dr. Samika Kumar)
 DESCRIPTION:Remote. RSVP: https://luma.com/9n1yfsz7
 URL:https://luma.com/9n1yfsz7
 END:VEVENT
@@ -53,14 +54,14 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
 SUMMARY:PRAXIS speaker session — speaker to be announced
-DESCRIPTION:In person at USC. Details: https://uscpraxis.org/speakers/
+DESCRIPTION:In person. Details: https://uscpraxis.org/speakers/
 END:VEVENT
 BEGIN:VEVENT
 UID:praxis-2026-12-03@uscpraxis.org
 DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261203
 DTEND;VALUE=DATE:20261204
-SUMMARY:PRAXIS capstone session — speaker to be announced
-DESCRIPTION:Remote. Details: https://uscpraxis.org/speakers/
+SUMMARY:PRAXIS speaker session — speaker to be announced
+DESCRIPTION:Remote · capstone. Details: https://uscpraxis.org/speakers/
 END:VEVENT
 END:VCALENDAR
