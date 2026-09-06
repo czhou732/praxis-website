@@ -54,7 +54,7 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
 SUMMARY:PRAXIS speaker session — speaker to be announced
-DESCRIPTION:In person. Details: https://uscpraxis.org/speakers/
+DESCRIPTION:In person. Details: https://uscpraxis.org/events/
 END:VEVENT
 BEGIN:VEVENT
 UID:praxis-2026-12-03@uscpraxis.org
@@ -62,6 +62,6 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261203
 DTEND;VALUE=DATE:20261204
 SUMMARY:PRAXIS speaker session — speaker to be announced
-DESCRIPTION:Remote · capstone. Details: https://uscpraxis.org/speakers/
+DESCRIPTION:Remote · capstone. Details: https://uscpraxis.org/events/
 END:VEVENT
 END:VCALENDAR

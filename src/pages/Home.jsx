@@ -18,7 +18,7 @@ export default function Home() {
           </h1>
           <p data-boot className="measure mt-7 text-[1.15rem] leading-[1.6] text-ink-2">{SITE.mission}</p>
           <div data-boot className="mt-10 flex flex-wrap gap-3">
-            <Button href="/speakers/">Fall 2026 Speaker Series</Button>
+            <Button href="/events/">Fall 2026 Speaker Series</Button>
             <Button href="/research/" variant="ghost">Current Research</Button>
           </div>
           {/* Tertiary link, not a third button — the two CTAs above are the

@@ -15,7 +15,7 @@ import { lookup, resolveNs } from 'node:dns/promises'
 const origin = (process.argv[2] || 'https://uscpraxis.org').replace(/\/$/, '')
 const host = new URL(origin).hostname
 
-const ROUTES = ['/', '/research/', '/speakers/', '/syllabus/']
+const ROUTES = ['/', '/research/', '/events/', '/speakers/', '/syllabus/']
 const MUST_CONTAIN = 'PRAXIS'
 const GITHUB_PAGES_IPS = ['185.199.108.153', '185.199.109.153', '185.199.110.153', '185.199.111.153']
 

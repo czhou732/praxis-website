@@ -27,7 +27,7 @@ const events = SPEAKERS.map((s) => {
     `DTSTART;VALUE=DATE:${start}`,
     `DTEND;VALUE=DATE:${end}`,
     `SUMMARY:${summary}`,
-    `DESCRIPTION:${confirmed ? `${s.mode}. RSVP: ${s.rsvp}` : `${s.mode}. Details: https://uscpraxis.org/speakers/`}`
+    `DESCRIPTION:${confirmed ? `${s.mode}. RSVP: ${s.rsvp}` : `${s.mode}. Details: https://uscpraxis.org/events/`}`
   ]
   if (confirmed && s.rsvp) parts.push(`URL:${s.rsvp}`)
   parts.push('END:VEVENT')
