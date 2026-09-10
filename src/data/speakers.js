@@ -73,5 +73,14 @@ export const SPEAKERS = [
     rsvp: 'https://luma.com/9n1yfsz7'
   },
   { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
-  { date: 'Dec 3', iso: '2026-12-03', time: '1:00 PM PT', mode: 'Remote · capstone', status: 'invited' }
+  {
+    date: 'Dec 3',
+    iso: '2026-12-03',
+    time: '6:30 PM PT',
+    mode: 'In person · USC',
+    status: 'confirmed',
+    name: 'PRAXIS Research Showcase',
+    topic: 'Member presentations · Fall 2026 capstone',
+    bio: 'Core team members present the projects they have built this semester — spanning auditory biomarkers, computational models of depression, and clinical AI tools. The capstone event of the Fall 2026 series.'
+  }
 ]
