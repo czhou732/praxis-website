@@ -1,7 +1,7 @@
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
-import { ADVISORS, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+import { ADVISORS, APPLY_DEADLINE, APPLY_URL, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
 
 export default function Home() {
   return (
@@ -21,18 +21,18 @@ export default function Home() {
             <Button href="/events/">Fall 2026 Speaker Series</Button>
             <Button href="/research/" variant="ghost">Current Research</Button>
           </div>
-          {/* Tertiary link, not a third button — the two CTAs above are the
-             primary paths. This is the "not ready to commit, but want to hear
-             when things happen" option. */}
+          {/* Tertiary link — during the Fall '26 recruitment window this points at
+             the application form so the deadline sits on the first screen; revert
+             to FOLLOW_URL after Sep 21. */}
           <p data-boot className="mt-4 font-mono text-[0.72rem] uppercase tracking-[0.05em] text-muted">
-            Or{' '}
+            Fall '26 core recruitment is open ·{' '}
             <a
-              href={FOLLOW_URL}
+              href={APPLY_URL}
               target="_blank"
               rel="noopener"
               className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
             >
-              get updates when sessions post <span aria-hidden="true">↗</span>
+              apply by Sept 21 <span aria-hidden="true">↗</span>
             </a>
           </p>
         </div>
@@ -153,8 +153,13 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`}>Get in touch</Button>
+          {/* Scarcity + deadline note — visible before someone clicks any button. */}
+          <p className="mt-8 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted">
+            <span className="text-cool">Fall '26 core recruitment</span> · 3-4 slots · closes {APPLY_DEADLINE}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-3">
+            <Button href={APPLY_URL} target="_blank" rel="noopener">Apply to join</Button>
+            <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`} variant="ghost">Get in touch</Button>
             <Button href={FOLLOW_URL} variant="ghost" target="_blank" rel="noopener">
               Follow the series
             </Button>
