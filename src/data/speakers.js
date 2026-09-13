@@ -70,7 +70,7 @@ export const SPEAKERS = [
     name: 'Dr. Samika Kumar',
     topic: 'Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
     bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.',
-    rsvp: 'https://luma.com/0q7t86v1'
+    rsvp: 'https://luma.com/9n1yfsz7'
   },
   { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   {
@@ -81,6 +81,7 @@ export const SPEAKERS = [
     status: 'confirmed',
     name: 'PRAXIS Research Showcase',
     topic: 'Member presentations · Fall 2026 capstone',
-    bio: 'Core team members present the projects they have built this semester — spanning auditory biomarkers, computational models of depression, and clinical AI tools. The capstone event of the Fall 2026 series.'
+    bio: 'Core team members present the projects they have built this semester — spanning auditory biomarkers, computational models of depression, and clinical AI tools. The capstone event of the Fall 2026 series.',
+    rsvp: 'https://luma.com/0q7t86v1'
   }
 ]

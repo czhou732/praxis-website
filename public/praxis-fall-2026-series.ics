@@ -45,8 +45,8 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261105
 DTEND;VALUE=DATE:20261106
 SUMMARY:PRAXIS — Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program (Dr. Samika Kumar)
-DESCRIPTION:Remote. RSVP: https://luma.com/0q7t86v1
-URL:https://luma.com/0q7t86v1
+DESCRIPTION:Remote. RSVP: https://luma.com/9n1yfsz7
+URL:https://luma.com/9n1yfsz7
 END:VEVENT
 BEGIN:VEVENT
 UID:praxis-2026-11-19@uscpraxis.org
@@ -62,6 +62,7 @@ DTSTAMP:20260901T000000Z
 DTSTART;VALUE=DATE:20261203
 DTEND;VALUE=DATE:20261204
 SUMMARY:PRAXIS — Member presentations · Fall 2026 capstone (PRAXIS Research Showcase)
-DESCRIPTION:In person · USC. RSVP: undefined
+DESCRIPTION:In person · USC. RSVP: https://luma.com/0q7t86v1
+URL:https://luma.com/0q7t86v1
 END:VEVENT
 END:VCALENDAR
