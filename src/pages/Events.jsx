@@ -416,7 +416,7 @@ export default function Events() {
                   >
                     <span
                       aria-hidden="true"
-                      className="flex h-14 w-14 flex-none items-center justify-center rounded-lg bg-gradient-to-br from-[#1DB954] to-[#1ed760] font-serif text-[1.4rem] text-white"
+                      className="flex h-14 w-14 flex-none items-center justify-center rounded-lg border border-ink/13 bg-ground font-serif text-[1.4rem] text-ink"
                     >
                       PΨ
                     </span>
@@ -428,12 +428,12 @@ export default function Events() {
                         {e.title}
                       </span>
                     </span>
-                    {/* Circular Spotify-green play button — the one intentional
-                       pop of colour on an otherwise black-and-white card.
-                       Signals "play" without needing to say "Listen." */}
+                    {/* Circular play button in the site's ink — the shape does
+                       the "play" work, no colour needed. Black and white,
+                       matches the rest of the site. */}
                     <span
                       aria-hidden="true"
-                      className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#1DB954] text-white transition-transform group-hover:scale-105"
+                      className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-ink text-ground transition-transform group-hover:scale-105"
                     >
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
                         <path d="M2 1 L12 7 L2 13 Z" />
