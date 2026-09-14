@@ -4,7 +4,7 @@ export const SITE = {
   contact: 'praxis@uscpraxis.org',
   expansion: 'Psychiatry Research, Analytics & eXperimental Innovation Society',
   mission:
-    'PRAXIS is an undergraduate research group working at the intersection of machine learning, neuroscience, and clinical mental health. We build, test, and publish — and we train the researchers who will keep doing it.',
+    'PRAXIS is a student-led research society working at the intersection of machine learning, neuroscience, and clinical mental health. We build, test, and publish — and we train the researchers who will keep doing it.',
   // PRAXIS is not a registered student organization. Nothing on this site may
   // imply institutional affiliation, endorsement, or sponsorship.
   disclaimer:
@@ -129,11 +129,13 @@ export const APPLY_DEADLINE = 'Monday Sept 21 · 11:59 PM PT'
 export const JOIN = [
   {
     k: 'Who',
-    v: 'Undergraduates interested in computational psychiatry — machine learning, neuroscience, or clinical mental health.'
+    v: 'Undergraduate and graduate students interested in computational psychiatry — machine learning, neuroscience, or clinical mental health.'
   },
   {
     k: 'What',
-    v: 'The journal club first, then a seat on a live project — or a pitch of your own at the monthly session.'
+    v: 'The journal club first, then a seat on a live project — or a pitch of your own at the monthly session.',
+    linkAnchor: 'journal club',
+    linkHref: '/events/#journal-club'
   },
   {
     k: 'How',

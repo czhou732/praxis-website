@@ -54,6 +54,21 @@ export default function Home() {
             {NEWS.linkLabel} ↗
           </a>
         </div>
+        {/* Podcast dateline — parallel to the preprint line above. Ep. 1 shipped
+           Sep 14 via the Fall '26 speaker series recording pipeline. */}
+        <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 pt-2 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted">
+          <span className="text-ink-2">Podcast</span>
+          <span>Sep 2026 · Ep. 1</span>
+          <span className="text-ink-2">Attention &amp; Computational Vision</span>
+          <a
+            href="https://open.spotify.com/episode/7jeJFdw3lv2kkd5WgHCygf"
+            target="_blank"
+            rel="noopener"
+            className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
+          >
+            Listen ↗
+          </a>
+        </div>
       </div>
 
       <Band>
@@ -149,7 +164,22 @@ export default function Home() {
                 <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-cool">
                   {row.k}
                 </span>
-                <p className="m-0 text-ink-2">{row.v}</p>
+                <p className="m-0 text-ink-2">
+                  {row.linkAnchor && row.v.includes(row.linkAnchor) ? (
+                    <>
+                      {row.v.split(row.linkAnchor)[0]}
+                      <a
+                        href={row.linkHref}
+                        className="text-cool underline decoration-cool/40 underline-offset-4 hover:decoration-cool"
+                      >
+                        {row.linkAnchor}
+                      </a>
+                      {row.v.split(row.linkAnchor)[1]}
+                    </>
+                  ) : (
+                    row.v
+                  )}
+                </p>
               </li>
             ))}
           </ul>
