@@ -412,11 +412,11 @@ export default function Events() {
                     href={e.spotify}
                     target="_blank"
                     rel="noopener"
-                    className="group mt-6 flex max-w-[36rem] items-center gap-4 border border-ink/13 bg-surface p-4 text-inherit no-underline transition-colors hover:border-cool/60"
+                    className="group mt-6 flex max-w-[36rem] items-center gap-4 rounded-xl border border-ink/13 bg-surface p-4 text-inherit no-underline transition-colors hover:border-cool/60"
                   >
                     <span
                       aria-hidden="true"
-                      className="flex h-14 w-14 flex-none items-center justify-center border border-ink/13 bg-ground font-serif text-[1.4rem] text-ink"
+                      className="flex h-14 w-14 flex-none items-center justify-center rounded-lg bg-gradient-to-br from-[#1DB954] to-[#1ed760] font-serif text-[1.4rem] text-white"
                     >
                       PΨ
                     </span>
