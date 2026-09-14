@@ -428,9 +428,18 @@ export default function Events() {
                         {e.title}
                       </span>
                     </span>
-                    <span className="flex-none font-mono text-[0.68rem] uppercase tracking-[0.1em] text-cool transition-colors group-hover:text-ink">
-                      Listen ↗
+                    {/* Circular Spotify-green play button — the one intentional
+                       pop of colour on an otherwise black-and-white card.
+                       Signals "play" without needing to say "Listen." */}
+                    <span
+                      aria-hidden="true"
+                      className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#1DB954] text-white transition-transform group-hover:scale-105"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M2 1 L12 7 L2 13 Z" />
+                      </svg>
                     </span>
+                    <span className="sr-only">Listen on Spotify</span>
                   </a>
                 )}
               </article>
