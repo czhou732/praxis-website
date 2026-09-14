@@ -10,7 +10,7 @@ export const EVENTS = [
     venue: 'Speaker series · Kickoff',
     title: 'Attention and Computational Vision with Dr. Laurent Itti',
     body: 'Dr. Laurent Itti opened the Fall 2026 series with two decades of work on visual saliency and its route into clinical eye-tracking — including a 15-minute video that separates ADHD from Fetal Alcohol Spectrum Disorder at 77% accuracy. Recorded as episode 1 of the PRAXIS podcast.',
-    spotify: 'https://open.spotify.com/embed/episode/7jeJFdw3lv2kkd5WgHCygf'
+    spotify: 'https://open.spotify.com/episode/7jeJFdw3lv2kkd5WgHCygf'
   },
   {
     date: 'Sep 1, 2026',

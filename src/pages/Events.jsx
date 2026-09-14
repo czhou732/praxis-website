@@ -404,15 +404,34 @@ export default function Events() {
                   </video>
                 )}
                 {e.spotify && (
-                  <iframe
-                    src={e.spotify}
-                    title={`${e.title} — PRAXIS podcast`}
-                    className="mt-6 block w-full max-w-[46rem] rounded-xl border border-ink/13"
-                    style={{ height: 152 }}
-                    loading="lazy"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                  />
+                  /* On-site card, not a Spotify iframe. The iframe brought its
+                     own chrome that fought the site's aesthetic; a linked card
+                     in the site's own grammar reads cleaner and clicks through
+                     to Spotify for actual playback. */
+                  <a
+                    href={e.spotify}
+                    target="_blank"
+                    rel="noopener"
+                    className="group mt-6 flex max-w-[36rem] items-center gap-4 border border-ink/13 bg-surface p-4 text-inherit no-underline transition-colors hover:border-cool/60"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="flex h-14 w-14 flex-none items-center justify-center border border-ink/13 bg-ground font-serif text-[1.4rem] text-ink"
+                    >
+                      PΨ
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-mono text-[0.62rem] uppercase tracking-[0.13em] text-muted">
+                        Podcast · PRAXIS
+                      </span>
+                      <span className="mt-1 block truncate font-serif text-[1.02rem] leading-tight text-ink">
+                        {e.title}
+                      </span>
+                    </span>
+                    <span className="flex-none font-mono text-[0.68rem] uppercase tracking-[0.1em] text-cool transition-colors group-hover:text-ink">
+                      Listen ↗
+                    </span>
+                  </a>
                 )}
               </article>
             ))}
