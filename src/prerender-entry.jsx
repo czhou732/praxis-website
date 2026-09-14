@@ -8,11 +8,13 @@ import Research from './pages/Research'
 import Speakers from './pages/Speakers'
 import Syllabus from './pages/Syllabus'
 import Events from './pages/Events'
+import Podcast from './pages/Podcast'
 
 export const ROUTES = {
   'index.html': Home,
   'research/index.html': Research,
   'speakers/index.html': Speakers,
   'syllabus/index.html': Syllabus,
-  'events/index.html': Events
+  'events/index.html': Events,
+  'podcast/index.html': Podcast
 }

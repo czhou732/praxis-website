@@ -15,7 +15,8 @@ export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/research/', label: 'Research' },
   { href: '/events/', label: 'Events' },
-  { href: '/syllabus/', label: 'Curriculum' }
+  { href: '/syllabus/', label: 'Curriculum' },
+  { href: '/podcast/', label: 'Podcast' }
 ]
 
 export const TEAM = [

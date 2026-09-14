@@ -61,12 +61,10 @@ export default function Home() {
           <span>Sep 2026 · Ep. 1</span>
           <span className="text-ink-2">Attention &amp; Computational Vision</span>
           <a
-            href="https://open.spotify.com/episode/7jeJFdw3lv2kkd5WgHCygf"
-            target="_blank"
-            rel="noopener"
+            href="/podcast/"
             className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
           >
-            Listen ↗
+            Listen →
           </a>
         </div>
       </div>

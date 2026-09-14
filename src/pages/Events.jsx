@@ -403,45 +403,6 @@ export default function Events() {
                     <a href={e.recording} className="text-cool underline">download the recording</a>.
                   </video>
                 )}
-                {e.spotify && (
-                  /* On-site card, not a Spotify iframe. The iframe brought its
-                     own chrome that fought the site's aesthetic; a linked card
-                     in the site's own grammar reads cleaner and clicks through
-                     to Spotify for actual playback. */
-                  <a
-                    href={e.spotify}
-                    target="_blank"
-                    rel="noopener"
-                    className="group mt-6 flex max-w-[36rem] items-center gap-4 rounded-xl border border-ink/13 bg-surface p-4 text-inherit no-underline transition-colors hover:border-cool/60"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="flex h-14 w-14 flex-none items-center justify-center rounded-lg border border-ink/13 bg-ground font-serif text-[1.4rem] text-ink"
-                    >
-                      PΨ
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-mono text-[0.62rem] uppercase tracking-[0.13em] text-muted">
-                        Podcast · PRAXIS
-                      </span>
-                      <span className="mt-1 block truncate font-serif text-[1.02rem] leading-tight text-ink">
-                        {e.title}
-                      </span>
-                    </span>
-                    {/* Circular play button in the site's ink — the shape does
-                       the "play" work, no colour needed. Black and white,
-                       matches the rest of the site. */}
-                    <span
-                      aria-hidden="true"
-                      className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-ink text-ground transition-transform group-hover:scale-105"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                        <path d="M2 1 L12 7 L2 13 Z" />
-                      </svg>
-                    </span>
-                    <span className="sr-only">Listen on Spotify</span>
-                  </a>
-                )}
               </article>
             ))}
           </div>

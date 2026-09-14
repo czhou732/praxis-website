@@ -13,7 +13,8 @@ export const PAGES = {
   research: './research/index.html',
   speakers: './speakers/index.html',
   syllabus: './syllabus/index.html',
-  events: './events/index.html'
+  events: './events/index.html',
+  podcast: './podcast/index.html'
 }
 
 export default defineConfig({
