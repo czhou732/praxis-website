@@ -1,11 +1,19 @@
 import { useEffect, useState, useRef } from 'react'
+import { motion, useMotionValue, useSpring } from 'motion/react'
 import { Cursor } from './Cursor'
 import { FOLLOW_URL, NAV, SITE } from '../data/site'
 import { cn } from './ui'
 
 function MagneticLink({ href, active, external, children }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 })
   const ref = useRef(null)
+  
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  
+  // Apple-like spring physics
+  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 }
+  const springX = useSpring(x, springConfig)
+  const springY = useSpring(y, springConfig)
   
   const handleMove = (e) => {
     const el = ref.current
@@ -13,12 +21,14 @@ function MagneticLink({ href, active, external, children }) {
     const rect = el.getBoundingClientRect()
     const cx = rect.left + rect.width / 2
     const cy = rect.top + rect.height / 2
-    const dx = (e.clientX - cx) * 0.35
-    const dy = (e.clientY - cy) * 0.5
-    setPosition({ x: dx, y: dy })
+    x.set((e.clientX - cx) * 0.35)
+    y.set((e.clientY - cy) * 0.5)
   }
   
-  const handleLeave = () => setPosition({ x: 0, y: 0 })
+  const handleLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
   
   return (
     <a
@@ -32,16 +42,15 @@ function MagneticLink({ href, active, external, children }) {
       className={cn(
         'group relative whitespace-nowrap pb-0.5 no-underline transition-colors before:absolute before:-inset-y-3 before:-inset-x-2 before:content-[""]',
         active ? 'text-ink' : 'text-muted hover:text-ink',
-        external && 'hover:text-cool' // External link specific hover
+        external && 'hover:text-cool'
       )}
     >
-      <span
-        className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }}
+      <motion.span
+        className="inline-block"
+        style={{ x: springX, y: springY }}
       >
         {children}
-      </span>
-      {/* Expanding underline effect */}
+      </motion.span>
       <span 
         aria-hidden="true" 
         className={cn(
@@ -49,8 +58,8 @@ function MagneticLink({ href, active, external, children }) {
           active 
             ? "left-0 w-full" 
             : "left-1/2 w-0 group-hover:left-0 group-hover:w-full",
-          !active && !external && "bg-ink group-hover:bg-ink", // Internal links use ink on hover, active is cool
-          external && "bg-cool" // External link underline is cool
+          !active && !external && "bg-ink group-hover:bg-ink",
+          external && "bg-cool"
         )} 
       />
     </a>

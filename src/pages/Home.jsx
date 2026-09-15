@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react'
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
@@ -7,54 +8,54 @@ import { ADVISORS, APPLY_DEADLINE, APPLY_URL, FOLLOW_URL, JOIN, NEWS, NORTH_STAR
 /* ---------- 3D tilt team card ---------- */
 function TiltCard({ member, index }) {
   const cardRef = useRef(null)
-  const innerRef = useRef(null)
-  const lightRef = useRef(null)
 
-  const onMove = useCallback((e) => {
+  const mouseX = useMotionValue(0.5)
+  const mouseY = useMotionValue(0.5)
+
+  // Fluid physics configuration
+  const springConfig = { damping: 20, stiffness: 150, mass: 0.5 }
+  const smoothX = useSpring(mouseX, springConfig)
+  const smoothY = useSpring(mouseY, springConfig)
+
+  // Rotate based on smooth mouse position
+  const rotateX = useTransform(smoothY, [0, 1], [10, -10])
+  const rotateY = useTransform(smoothX, [0, 1], [-10, 10])
+
+  // Scale and light opacity with separate springs for feel
+  const scale = useSpring(useMotionValue(1), { damping: 20, stiffness: 200 })
+  const lightOpacity = useSpring(useMotionValue(0), { damping: 20, stiffness: 100 })
+
+  // Transform coordinates for radial gradient string
+  const lightX = useTransform(smoothX, (x) => x * 100)
+  const lightY = useTransform(smoothY, (y) => y * 100)
+  const lightBg = useMotionTemplate`radial-gradient(circle at ${lightX}% ${lightY}%, rgba(110,155,255,0.18), transparent 60%)`
+
+  const onMove = (e) => {
     const el = cardRef.current
-    const inner = innerRef.current
-    const light = lightRef.current
-    if (!el || !inner) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const rect = el.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width
-    const y = (e.clientY - rect.top) / rect.height
-    const rotateX = (0.5 - y) * 10
-    const rotateY = (x - 0.5) * 10
+    mouseX.set((e.clientX - rect.left) / rect.width)
+    mouseY.set((e.clientY - rect.top) / rect.height)
+    scale.set(1.03)
+    lightOpacity.set(1)
+  }
 
-    inner.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`
-    if (light) {
-      light.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(110,155,255,0.18), transparent 60%)`
-      light.style.opacity = '1'
-    }
-  }, [])
-
-  const onLeave = useCallback(() => {
-    const inner = innerRef.current
-    const light = lightRef.current
-    if (!inner) return
-    inner.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)'
-    inner.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)'
-    if (light) light.style.opacity = '0'
-    setTimeout(() => { if (inner) inner.style.transition = 'transform 0.12s ease-out' }, 500)
-  }, [])
-
-  const onEnter = useCallback(() => {
-    const inner = innerRef.current
-    if (inner) inner.style.transition = 'transform 0.12s ease-out'
-  }, [])
+  const onLeave = () => {
+    mouseX.set(0.5)
+    mouseY.set(0.5)
+    scale.set(1)
+    lightOpacity.set(0)
+  }
 
   return (
     <div
       ref={cardRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      onMouseEnter={onEnter}
       className="scroll-reveal"
       style={{ '--sr-delay': `${index * 0.12}s` }}
     >
-      <div ref={innerRef} style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}>
+      <motion.div style={{ rotateX, rotateY, scale, transformStyle: 'preserve-3d', perspective: 800 }}>
         <a
           href={member.href}
           target="_blank"
@@ -78,9 +79,9 @@ function TiltCard({ member, index }) {
                 {member.initials}
               </div>
             )}
-            <div
-              ref={lightRef}
-              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+            <motion.div
+              style={{ opacity: lightOpacity, background: lightBg }}
+              className="pointer-events-none absolute inset-0"
             />
           </div>
           <p className="mt-4 mb-0.5 font-serif text-[1.25rem] tracking-[-0.012em]">{member.name}</p>
@@ -88,7 +89,7 @@ function TiltCard({ member, index }) {
             {member.role}
           </p>
         </a>
-      </div>
+      </motion.div>
     </div>
   )
 }
