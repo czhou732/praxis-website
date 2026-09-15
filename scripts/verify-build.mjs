@@ -80,7 +80,7 @@ for (const file of await htmlFiles(dist)) {
   }
 
   /* 4 + 5. only the declared app pages are prerendered; 404.html is standalone */
-  if (routes.includes(rel)) {
+  if (routes.includes(rel) && rel !== '404.html') {
     const OPEN = '<div id="root">'
     const start = html.indexOf(OPEN)
     const bodyEnd = html.lastIndexOf('</body>')
