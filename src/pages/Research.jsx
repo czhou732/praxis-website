@@ -272,7 +272,7 @@ export default function Research () {
                 className="py-12 first:pt-0"
               >
                 <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-12">
-                  <div className="scroll-reveal-img lg:w-[30rem] lg:shrink-0" style={{ '--sr-delay': `${i * 0.08}s` }}>
+                  <div className="scroll-reveal lg:w-[30rem] lg:shrink-0" style={{ '--sr-delay': `${i * 0.08}s` }}>
                     <img
                       src={e.photo}
                       alt={`${e.venue} — ${e.title}`}
