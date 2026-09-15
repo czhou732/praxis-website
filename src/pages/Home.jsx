@@ -69,12 +69,12 @@ function TiltCard({ member, index }) {
                 alt={member.name}
                 width="384"
                 height="512"
-                className="aspect-[3/4] w-full max-w-[13rem] border border-ink/13 object-cover grayscale opacity-85 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:opacity-100"
+                className="aspect-[3/4] w-full max-w-[13rem] object-cover opacity-90 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
               />
             ) : (
               <div
                 aria-hidden="true"
-                className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted"
+                className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center bg-gradient-to-b from-ink/10 to-transparent font-serif text-[2.4rem] text-muted/60 opacity-90 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
               >
                 {member.initials}
               </div>
