@@ -200,7 +200,7 @@ export function CardGrid({ children, cols = 3 }) {
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className={cn(
-        'group/grid relative grid gap-6 overflow-hidden',
+        'group/grid relative grid gap-px border border-ink/6 bg-ink/6 overflow-hidden',
         cols === 3
           ? '[grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))]'
           : '[grid-template-columns:repeat(auto-fit,minmax(20rem,1fr))]'
@@ -224,8 +224,8 @@ export function Card({ kicker, title, body, href }) {
       href={href}
       {...(href ? { target: '_blank', rel: 'noopener' } : {})}
       className={cn(
-        'group relative z-10 p-0 no-underline',
-        href && 'block transition-colors duration-200'
+        'group relative z-10 flex h-full flex-col bg-ground p-7 no-underline',
+        href && 'transition-colors duration-200 hover:bg-surface'
       )}
     >
       <span className="mb-3.5 block font-mono text-[0.7rem] uppercase tracking-[0.13em] text-cool">
