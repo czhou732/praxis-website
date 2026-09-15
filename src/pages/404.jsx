@@ -3,7 +3,7 @@ import { Reveal } from '../components/ui'
 
 export default function NotFound() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#06080D] flex flex-col items-center justify-center p-6 selection:bg-cool/30 selection:text-cool">
+    <div className="relative min-h-[100dvh] w-full overflow-hidden bg-[#06080D] flex flex-col items-center justify-center p-6 selection:bg-cool/30 selection:text-cool">
       {/* Film Grain */}
       <div 
         className="pointer-events-none fixed inset-0 z-[9999] opacity-[0.025] mix-blend-screen"

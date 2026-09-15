@@ -144,9 +144,9 @@ function MarkovReveal({ text }) {
 
 export function SectionHead({ num, title, id }) {
   return (
-    <div id={id} className="group relative mb-10 flex scroll-mt-24 items-baseline border-b border-ink/6 pb-4">
+    <div id={id} className="group relative mb-12 flex scroll-mt-24 items-baseline pb-4">
       {num && (
-        <span className="section-num tnum shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool w-8 md:absolute md:-left-[2.8rem] md:top-[0.8rem] md:w-auto">
+        <span className="section-num tnum shrink-0 font-mono text-[0.65rem] tracking-[0.12em] text-cool/70 w-8 md:absolute md:-left-[2.8rem] md:top-[0.8rem] md:w-auto">
           {num}
         </span>
       )}
@@ -171,7 +171,7 @@ export function Band({ children, className, first = false }) {
     <section
       className={cn(
         'mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)]',
-        first ? 'py-[clamp(2.25rem,4.5vw,3.25rem)]' : 'border-t border-ink/6 py-[clamp(3.5rem,9vw,6.5rem)]',
+        first ? 'py-[clamp(2.25rem,4.5vw,3.25rem)]' : 'py-[clamp(4rem,10vw,7rem)]',
         className
       )}
     >

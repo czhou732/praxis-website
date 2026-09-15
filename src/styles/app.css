@@ -114,13 +114,13 @@
     #hero .grid-pattern {
       animation: parallax-bg linear both;
       animation-timeline: scroll();
-      animation-range: 0vh 100vh;
+      animation-range: 0vh 100dvh;
     }
     
     #hero .relative.z-1 {
       animation: parallax-fg linear both;
       animation-timeline: scroll();
-      animation-range: 0vh 100vh;
+      animation-range: 0vh 100dvh;
     }
   }
 }
@@ -339,11 +339,27 @@ html.js .scroll-reveal.sr-visible {
   filter: blur(0);
 }
 
+/* Image-specific reveal: clip-path wipe instead of blur+rise */
+html.js .scroll-reveal-img {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) var(--sr-delay, 0s),
+    clip-path 1.1s cubic-bezier(0.22, 1, 0.36, 1) var(--sr-delay, 0s);
+}
+
+html.js .scroll-reveal-img.sr-visible {
+  opacity: 1;
+  clip-path: inset(0 0 0% 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html.js .scroll-reveal {
+  html.js .scroll-reveal,
+  html.js .scroll-reveal-img {
     opacity: 1;
     transform: none;
     filter: none;
+    clip-path: none;
     transition: none;
   }
 }

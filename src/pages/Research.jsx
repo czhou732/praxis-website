@@ -218,7 +218,7 @@ function useScrollReveal() {
       },
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     )
-    const els = document.querySelectorAll('.scroll-reveal')
+    const els = document.querySelectorAll('.scroll-reveal, .scroll-reveal-img')
     els.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
@@ -229,7 +229,7 @@ export default function Research () {
 
   return (
     <Layout current="/research/">
-      <header className="mx-auto w-full max-w-[74rem] border-b border-ink/6 px-[clamp(1.25rem,5vw,4rem)] pt-[clamp(3rem,9vw,5.5rem)] pb-[clamp(2rem,5vw,3rem)]">
+      <header className="mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] pt-[clamp(3rem,9vw,5.5rem)] pb-[clamp(2rem,5vw,3rem)]">
         <Eyebrow>Portfolio</Eyebrow>
         <h1 className="mt-5 max-w-[18ch] font-serif text-[clamp(2.3rem,5.5vw,3.8rem)] leading-[1.02] tracking-[-0.025em]">
           Research
@@ -262,10 +262,10 @@ export default function Research () {
             {CONFERENCES.map((e, i) => (
               <article
                 key={e.title}
-                className="border-t border-ink/13 py-12 first:border-t-0 first:pt-0"
+                className="py-12 first:pt-0"
               >
                 <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:gap-12">
-                  <div className="lg:w-[30rem] lg:shrink-0">
+                  <div className="scroll-reveal-img lg:w-[30rem] lg:shrink-0" style={{ '--sr-delay': `${i * 0.08}s` }}>
                     <img
                       src={e.photo}
                       alt={`${e.venue} — ${e.title}`}

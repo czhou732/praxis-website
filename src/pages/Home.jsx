@@ -98,7 +98,7 @@ function TiltCard({ member, index }) {
 function useScrollReveal() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('sr-visible'))
+      document.querySelectorAll('.scroll-reveal, .scroll-reveal-img').forEach(el => el.classList.add('sr-visible'))
       return
     }
 
@@ -114,7 +114,7 @@ function useScrollReveal() {
       { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
     )
 
-    document.querySelectorAll('.scroll-reveal').forEach(el => io.observe(el))
+    document.querySelectorAll('.scroll-reveal, .scroll-reveal-img').forEach(el => io.observe(el))
     return () => io.disconnect()
   }, [])
 }
@@ -160,7 +160,7 @@ export default function Home() {
 
   return (
     <Layout current="/">
-      <section id="hero" className="relative flex min-h-[min(86vh,780px)] items-center overflow-hidden border-b border-ink/6 bg-[#080B11]">
+      <section id="hero" className="relative flex min-h-[min(86dvh,780px)] items-center overflow-hidden bg-[#080B11]">
         <div ref={bgRef} aria-hidden="true" className="grid-pattern pointer-events-none absolute inset-0 z-0" />
         <PsiField />
         <div ref={fgRef} className="relative z-1 mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)]">
@@ -235,7 +235,7 @@ export default function Home() {
             {NORTH_STAR.map((item, i) => (
               <li
                 key={item}
-                className="scroll-reveal grid grid-cols-[2.6rem_1fr] items-start gap-4 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+                className="scroll-reveal grid grid-cols-[2.6rem_1fr] items-start gap-4 py-5"
                 style={{ '--sr-delay': `${i * 0.1}s` }}
               >
                 <span className="pt-1.5 font-mono text-[0.72rem] text-cool">
@@ -296,7 +296,7 @@ export default function Home() {
             {JOIN.map((row, i) => (
               <li
                 key={row.k}
-                className="scroll-reveal grid grid-cols-[3.4rem_1fr] items-baseline gap-5 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+                className="scroll-reveal grid grid-cols-[3.4rem_1fr] items-baseline gap-5 py-5"
                 style={{ '--sr-delay': `${i * 0.08}s` }}
               >
                 <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-cool">
@@ -344,7 +344,7 @@ export default function Home() {
                 <Tag
                   key={a.name}
                   {...(a.href ? { href: a.href, target: '_blank', rel: 'noopener' } : {})}
-                  className="scroll-reveal group flex items-baseline justify-between gap-6 border-t border-ink/6 py-5 text-inherit no-underline first:border-t-0 first:pt-0"
+                  className="scroll-reveal group flex items-baseline justify-between gap-6 py-5 text-inherit no-underline"
                   style={{ '--sr-delay': `${i * 0.1}s` }}
                 >
                   <span
