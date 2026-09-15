@@ -259,6 +259,32 @@ html.boot [data-boot].boot-in {
     animation-timeline: view();
     animation-range: entry 0% entry 55%;
   }
+
+  /* Parallax depth: section numbers float upward faster than content */
+  @media (prefers-reduced-motion: no-preference) {
+    .section-num {
+      animation: parallax-num linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    .section-title {
+      animation: parallax-title linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes parallax-num {
+  from { transform: translateY(30px); opacity: 0.3; }
+  15% { opacity: 1; }
+  to { transform: translateY(-40px); opacity: 0.3; }
+}
+
+@keyframes parallax-title {
+  from { transform: translateY(15px); }
+  to { transform: translateY(-15px); }
 }
 
 @keyframes reveal-in {

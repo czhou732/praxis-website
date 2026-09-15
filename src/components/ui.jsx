@@ -146,11 +146,11 @@ export function SectionHead({ num, title, id }) {
   return (
     <div id={id} className="group relative mb-10 flex scroll-mt-24 items-baseline border-b border-ink/6 pb-4">
       {num && (
-        <span className="tnum shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool w-8 md:absolute md:-left-[2.8rem] md:top-[0.8rem] md:w-auto">
+        <span className="section-num tnum shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool w-8 md:absolute md:-left-[2.8rem] md:top-[0.8rem] md:w-auto">
           {num}
         </span>
       )}
-      <h2 className="font-serif text-[clamp(1.85rem,4vw,2.7rem)] leading-[1.12] tracking-[-0.02em]">
+      <h2 className="section-title font-serif text-[clamp(1.85rem,4vw,2.7rem)] leading-[1.12] tracking-[-0.02em]">
         <MarkovReveal text={title} />
       </h2>
       {id && (

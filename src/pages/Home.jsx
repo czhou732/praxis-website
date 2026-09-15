@@ -1,8 +1,91 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
 import { ADVISORS, APPLY_DEADLINE, APPLY_URL, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+
+/* ---------- 3D tilt team card ---------- */
+function TiltCard({ member, index }) {
+  const cardRef = useRef(null)
+  const innerRef = useRef(null)
+  const lightRef = useRef(null)
+
+  const onMove = useCallback((e) => {
+    const el = cardRef.current
+    const inner = innerRef.current
+    const light = lightRef.current
+    if (!el || !inner) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const rect = el.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    const rotateX = (0.5 - y) * 10
+    const rotateY = (x - 0.5) * 10
+
+    inner.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`
+    if (light) {
+      light.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(110,155,255,0.18), transparent 60%)`
+      light.style.opacity = '1'
+    }
+  }, [])
+
+  const onLeave = useCallback(() => {
+    const inner = innerRef.current
+    const light = lightRef.current
+    if (!inner) return
+    inner.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)'
+    inner.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)'
+    if (light) light.style.opacity = '0'
+    setTimeout(() => { if (inner) inner.style.transition = 'transform 0.12s ease-out' }, 500)
+  }, [])
+
+  const onEnter = useCallback(() => {
+    const inner = innerRef.current
+    if (inner) inner.style.transition = 'transform 0.12s ease-out'
+  }, [])
+
+  return (
+    <a
+      ref={cardRef}
+      href={member.href}
+      target="_blank"
+      rel="noopener"
+      style={{ '--card-i': index }}
+      className="group block text-inherit no-underline"
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      onMouseEnter={onEnter}
+    >
+      <div ref={innerRef} className="relative" style={{ transformStyle: 'preserve-3d' }}>
+        <div
+          ref={lightRef}
+          className="pointer-events-none absolute inset-0 z-10 rounded-sm opacity-0 transition-opacity duration-300"
+        />
+        {member.photo ? (
+          <img
+            src={member.photo}
+            alt={member.name}
+            width="384"
+            height="512"
+            className="aspect-[3/4] w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale opacity-85 shadow-none transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:opacity-100 group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
+          >
+            {member.initials}
+          </div>
+        )}
+      </div>
+      <p className="mt-4 mb-0.5 font-serif text-[1.25rem] tracking-[-0.012em]">{member.name}</p>
+      <p className="m-0 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-muted">
+        {member.role}
+      </p>
+    </a>
+  )
+}
 
 export default function Home() {
   const bgRef = useRef(null)
@@ -162,35 +245,7 @@ export default function Home() {
           <SectionHead num="04" title="Who runs it" id="team" />
           <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))] group/roster">
             {TEAM.map((m, i) => (
-              <a 
-                key={m.name} 
-                href={m.href} 
-                target="_blank" 
-                rel="noopener" 
-                style={{ '--card-i': i }}
-                className="group block text-inherit no-underline transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:scale-[1.03] hover:z-10 focus-visible:-translate-y-1.5 focus-visible:scale-[1.03]"
-              >
-                {m.photo ? (
-                  <img
-                    src={m.photo}
-                    alt={m.name}
-                    width="384"
-                    height="512"
-                    className="aspect-[3/4] w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale opacity-85 shadow-none transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:opacity-100 group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)] group-focus-visible:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
-                  />
-                ) : (
-                  <div
-                    aria-hidden="true"
-                    className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
-                  >
-                    {m.initials}
-                  </div>
-                )}
-                <p className="mt-4 mb-0.5 font-serif text-[1.25rem] tracking-[-0.012em]">{m.name}</p>
-                <p className="m-0 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-muted">
-                  {m.role}
-                </p>
-              </a>
+              <TiltCard key={m.name} member={m} index={i} />
             ))}
           </div>
         </Reveal>
