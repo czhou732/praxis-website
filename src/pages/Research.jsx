@@ -208,17 +208,24 @@ function LatentSpace() {
 function useScrollReveal() {
   useEffect(() => {
     if (typeof window === 'undefined') return
+    const els = document.querySelectorAll('.scroll-reveal, .scroll-reveal-img')
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(el => el.classList.add('sr-visible'))
+      return
+    }
+    
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add('sr-visible')
+            observer.unobserve(entry.target)
           }
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -50px 0px' }
     )
-    const els = document.querySelectorAll('.scroll-reveal, .scroll-reveal-img')
     els.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
