@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
-import { hydrateRoot } from 'react-dom/client'
+import { hydrateRoot, createRoot } from 'react-dom/client'
 import '../styles/app.css'
 import Home from '../pages/Home'
 
-hydrateRoot(
-  document.getElementById('root'),
-  <StrictMode>
-    <Home />
-  </StrictMode>
-)
+const root = document.getElementById('root')
+if (import.meta.env.DEV) {
+  createRoot(root).render(<StrictMode><Home /></StrictMode>)
+} else {
+  hydrateRoot(root, <StrictMode><Home /></StrictMode>)
+}

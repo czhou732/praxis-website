@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
-import { hydrateRoot } from 'react-dom/client'
+import { hydrateRoot, createRoot } from 'react-dom/client'
 import '../styles/app.css'
 import NotFound from '../pages/404'
 
-hydrateRoot(
-  document.getElementById('root'),
-  <StrictMode>
-    <NotFound />
-  </StrictMode>
-)
+const root = document.getElementById('root')
+if (import.meta.env.DEV) {
+  createRoot(root).render(<StrictMode><NotFound /></StrictMode>)
+} else {
+  hydrateRoot(root, <StrictMode><NotFound /></StrictMode>)
+}

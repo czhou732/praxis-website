@@ -46,50 +46,83 @@ function TiltCard({ member, index }) {
   }, [])
 
   return (
-    <a
+    <div
       ref={cardRef}
-      href={member.href}
-      target="_blank"
-      rel="noopener"
-      style={{ '--card-i': index }}
-      className="group block text-inherit no-underline"
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       onMouseEnter={onEnter}
+      className="scroll-reveal"
+      style={{ '--sr-delay': `${index * 0.12}s` }}
     >
-      <div ref={innerRef} className="relative" style={{ transformStyle: 'preserve-3d' }}>
-        <div
-          ref={lightRef}
-          className="pointer-events-none absolute inset-0 z-10 rounded-sm opacity-0 transition-opacity duration-300"
-        />
-        {member.photo ? (
-          <img
-            src={member.photo}
-            alt={member.name}
-            width="384"
-            height="512"
-            className="aspect-[3/4] w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale opacity-85 shadow-none transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:opacity-100 group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
-          />
-        ) : (
-          <div
-            aria-hidden="true"
-            className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
-          >
-            {member.initials}
+      <div ref={innerRef} style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}>
+        <a
+          href={member.href}
+          target="_blank"
+          rel="noopener"
+          className="group block text-inherit no-underline"
+        >
+          <div className="relative overflow-hidden rounded-sm">
+            {member.photo ? (
+              <img
+                src={member.photo}
+                alt={member.name}
+                width="384"
+                height="512"
+                className="aspect-[3/4] w-full max-w-[13rem] border border-ink/13 object-cover grayscale opacity-85 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:opacity-100"
+              />
+            ) : (
+              <div
+                aria-hidden="true"
+                className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted"
+              >
+                {member.initials}
+              </div>
+            )}
+            <div
+              ref={lightRef}
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+            />
           </div>
-        )}
+          <p className="mt-4 mb-0.5 font-serif text-[1.25rem] tracking-[-0.012em]">{member.name}</p>
+          <p className="m-0 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-muted">
+            {member.role}
+          </p>
+        </a>
       </div>
-      <p className="mt-4 mb-0.5 font-serif text-[1.25rem] tracking-[-0.012em]">{member.name}</p>
-      <p className="m-0 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-muted">
-        {member.role}
-      </p>
-    </a>
+    </div>
   )
+}
+
+/* ---------- Scroll-reveal hook: Apple-style staggered reveal ---------- */
+function useScrollReveal() {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('sr-visible'))
+      return
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('sr-visible')
+            io.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
+    )
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => io.observe(el))
+    return () => io.disconnect()
+  }, [])
 }
 
 export default function Home() {
   const bgRef = useRef(null)
   const fgRef = useRef(null)
+
+  useScrollReveal()
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -106,7 +139,6 @@ export default function Home() {
       }
       if (fgRef.current) {
         fgRef.current.style.transform = `translateY(${scrolled * 60}px)`
-        // Start fading opacity quickly after scrolling
         fgRef.current.style.opacity = Math.max(0, 1 - (scrolled * 1.2))
       }
     }
@@ -194,7 +226,7 @@ export default function Home() {
       <Band>
         <Reveal>
           <SectionHead num="01" title="The north star" id="north-star" />
-          <p className="measure mb-10 text-[1.15rem] leading-[1.6] text-ink-2">
+          <p className="measure mb-10 text-[1.15rem] leading-[1.6] text-ink-2 scroll-reveal" style={{ '--sr-delay': '0s' }}>
             Four things we intend to be true within three years. Everything the group does is
             measured against them.
           </p>
@@ -202,7 +234,8 @@ export default function Home() {
             {NORTH_STAR.map((item, i) => (
               <li
                 key={item}
-                className="grid grid-cols-[2.6rem_1fr] items-start gap-4 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+                className="scroll-reveal grid grid-cols-[2.6rem_1fr] items-start gap-4 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+                style={{ '--sr-delay': `${i * 0.1}s` }}
               >
                 <span className="pt-1.5 font-mono text-[0.72rem] text-cool">
                   {String(i + 1).padStart(2, '0')}
@@ -217,13 +250,15 @@ export default function Home() {
       <Band>
         <Reveal>
           <SectionHead num="02" title="A research group first" id="pillars" />
-          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 pb-9 font-mono text-[0.75rem] uppercase tracking-[0.1em] text-muted">
+          <div className="scroll-reveal flex flex-wrap items-baseline gap-x-4 gap-y-2 pb-9 font-mono text-[0.75rem] uppercase tracking-[0.1em] text-muted" style={{ '--sr-delay': '0s' }}>
             <a href="/research/#conferences" className="border-b border-transparent pb-0.5 text-muted no-underline transition-colors hover:text-cool">Recent presentations <span aria-hidden="true">→</span></a>
             <span className="text-ink-2">CPC · USC Symposium · NeuroTech @ UC Berkeley</span>
           </div>
           <CardGrid cols={3}>
-            {PILLARS.map((p) => (
-              <Card key={p.title} kicker={p.kicker} title={p.title} body={p.body} />
+            {PILLARS.map((p, i) => (
+              <div key={p.title} className="scroll-reveal" style={{ '--sr-delay': `${i * 0.12}s` }}>
+                <Card kicker={p.kicker} title={p.title} body={p.body} />
+              </div>
             ))}
           </CardGrid>
         </Reveal>
@@ -233,8 +268,10 @@ export default function Home() {
         <Reveal>
           <SectionHead num="03" title="Open source" id="code" />
           <CardGrid cols={2}>
-            {REPOS.map((r) => (
-              <Card key={r.href} kicker={r.kicker} title={r.title} body={r.body} href={r.href} />
+            {REPOS.map((r, i) => (
+              <div key={r.href} className="scroll-reveal" style={{ '--sr-delay': `${i * 0.15}s` }}>
+                <Card kicker={r.kicker} title={r.title} body={r.body} href={r.href} />
+              </div>
             ))}
           </CardGrid>
         </Reveal>
@@ -243,7 +280,7 @@ export default function Home() {
       <Band>
         <Reveal>
           <SectionHead num="04" title="Who runs it" id="team" />
-          <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))] group/roster">
+          <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))]">
             {TEAM.map((m, i) => (
               <TiltCard key={m.name} member={m} index={i} />
             ))}
@@ -255,10 +292,11 @@ export default function Home() {
         <Reveal>
           <SectionHead num="05" title="Join" id="join" />
           <ul className="list-none p-0 max-w-[46rem]">
-            {JOIN.map((row) => (
+            {JOIN.map((row, i) => (
               <li
                 key={row.k}
-                className="grid grid-cols-[3.4rem_1fr] items-baseline gap-5 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+                className="scroll-reveal grid grid-cols-[3.4rem_1fr] items-baseline gap-5 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
+                style={{ '--sr-delay': `${i * 0.08}s` }}
               >
                 <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-cool">
                   {row.k}
@@ -282,11 +320,10 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          {/* Scarcity + deadline note — visible before someone clicks any button. */}
-          <p className="mt-8 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted">
+          <p className="scroll-reveal mt-8 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted" style={{ '--sr-delay': '0.4s' }}>
             <span className="text-cool">Fall '26 core recruitment</span> · 3-4 slots · closes {APPLY_DEADLINE}
           </p>
-          <div className="mt-3 flex flex-wrap gap-3">
+          <div className="scroll-reveal mt-3 flex flex-wrap gap-3" style={{ '--sr-delay': '0.5s' }}>
             <Button href={APPLY_URL} target="_blank" rel="noopener">Apply to join</Button>
             <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`} variant="ghost">Get in touch</Button>
             <Button href={FOLLOW_URL} variant="ghost" target="_blank" rel="noopener">
@@ -300,13 +337,14 @@ export default function Home() {
         <Reveal>
           <SectionHead num="06" title="Advisors" id="advisors" />
           <div className="max-w-[46rem]">
-            {ADVISORS.map((a) => {
+            {ADVISORS.map((a, i) => {
               const Tag = a.href ? 'a' : 'div'
               return (
                 <Tag
                   key={a.name}
                   {...(a.href ? { href: a.href, target: '_blank', rel: 'noopener' } : {})}
-                  className="group flex items-baseline justify-between gap-6 border-t border-ink/6 py-5 text-inherit no-underline first:border-t-0 first:pt-0"
+                  className="scroll-reveal group flex items-baseline justify-between gap-6 border-t border-ink/6 py-5 text-inherit no-underline first:border-t-0 first:pt-0"
+                  style={{ '--sr-delay': `${i * 0.1}s` }}
                 >
                   <span
                     className={

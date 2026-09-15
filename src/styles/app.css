@@ -319,3 +319,31 @@ html.boot [data-boot].boot-in {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Apple-style scroll reveal ----------
+   Individual elements use .scroll-reveal with --sr-delay for stagger.
+   JS adds .sr-visible when element enters viewport. */
+html.js .scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px) scale(0.97);
+  filter: blur(4px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--sr-delay, 0s),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--sr-delay, 0s),
+    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--sr-delay, 0s);
+}
+
+html.js .scroll-reveal.sr-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}

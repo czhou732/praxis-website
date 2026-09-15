@@ -53,6 +53,7 @@ export function PsiField() {
     let rows = []
     let raf = null
     let clock = 0
+    let targetClock = 0
     let last = performance.now()
     let started = performance.now()
     let w = 0
@@ -301,7 +302,16 @@ export function PsiField() {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       const reduced = reducedQuery.matches
-      if (!reduced) clock += dt
+      if (!reduced) {
+        if (mx > -900) {
+          const mouseScrub = (mx / w) * 15
+          const scrollScrub = (window.scrollY / Math.max(1, window.innerHeight)) * 10
+          targetClock = mouseScrub + scrollScrub
+        } else {
+          targetClock += dt * 0.8
+        }
+        clock += (targetClock - clock) * 0.08
+      }
 
       const e = Math.min(1, (performance.now() - started) / (reduced ? 1400 : 2400))
       const eased = e * e * (3 - 2 * e)
