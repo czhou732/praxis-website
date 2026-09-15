@@ -1,15 +1,53 @@
+import { useEffect, useRef } from 'react'
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
 import { ADVISORS, APPLY_DEADLINE, APPLY_URL, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
 
 export default function Home() {
+  const bgRef = useRef(null)
+  const fgRef = useRef(null)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let raf = null
+    const onScroll = () => {
+      const y = window.scrollY
+      if (y > window.innerHeight) return
+      
+      const scrolled = y / window.innerHeight
+      
+      if (bgRef.current) {
+        bgRef.current.style.transform = `translateY(${scrolled * 180}px)`
+      }
+      if (fgRef.current) {
+        fgRef.current.style.transform = `translateY(${scrolled * 60}px)`
+        // Start fading opacity quickly after scrolling
+        fgRef.current.style.opacity = Math.max(0, 1 - (scrolled * 1.2))
+      }
+    }
+
+    const handler = () => {
+      if (raf) cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(onScroll)
+    }
+
+    window.addEventListener('scroll', handler, { passive: true })
+    handler()
+
+    return () => {
+      window.removeEventListener('scroll', handler)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
     <Layout current="/">
-      <section id="hero" className="relative flex min-h-[min(86vh,780px)] items-center overflow-hidden border-b border-ink/6">
-        <div aria-hidden="true" className="grid-pattern pointer-events-none absolute inset-0 z-0" />
+      <section id="hero" className="relative flex min-h-[min(86vh,780px)] items-center overflow-hidden border-b border-ink/6 bg-[#080B11]">
+        <div ref={bgRef} aria-hidden="true" className="grid-pattern pointer-events-none absolute inset-0 z-0" />
         <PsiField />
-        <div className="relative z-1 mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)]">
+        <div ref={fgRef} className="relative z-1 mx-auto w-full max-w-[74rem] px-[clamp(1.25rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)]">
           <div data-boot>
             <Eyebrow>{SITE.expansion}</Eyebrow>
           </div>
@@ -17,7 +55,8 @@ export default function Home() {
             From theory into tools that reach patients.
           </h1>
           <p data-boot className="measure mt-7 text-[1.15rem] leading-[1.6] text-ink-2">{SITE.mission}</p>
-          <div data-boot className="mt-10 flex flex-wrap gap-3">
+          
+          <div data-boot className="mt-12 flex flex-wrap gap-3">
             <Button href="/events/">Fall 2026 Speaker Series</Button>
             <Button href="/research/" variant="ghost">Current Research</Button>
           </div>
@@ -121,21 +160,28 @@ export default function Home() {
       <Band>
         <Reveal>
           <SectionHead num="04" title="Who runs it" id="team" />
-          <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))]">
-            {TEAM.map((m) => (
-              <a key={m.name} href={m.href} target="_blank" rel="noopener" className="group block text-inherit no-underline">
+          <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))] group/roster">
+            {TEAM.map((m, i) => (
+              <a 
+                key={m.name} 
+                href={m.href} 
+                target="_blank" 
+                rel="noopener" 
+                style={{ '--card-i': i }}
+                className="group block text-inherit no-underline transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:scale-[1.03] hover:z-10 focus-visible:-translate-y-1.5 focus-visible:scale-[1.03]"
+              >
                 {m.photo ? (
                   <img
                     src={m.photo}
                     alt={m.name}
                     width="384"
                     height="512"
-                    className="aspect-[3/4] w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale transition-[filter] duration-300 group-hover:grayscale-0"
+                    className="aspect-[3/4] w-full max-w-[13rem] rounded-sm border border-ink/13 object-cover grayscale opacity-85 shadow-none transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:opacity-100 group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)] group-focus-visible:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
                   />
                 ) : (
                   <div
                     aria-hidden="true"
-                    className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted"
+                    className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center rounded-sm border border-ink/13 bg-surface font-serif text-[2.4rem] text-muted transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:shadow-[0_15px_30px_-10px_rgba(110,155,255,0.15)]"
                   >
                     {m.initials}
                   </div>

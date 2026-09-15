@@ -1,0 +1,45 @@
+name: "🚀 New Project Pitch (THE JURY)"
+description: "Propose a new research direction or engineering initiative."
+title: "[Pitch]: <Proposed Project Name>"
+labels: ["proposal", "strategy"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        *Based on the PRAXIS Strategic Acceleration Framework.*
+        New projects require significant capital (time, computing, attention). Prove the asymmetry of the bet.
+  - type: textarea
+    id: structural_hole
+    attributes:
+      label: "1. The Structural Hole"
+      description: "What is the gap between networks that don't communicate? (e.g. bridging clinical neuro and RL theory)."
+      placeholder: "No one has formally tested dopaminergic substrate logic on XYZ..."
+    validations:
+      required: true
+  - type: textarea
+    id: optionality
+    attributes:
+      label: "2. Optionality & Downside"
+      description: "Bounded downside, uncapped upside. If this completely fails, what reusable artifact do we keep?"
+      placeholder: "Even if the paper gets rejected, we open-source a usable PyTorch pipeline."
+    validations:
+      required: true
+  - type: textarea
+    id: signal
+    attributes:
+      label: "3. Signal Theory"
+      description: "Who is the gatekeeper this signals to? (e.g., PI, PhD Committee, Top-tier conference)."
+      placeholder: "This creates a strong signal for computational psychiatry PIs because..."
+    validations:
+      required: true
+  - type: dropdown
+    id: legibility
+    attributes:
+      label: "4. Legibility (End Goal)"
+      description: "How visible will the final output be?"
+      options:
+        - "✅ Public GitHub Repo + bioRxiv preprint"
+        - "✅ Peer-Reviewed Journal Article"
+        - "❌ Invisible / Internal Lab Tool"
+    validations:
+      required: true

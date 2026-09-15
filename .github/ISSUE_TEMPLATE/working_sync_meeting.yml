@@ -1,0 +1,43 @@
+name: "📅 Tactical Sync (WORKING)"
+description: "Request a working session or progress sync with Peter."
+title: "[Sync]: <Project Name> - <Specific Topic>"
+labels: ["meeting", "sync"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        *Based on the PRAXIS WORKING Archetype.*
+        This template ensures our syncs are highly tactical and actionable. Do not request a sync without data, logs, or specific blockers.
+  - type: textarea
+    id: status
+    attributes:
+      label: "1. STATUS (Current State)"
+      description: "What is the synchronized ground truth? Link to PRs, data, or documents."
+      placeholder: "e.g., Training completed on Epoch 50. Loss plateaued at 0.24. Data uploaded to Google Drive."
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: "2. BLOCKERS (The Friction)"
+      description: "What specifically is stuck? Be precise so we can unblock it."
+      placeholder: "e.g., The gradient vanishes when alpha < 0.01 in the RL loop. I have tried XYZ."
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: "3. DECISIONS (Needed from Peter)"
+      description: "List max 3 specific decisions you need from me to proceed."
+      placeholder: "- Do we drop the eGeMAPS acoustic feature set?\n- Should we pivot to a 2-parameter model?"
+    validations:
+      required: true
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: "Pre-flight Checklist"
+      options:
+        - label: "I have attached all necessary Pre-read materials (data, logs, PDFs)."
+          required: true
+        - label: "My proposed agenda items will take <= 15 minutes to clear."
+          required: true

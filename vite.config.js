@@ -14,7 +14,8 @@ export const PAGES = {
   speakers: './speakers/index.html',
   syllabus: './syllabus/index.html',
   events: './events/index.html',
-  podcast: './podcast/index.html'
+  podcast: './podcast/index.html',
+  '404': './404.html'
 }
 
 export default defineConfig({

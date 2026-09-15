@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -89,22 +89,75 @@ export function Eyebrow({ children, className }) {
   )
 }
 
+function MarkovReveal({ text }) {
+  const [display, setDisplay] = useState('')
+  const [revealed, setRevealed] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !revealed) {
+        setRevealed(true)
+        observer.disconnect()
+        
+        const chars = '01ACTGλψ+-'
+        let iterations = 0
+        const maxIterations = 20
+        
+        const interval = setInterval(() => {
+          setDisplay(() => {
+            return text
+              .split('')
+              .map((letter, index) => {
+                if (letter === ' ') return ' '
+                // Probabilistic lock-in: characters lock from left to right as iterations increase
+                if (index < (iterations / maxIterations) * text.length) {
+                  return letter
+                }
+                return chars[Math.floor(Math.random() * chars.length)]
+              })
+              .join('')
+          })
+          
+          if (iterations >= maxIterations) clearInterval(interval)
+          iterations += 1
+        }, 40) // 40ms per frame
+      }
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
+
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+    }
+  }, [text, revealed])
+
+  // Prerender safe: show text if not hydrated, or keep opacity 0 before reveal to avoid flash
+  return (
+    <span ref={ref} className="inline-block transition-opacity duration-300">
+      {display || text}
+    </span>
+  )
+}
+
 export function SectionHead({ num, title, id }) {
   return (
-    <div id={id} className="group mb-10 flex scroll-mt-24 items-baseline gap-[1.1rem] border-b border-ink/6 pb-4">
+    <div id={id} className="group relative mb-10 flex scroll-mt-24 items-baseline border-b border-ink/6 pb-4">
       {num && (
-        <span className="tnum shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool">
+        <span className="tnum shrink-0 font-mono text-[0.72rem] tracking-[0.1em] text-cool w-8 md:absolute md:-left-[2.8rem] md:top-[0.8rem] md:w-auto">
           {num}
         </span>
       )}
       <h2 className="font-serif text-[clamp(1.85rem,4vw,2.7rem)] leading-[1.12] tracking-[-0.02em]">
-        {title}
+        <MarkovReveal text={title} />
       </h2>
       {id && (
         <a
           href={`#${id}`}
           aria-label={`Link to ${title}`}
-          className="font-mono text-[0.9rem] text-muted no-underline opacity-0 transition-all hover:text-cool focus-visible:opacity-100 group-hover:opacity-100"
+          className="ml-[1.1rem] font-mono text-[0.9rem] text-muted no-underline opacity-0 transition-all hover:text-cool focus-visible:opacity-100 group-hover:opacity-100"
         >
           ¶
         </a>
@@ -130,15 +183,35 @@ export function Band({ children, className, first = false }) {
 /* ---------- hairline card grid ---------- */
 
 export function CardGrid({ children, cols = 3 }) {
+  const handlePointerMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
+  }
+  const handlePointerLeave = (e) => {
+    e.currentTarget.style.setProperty('--mouse-x', `-999px`)
+    e.currentTarget.style.setProperty('--mouse-y', `-999px`)
+  }
+
   return (
     <div
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       className={cn(
-        'grid gap-px border border-ink/6 bg-ink/6',
+        'group/grid relative grid gap-px border border-ink/6 bg-ink/6 overflow-hidden',
         cols === 3
           ? '[grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))]'
           : '[grid-template-columns:repeat(auto-fit,minmax(20rem,1fr))]'
       )}
     >
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-0 mix-blend-screen transition-opacity duration-500 group-hover/grid:opacity-100"
+        style={{
+          background: 'radial-gradient(400px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(110, 155, 255, 0.4), transparent 40%)'
+        }}
+      />
       {children}
     </div>
   )
@@ -151,7 +224,7 @@ export function Card({ kicker, title, body, href }) {
       href={href}
       {...(href ? { target: '_blank', rel: 'noopener' } : {})}
       className={cn(
-        'group relative bg-ground p-7 no-underline',
+        'group relative z-10 bg-ground p-7 no-underline',
         href && 'block transition-colors duration-200 hover:bg-surface'
       )}
     >

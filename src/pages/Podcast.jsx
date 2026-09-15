@@ -8,30 +8,61 @@ import { EPISODES, SHOW, UPCOMING_EPISODES } from '../data/podcast'
 /** The same black-and-white card treatment from Events, reused here as the
  *  primary episode display. PΨ badge, serif title, ink play button. */
 function EpisodeCard({ ep, large }) {
+  const handlePointerMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
+  }
+  const handlePointerLeave = (e) => {
+    e.currentTarget.style.setProperty('--mouse-x', `-999px`)
+    e.currentTarget.style.setProperty('--mouse-y', `-999px`)
+  }
+
   return (
     <a
       href={ep.spotify}
       target="_blank"
       rel="noopener"
-      className={`group flex items-center gap-4 rounded-xl border border-ink/13 bg-surface p-4 text-inherit no-underline transition-colors hover:border-cool/60 ${large ? 'max-w-[46rem]' : 'max-w-[36rem]'}`}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className={`group relative flex items-center gap-4 rounded-xl border border-ink/13 bg-surface p-4 text-inherit no-underline transition-colors hover:border-cool/60 overflow-hidden ${large ? 'max-w-[46rem]' : 'max-w-[36rem]'}`}
     >
-      <span
+      {/* Impeccable Spotlight Glow */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-0 mix-blend-screen transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background: 'radial-gradient(400px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(110, 155, 255, 0.15), transparent 40%)'
+        }}
+      />
+      <div
         aria-hidden="true"
-        className={`flex flex-none items-center justify-center rounded-lg border border-ink/13 bg-ground font-serif text-ink ${large ? 'h-16 w-16 text-[1.6rem]' : 'h-14 w-14 text-[1.4rem]'}`}
+        className={`relative z-10 flex flex-none items-center justify-center rounded-lg border border-ink/13 bg-ground font-serif text-ink transition-colors overflow-hidden group-hover:border-cool/40 group-hover:text-cool ${large ? 'h-16 w-16 text-[1.6rem]' : 'h-14 w-14 text-[1.4rem]'}`}
       >
-        PΨ
-      </span>
-      <span className="min-w-0 flex-1">
+        {/* PΨ Text */}
+        <span className="absolute inset-0 flex items-center justify-center transition-all duration-400 group-hover:scale-75 group-hover:opacity-0">
+          PΨ
+        </span>
+        {/* Equalizer (Hidden until hover) */}
+        <div className="absolute inset-0 flex items-center justify-center gap-[3px] opacity-0 scale-125 transition-all duration-400 group-hover:scale-100 group-hover:opacity-100">
+          <div className="w-[3px] rounded-full bg-cool animate-eq-1" />
+          <div className="w-[3px] rounded-full bg-cool animate-eq-2" />
+          <div className="w-[3px] rounded-full bg-cool animate-eq-3" />
+          <div className="w-[3px] rounded-full bg-cool animate-eq-4" />
+        </div>
+      </div>
+      <span className="relative z-10 min-w-0 flex-1">
         <span className="block font-mono text-[0.62rem] uppercase tracking-[0.13em] text-muted">
           Ep. {ep.ep} · PRAXIS
         </span>
-        <span className={`mt-1 block truncate font-serif leading-tight text-ink ${large ? 'text-[1.15rem]' : 'text-[1.02rem]'}`}>
+        <span className={`mt-1 block truncate font-serif leading-tight text-ink transition-colors group-hover:text-cool ${large ? 'text-[1.15rem]' : 'text-[1.02rem]'}`}>
           {ep.title}
         </span>
       </span>
       <span
         aria-hidden="true"
-        className={`flex flex-none items-center justify-center rounded-full bg-ink text-ground transition-transform group-hover:scale-105 ${large ? 'h-12 w-12' : 'h-11 w-11'}`}
+        className={`relative z-10 flex flex-none items-center justify-center rounded-full bg-ink text-ground transition-all duration-300 group-hover:scale-110 group-hover:bg-cool group-hover:shadow-[0_0_15px_rgba(110,155,255,0.4)] ${large ? 'h-12 w-12' : 'h-11 w-11'}`}
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
           <path d="M2 1 L12 7 L2 13 Z" />

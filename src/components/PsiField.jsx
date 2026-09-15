@@ -197,6 +197,13 @@ export function PsiField() {
         let x = p.x0 + (p.tx - p.x0) * lp
         let y = wy + (p.ty - wy) * lp
 
+        // Impeccable: Scroll-driven parallax dispersion
+        if (!reduced) {
+          const scrolled = Math.min(1, window.scrollY / Math.max(1, window.innerHeight * 0.9))
+          const scrollSpread = scrolled * (p.base - h / 2) * 0.45
+          y += scrollSpread
+        }
+
         // Pointer reactivity ties the custom cursor and the hero into one system.
         if (!reduced && mx > -900) {
           const dx = x - mx
@@ -278,7 +285,19 @@ export function PsiField() {
       ctx.globalAlpha = 1
     }
 
+    // Track visibility to pause rendering
+    let isVisible = true
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting
+    })
+    observer.observe(canvas)
+
     function loop(now) {
+      raf = requestAnimationFrame(loop)
+      
+      // OPTIMIZE: Completely skip computation and rendering if out of viewport
+      if (!isVisible) return
+
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       const reduced = reducedQuery.matches
@@ -288,8 +307,6 @@ export function PsiField() {
       const eased = e * e * (3 - 2 * e)
       const scrolled = Math.min(1, window.scrollY / Math.max(1, window.innerHeight * 0.9))
       render(Math.max(0, eased - scrolled))
-
-      raf = requestAnimationFrame(loop)
     }
 
     function build() {
@@ -385,6 +402,7 @@ export function PsiField() {
     return () => {
       clearTimeout(resizeTimer)
       if (raf) cancelAnimationFrame(raf)
+      observer.disconnect()
       window.removeEventListener('resize', onResize)
       document.removeEventListener('visibilitychange', onVisible)
       window.removeEventListener('pointermove', onPointer)
