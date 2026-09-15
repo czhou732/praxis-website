@@ -223,14 +223,6 @@ export default function Syllabus() {
                 <strong className="text-cool">Show the Math:</strong> For computational models (e.g., TDE, Free Energy), the presenter must derive the core equations. Concepts are not enough.
               </li>
             </ol>
-            <div className="mt-6 border-t border-ink/13 pt-4">
-              <p className="font-mono text-[0.65rem] uppercase tracking-widest text-cool">
-                [ Capstone Requirement ]
-              </p>
-              <p className="mt-2 text-[0.85rem] text-muted">
-                To graduate from the curriculum to Core Research, members must select one foundational paper and replicate a core figure in Python/PyTorch, submitting it as a PR to our open-source repository.
-              </p>
-            </div>
           </div>
         </Reveal>
       </Band>
