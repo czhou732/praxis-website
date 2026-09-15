@@ -181,6 +181,14 @@ export default function Syllabus() {
           programming to reading — and eventually writing — primary computational psychiatry
           literature. Nine sessions run across the fall semester.
         </p>
+        
+        <div className="mt-8 inline-flex items-center gap-2 rounded-sm border border-cool/30 bg-cool/5 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-cool shadow-[0_0_10px_rgba(110,155,255,0.1)]">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cool opacity-75"></span>
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cool"></span>
+          </span>
+          In active development
+        </div>
       </header>
 
       <Band first>
