@@ -34,7 +34,7 @@ export const TEAM = [
   },
   {
     name: 'Dora Xiang',
-    role: 'Co-Lead · Programming',
+    role: 'Co-Lead · Clinical Partnership',
     initials: 'DX',
     href: 'https://www.linkedin.com/in/yiming-dora-xiang-bbbb4b230/'
   }
