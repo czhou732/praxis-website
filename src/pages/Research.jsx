@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Layout } from '../components/Layout'
 import { Band, Card, CardGrid, Eyebrow, Reveal, SectionHead, cn } from '../components/ui'
 import { CONFERENCES, PROJECTS, REPOS } from '../data/site'
@@ -205,7 +205,28 @@ function LatentSpace() {
   )
 }
 
+function useScrollReveal() {
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('sr-visible')
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    )
+    const els = document.querySelectorAll('.scroll-reveal')
+    els.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+}
+
 export default function Research () {
+  useScrollReveal()
+
   return (
     <Layout current="/research/">
       <header className="mx-auto w-full max-w-[74rem] border-b border-ink/6 px-[clamp(1.25rem,5vw,4rem)] pt-[clamp(3rem,9vw,5.5rem)] pb-[clamp(2rem,5vw,3rem)]">
