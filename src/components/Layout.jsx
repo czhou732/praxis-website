@@ -1,7 +1,61 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Cursor } from './Cursor'
 import { FOLLOW_URL, NAV, SITE } from '../data/site'
 import { cn } from './ui'
+
+function MagneticLink({ href, active, external, children }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const ref = useRef(null)
+  
+  const handleMove = (e) => {
+    const el = ref.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const rect = el.getBoundingClientRect()
+    const cx = rect.left + rect.width / 2
+    const cy = rect.top + rect.height / 2
+    const dx = (e.clientX - cx) * 0.35
+    const dy = (e.clientY - cy) * 0.5
+    setPosition({ x: dx, y: dy })
+  }
+  
+  const handleLeave = () => setPosition({ x: 0, y: 0 })
+  
+  return (
+    <a
+      ref={ref}
+      href={href}
+      aria-current={active ? 'page' : undefined}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener' : undefined}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className={cn(
+        'group relative whitespace-nowrap pb-0.5 no-underline transition-colors before:absolute before:-inset-y-3 before:-inset-x-2 before:content-[""]',
+        active ? 'text-ink' : 'text-muted hover:text-ink',
+        external && 'hover:text-cool' // External link specific hover
+      )}
+    >
+      <span
+        className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }}
+      >
+        {children}
+      </span>
+      {/* Expanding underline effect */}
+      <span 
+        aria-hidden="true" 
+        className={cn(
+          "absolute bottom-0 h-px bg-cool transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          active 
+            ? "left-0 w-full" 
+            : "left-1/2 w-0 group-hover:left-0 group-hover:w-full",
+          !active && !external && "bg-ink group-hover:bg-ink", // Internal links use ink on hover, active is cool
+          external && "bg-cool" // External link underline is cool
+        )} 
+      />
+    </a>
+  )
+}
 
 function Nav({ current }) {
   const [scrolled, setScrolled] = useState(false)
@@ -31,34 +85,15 @@ function Nav({ current }) {
           <span className="font-mono text-[0.82rem] uppercase tracking-[0.22em]">Praxis</span>
         </a>
         <div className="flex flex-wrap gap-[clamp(0.9rem,3vw,2rem)] font-mono text-[0.78rem] tracking-[0.05em]">
-          {NAV.map((item) => {
-            const active = item.href === current
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={active ? 'page' : undefined}
-                className={cn(
-                  'relative whitespace-nowrap border-b pb-0.5 no-underline transition-colors before:absolute before:-inset-y-3 before:-inset-x-2 before:content-[""]',
-                  active ? 'border-cool text-ink' : 'border-transparent text-muted hover:text-ink'
-                )}
-              >
-                {item.label}
-              </a>
-            )
-          })}
-          {/* Follow is external (Luma). Following the calendar is the whole
-             mailing list now — Luma emails new sessions to followers with no
-             manual export. Same weight as the internal links so it reads as a
-             nav item, not a CTA — the arrow signals the cross-origin hop. */}
-          <a
-            href={FOLLOW_URL}
-            target="_blank"
-            rel="noopener"
-            className="relative whitespace-nowrap border-b border-transparent pb-0.5 text-muted no-underline transition-colors hover:text-cool before:absolute before:-inset-y-3 before:-inset-x-2 before:content-['']"
-          >
+          {NAV.map((item) => (
+            <MagneticLink key={item.href} href={item.href} active={item.href === current}>
+              {item.label}
+            </MagneticLink>
+          ))}
+          {/* Follow is external (Luma). */}
+          <MagneticLink href={FOLLOW_URL} external>
             Follow <span aria-hidden="true">↗</span>
-          </a>
+          </MagneticLink>
         </div>
       </div>
     </nav>
