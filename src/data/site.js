@@ -57,9 +57,9 @@ export const ADVISORS = [
 ]
 
 export const NORTH_STAR = [
-  'Peer-reviewed research published with undergraduate members leading the work.',
-  'At least one clinical tool built, deployed, and validated on real patient data.',
-  'A recognized undergraduate hub for computational psychiatry, with a pipeline that outlasts any single cohort.',
+  'Peer-reviewed research published with student members leading the work.',
+  'At least one open pipeline a clinical researcher could take from paper to prototype without asking us for anything.',
+  'A recognized student hub for computational psychiatry, with a pipeline that outlasts any single cohort.',
   'Members who go on to top PhD programs, NIH intramural positions, and industry research roles.'
 ]
 
