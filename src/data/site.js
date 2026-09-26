@@ -122,11 +122,6 @@ export const NEWS = {
 // emailed to them automatically — no manual export anywhere in the pipeline.
 export const FOLLOW_URL = 'https://luma.com/praxiscompsych'
 
-// Fall '26 core recruitment form. Cap is 3-4 new members; deadline is a
-// hard cutoff, after which applications waitlist for Spring '27.
-export const APPLY_URL = 'https://forms.gle/xFJCZ8fmSADMMx3h7'
-export const APPLY_DEADLINE = 'Monday Sept 21 · 11:59 PM PT'
-
 export const JOIN = [
   {
     k: 'Who',
@@ -140,7 +135,7 @@ export const JOIN = [
   },
   {
     k: 'How',
-    v: 'Apply through the form below by Monday Sept 21, 11:59 PM PT — 3-4 core slots this cycle. Written questions welcome at praxis@uscpraxis.org.'
+    v: 'Fall ’26 applications are closed. The next core-member cycle opens January 2027 for Spring ’27 — follow the series to be notified, or reach us at praxis@uscpraxis.org.'
   }
 ]
 

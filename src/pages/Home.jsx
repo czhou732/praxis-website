@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } fr
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
-import { ADVISORS, APPLY_DEADLINE, APPLY_URL, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+import { ADVISORS, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
 
 /* ---------- 3D tilt team card ---------- */
 function TiltCard({ member, index }) {
@@ -176,18 +176,17 @@ export default function Home() {
             <Button href="/events/">Fall 2026 Speaker Series</Button>
             <Button href="/research/" variant="ghost">Current Research</Button>
           </div>
-          {/* Tertiary link — during the Fall '26 recruitment window this points at
-             the application form so the deadline sits on the first screen; revert
-             to FOLLOW_URL after Sep 21. */}
+          {/* Tertiary link — points at the Luma calendar so followers get new
+             sessions emailed automatically. Swap to the application form during
+             an active recruitment window (see git for the Fall '26 pattern). */}
           <p data-boot className="mt-4 font-mono text-[0.72rem] uppercase tracking-[0.05em] text-muted">
-            Fall '26 core recruitment is open ·{' '}
             <a
-              href={APPLY_URL}
+              href={FOLLOW_URL}
               target="_blank"
               rel="noopener"
               className="border-b border-cool/40 pb-0.5 text-cool no-underline transition-colors hover:border-cool"
             >
-              apply by Sept 21 <span aria-hidden="true">↗</span>
+              Get updates when new sessions post <span aria-hidden="true">↗</span>
             </a>
           </p>
         </div>
@@ -322,14 +321,11 @@ export default function Home() {
             ))}
           </ul>
           <p className="scroll-reveal mt-8 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted" style={{ '--sr-delay': '0.4s' }}>
-            <span className="text-cool">Fall '26 core recruitment</span> · 3-4 slots · closes {APPLY_DEADLINE}
+            <span className="text-cool">Fall '26 applications closed</span> · next cycle opens January 2027 for Spring '27
           </p>
           <div className="scroll-reveal mt-3 flex flex-wrap gap-3" style={{ '--sr-delay': '0.5s' }}>
-            <Button href={APPLY_URL} target="_blank" rel="noopener">Apply to join</Button>
+            <Button href={FOLLOW_URL} target="_blank" rel="noopener">Follow the series</Button>
             <Button href={`mailto:${SITE.contact}?subject=Joining%20PRAXIS`} variant="ghost">Get in touch</Button>
-            <Button href={FOLLOW_URL} variant="ghost" target="_blank" rel="noopener">
-              Follow the series
-            </Button>
           </div>
         </Reveal>
       </Band>
