@@ -50,17 +50,7 @@ export const SPEAKERS = [
     bio: 'Mendel B. Silberberg Professor of Social Psychology in the Department of Psychology at USC — work on neural-network models of personality and depression.',
     rsvp: 'https://luma.com/zxl3tv59'
   },
-  {
-    date: 'Oct 22',
-    iso: '2026-10-22',
-    time: '12:00 PM PT',
-    mode: 'Remote',
-    status: 'confirmed',
-    name: 'Dr. Mark Kvarta',
-    topic: 'E/I balance and cortical gamma in treatment-resistant depression',
-    bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.',
-    rsvp: 'https://luma.com/afsnb6lx'
-  },
+  { date: 'Oct 22', iso: '2026-10-22', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   {
     date: 'Nov 5',
     iso: '2026-11-05',
@@ -71,6 +61,17 @@ export const SPEAKERS = [
     topic: 'Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
     bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.',
     rsvp: 'https://luma.com/9n1yfsz7'
+  },
+  {
+    date: 'Nov 12',
+    iso: '2026-11-12',
+    time: '9:00 AM PT',
+    mode: 'Remote',
+    status: 'confirmed',
+    name: 'Dr. Mark Kvarta',
+    topic: 'E/I balance and cortical gamma in treatment-resistant depression',
+    bio: 'Medical Director and Director of Molecular and Cellular Biomarkers Research in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health.',
+    rsvp: 'https://luma.com/afsnb6lx'
   },
   { date: 'Nov 19', iso: '2026-11-19', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
   {
