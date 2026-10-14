@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Layout } from '../components/Layout'
-import { Band, Button, Eyebrow, Pill, Reveal, SectionHead } from '../components/ui'
+import { Band, Button, Eyebrow, Pill, Reveal, SectionHead, SubNav } from '../components/ui'
 import { SPEAKERS } from '../data/speakers'
 import { EVENTS } from '../data/events'
 import { FOLLOW_URL, SITE } from '../data/site'
@@ -102,7 +102,7 @@ function icsHref(slot) {
     `DTSTAMP:${day}T000000Z`,
     `DTSTART;VALUE=DATE:${day}`,
     `DTEND;VALUE=DATE:${end}`,
-    `SUMMARY:PRAXIS Speaker Series — ${slot.name}: ${slot.topic}`,
+    `SUMMARY:PRAXIS Speaker Series | ${slot.name}: ${slot.topic}`,
     `DESCRIPTION:${slot.date} · ${slot.time} · ${slot.mode}`,
     `LOCATION:${slot.mode}`,
     'END:VEVENT',
@@ -237,7 +237,7 @@ function Deck() {
       </div>
       <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted">
         Arrow keys work too. The waveform above a confirmed name is a signature derived from the
-        name — ornament, not data.
+        name. It is ornament, not data.
       </p>
     </div>
   )
@@ -252,8 +252,8 @@ export default function Events() {
           Events
         </h1>
         <p className="measure mt-6 text-[1.15rem] leading-[1.6] text-ink-2">
-          The Fall 2026 speaker series runs September through December — seven talks, times and
-          format by session. Seats and RSVPs are managed on{' '}
+          The Fall 2026 speaker series runs September through December, with seven talks. Times
+          and format vary by session. Seats and RSVPs are managed on{' '}
           <a
             href={FOLLOW_URL}
             target="_blank"
@@ -272,10 +272,18 @@ export default function Events() {
             Subscribe to the series ↓
           </a>
           <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted">
-            Live feed — sessions update on every site rebuild.
+            Live feed. Sessions update on every site rebuild.
           </span>
         </div>
         <NextTalk />
+        <SubNav
+          label="Events sections"
+          items={[
+            { href: '#series', label: 'Speaker series' },
+            { href: '#record', label: 'Record' },
+            { href: '/podcast/', label: 'Podcast' }
+          ]}
+        />
       </header>
 
       <Band first>
@@ -297,7 +305,7 @@ export default function Events() {
         <Reveal>
           <SectionHead num="02" title="Reserve a seat" />
           <p className="measure mb-8 text-[0.95rem] text-ink-2">
-            Seats and RSVPs are managed on Luma. Register for any session below — or follow the
+            Seats and RSVPs are managed on Luma. Register for any session below, or follow the
             calendar to be notified when new sessions are posted.
           </p>
           <div className="overflow-hidden rounded-sm border border-ink/13">
@@ -344,8 +352,8 @@ export default function Events() {
                     src={e.recording}
                     className="mt-6 w-full max-w-[46rem] rounded-sm border border-ink/13 bg-black"
                   >
-                    Your browser does not support embedded video —{' '}
-                    <a href={e.recording} className="text-cool underline">download the recording</a>.
+                    Your browser does not support embedded video.{' '}
+                    <a href={e.recording} className="text-cool underline">Download the recording</a>.
                   </video>
                 )}
               </article>
@@ -359,8 +367,8 @@ export default function Events() {
           <SectionHead num="04" title="Interested in speaking?" />
           <div className="relative rounded-sm border border-ink/13 border-l-2 border-l-cool bg-surface p-8">
             <p className="measure">
-              If you apply computational methods to psychiatric questions — modeling, imaging,
-              digital phenotyping, or clinical machine learning — we would like to host you. Talks
+              If you apply computational methods to psychiatric questions (modeling, imaging,
+              digital phenotyping, or clinical machine learning), we would like to host you. Talks
               run 45 minutes plus discussion, in person or over Zoom.
             </p>
             <div className="mt-6">

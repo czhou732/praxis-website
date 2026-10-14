@@ -4,37 +4,72 @@ export const SITE = {
   contact: 'praxis@uscpraxis.org',
   expansion: 'Psychiatry Research, Analytics & eXperimental Innovation Society',
   mission:
-    'PRAXIS is a student-led research society working at the intersection of machine learning, neuroscience, and clinical mental health. We build, test, and publish — and we train the researchers who will keep doing it.',
+    'PRAXIS is a student-led research society working at the intersection of machine learning, neuroscience, and clinical mental health. We build, test, and publish. We also train the researchers who will keep doing it.',
   // PRAXIS is not a registered student organization. Nothing on this site may
   // imply institutional affiliation, endorsement, or sponsorship.
   disclaimer:
     'PRAXIS is a student-founded research group and is not a registered student organization. It is not affiliated with, endorsed by, or sponsored by any university.'
 }
 
+// Four top-level items. Curriculum (/syllabus/) and Podcast (/podcast/) keep
+// their URLs but are reached from the sub-links on Research and Events.
 export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/research/', label: 'Research' },
   { href: '/events/', label: 'Events' },
-  { href: '/syllabus/', label: 'Curriculum' },
-  { href: '/podcast/', label: 'Podcast' }
+  { href: '/people/', label: 'People' }
 ]
 
-export const TEAM = [
+// Officers appear on Home and People; research associates only on People.
+// No project or team names here: current research questions stay off the site
+// until they are published. Bios are two lines; originals live in the vault.
+export const OFFICERS = [
   {
     name: 'Peter Zhou',
-    role: 'Founder',
+    role: 'President · Founder',
     photo: '/peter-zhou.jpg',
     href: 'https://www.linkedin.com/in/chengdong-zhou/'
   },
   {
     name: 'Lily Wu',
-    role: 'Co-Lead · Research',
+    role: 'Vice President · Research lead',
     photo: '/lily-wu.jpg',
     href: 'https://www.linkedin.com/in/meihui-lily-wu/'
   },
   {
+    name: 'Chris Carr',
+    role: 'Treasurer · Head of growth',
+    initials: 'CC'
+  }
+]
+
+export const ASSOCIATES = [
+  {
+    name: 'Isadora Vazquez Pinheiro',
+    role: 'Research associate',
+    initials: 'IV'
+  },
+  {
+    name: 'Johann Herring',
+    role: 'Research associate',
+    photo: '/headshots/johann-herring.jpg',
+    bio: 'M.S. student in Biomedical Engineering at USC. B.S. in Electrical Engineering, California State University, Bakersfield (2025).'
+  },
+  {
+    name: 'Jinghao (Tony) Yu',
+    role: 'Research associate',
+    photo: '/headshots/tony-yu.jpg',
+    bio: 'Applied Mathematics and Data Science undergraduate at USC. Works on AI evaluation and probabilistic modeling, with projects in psychological assessment retrieval.'
+  },
+  {
+    name: 'Allegra Chen',
+    role: 'Research associate',
+    photo: '/headshots/allegra-chen.jpg',
+    bio: 'Computer Science and Applied Mathematics undergraduate at USC. Built a low-cost fNIRS system for mental health applications; interested in turning computational research into accessible clinical tools.'
+  },
+  {
     name: 'Dora Xiang',
-    role: 'Co-Lead · Clinical Partnership',
+    role: 'Research associate',
     initials: 'DX',
     href: 'https://www.linkedin.com/in/yiming-dora-xiang-bbbb4b230/'
   }
@@ -83,7 +118,7 @@ export const PILLARS = [
 
 export const PROJECTS = [
   {
-    title: 'Vocal Biomarkers — crossbenching anhedonia',
+    title: 'Vocal Biomarkers: crossbenching anhedonia',
     status: 'Active',
     stage: 1,
     body: 'Extracting acoustic and semantic biomarkers of anhedonia from spontaneous speech using ClinicalWhisper. By crossbenching anhedonia against computational phenotypes, the next step is integrating large language models with reinforcement learning to model reward-prediction errors in vocal flat affect.',
@@ -113,7 +148,7 @@ export const PROJECTS = [
 
 export const NEWS = {
   kicker: 'New · Jun 2026',
-  text: 'ClinicalWhisper is on bioRxiv — a pre-registered study benchmarking vocal biomarkers against task-based fMRI.',
+  text: 'ClinicalWhisper is on bioRxiv: a pre-registered study benchmarking vocal biomarkers against task-based fMRI.',
   linkLabel: 'Read the preprint',
   href: 'https://www.biorxiv.org/content/10.64898/2026.06.08.728970v1'
 }
@@ -125,17 +160,17 @@ export const FOLLOW_URL = 'https://luma.com/praxiscompsych'
 export const JOIN = [
   {
     k: 'Who',
-    v: 'Undergraduate and graduate students interested in computational psychiatry — machine learning, neuroscience, or clinical mental health.'
+    v: 'Undergraduate and graduate students interested in computational psychiatry: machine learning, neuroscience, or clinical mental health.'
   },
   {
     k: 'What',
-    v: 'The journal club first, then a seat on a live project — or a pitch of your own at the monthly session.',
+    v: 'The journal club first, then a seat on a live project, or a pitch of your own at the monthly session.',
     linkAnchor: 'journal club',
     linkHref: '/events/#journal-club'
   },
   {
     k: 'How',
-    v: 'Fall ’26 applications are closed. The next core-member cycle opens January 2027 for Spring ’27 — follow the series to be notified, or reach us at praxis@uscpraxis.org.'
+    v: 'Fall ’26 applications are closed. The next core-member cycle opens January 2027 for Spring ’27. Follow the series to be notified, or reach us at praxis@uscpraxis.org.'
   }
 ]
 
@@ -145,8 +180,8 @@ export const JOIN = [
 export const MODULES = [
   {
     n: '01',
-    title: 'Foundations — What Is Computational Psychiatry?',
-    body: 'Before you model a disorder, you need to understand what "computational" means in this context — and why psychiatry needs it.',
+    title: 'Foundations: What Is Computational Psychiatry?',
+    body: 'Before you model a disorder, you need to understand what "computational" means in this context, and why psychiatry needs it.',
     readings: [
       {
         topic: 'The Founding Vision',
@@ -240,12 +275,12 @@ export const MODULES = [
         doi: '10.1038/nm.4246'
       },
       {
-        topic: 'Machine Learning in Psychiatry — Promise and Pitfalls',
+        topic: 'Machine Learning in Psychiatry: Promise and Pitfalls',
         cite: 'Dwyer et al. (2018)',
         doi: '10.1146/annurev-clinpsy-032816-045037'
       },
       {
-        topic: 'Digital Phenotyping — Smartphones as Sensors',
+        topic: 'Digital Phenotyping: Smartphones as Sensors',
         cite: 'Torous et al. (2016)',
         doi: '10.2196/mental.5165'
       }
@@ -399,7 +434,7 @@ export const CONFERENCES = [
     date: 'Apr 2026',
     venue: 'Undergraduate Symposium',
     title: 'The Dopaminergic Voice: Comparing Acoustic Prosody and Ventral Striatal Activation as Biomarkers for Anhedonia',
-    body: 'Peter Zhou, Dora Xiang, Lily Wu. Poster session on cross-modal biomarkers of anhedonia — voice versus fMRI.',
+    body: 'Peter Zhou, Dora Xiang, Lily Wu. Poster session on cross-modal biomarkers of anhedonia: voice versus fMRI.',
     photo: '/conferences/usc-ugs-spring-2026.jpg'
   },
   {
@@ -428,7 +463,7 @@ export const REPOS = [
   {
     kicker: 'Repository',
     title: 'Clinical-Whisper-Pipeline',
-    body: 'The code behind ClinicalWhisper — the speech model adapted for clinical interview audio.',
+    body: 'The code behind ClinicalWhisper, the speech model adapted for clinical interview audio.',
     href: 'https://github.com/czhou732/Clinical-Whisper-Pipeline'
   }
 ]

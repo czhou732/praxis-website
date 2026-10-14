@@ -1,123 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react'
 import { Layout } from '../components/Layout'
 import { PsiField } from '../components/PsiField'
 import { Band, Button, Card, CardGrid, Eyebrow, Reveal, SectionHead } from '../components/ui'
-import { ADVISORS, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, REPOS, SITE, TEAM } from '../data/site'
+import { ADVISORS, ASSOCIATES, FOLLOW_URL, JOIN, NEWS, NORTH_STAR, PILLARS, OFFICERS, REPOS, SITE } from '../data/site'
+import { PersonCard } from '../components/PersonCard'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
-/* ---------- 3D tilt team card ---------- */
-function TiltCard({ member, index }) {
-  const cardRef = useRef(null)
-
-  const mouseX = useMotionValue(0.5)
-  const mouseY = useMotionValue(0.5)
-
-  // Fluid physics configuration
-  const springConfig = { damping: 20, stiffness: 150, mass: 0.5 }
-  const smoothX = useSpring(mouseX, springConfig)
-  const smoothY = useSpring(mouseY, springConfig)
-
-  // Rotate based on smooth mouse position
-  const rotateX = useTransform(smoothY, [0, 1], [10, -10])
-  const rotateY = useTransform(smoothX, [0, 1], [-10, 10])
-
-  // Scale and light opacity with separate springs for feel
-  const scale = useSpring(useMotionValue(1), { damping: 20, stiffness: 200 })
-  const lightOpacity = useSpring(useMotionValue(0), { damping: 20, stiffness: 100 })
-
-  // Transform coordinates for radial gradient string
-  const lightX = useTransform(smoothX, (x) => x * 100)
-  const lightY = useTransform(smoothY, (y) => y * 100)
-  const lightBg = useMotionTemplate`radial-gradient(circle at ${lightX}% ${lightY}%, rgba(110,155,255,0.18), transparent 60%)`
-
-  const onMove = (e) => {
-    const el = cardRef.current
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const rect = el.getBoundingClientRect()
-    mouseX.set((e.clientX - rect.left) / rect.width)
-    mouseY.set((e.clientY - rect.top) / rect.height)
-    scale.set(1.03)
-    lightOpacity.set(1)
-  }
-
-  const onLeave = () => {
-    mouseX.set(0.5)
-    mouseY.set(0.5)
-    scale.set(1)
-    lightOpacity.set(0)
-  }
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      className="scroll-reveal"
-      style={{ '--sr-delay': `${index * 0.12}s` }}
-    >
-      <motion.div style={{ rotateX, rotateY, scale, transformStyle: 'preserve-3d', perspective: 800 }}>
-        <a
-          href={member.href}
-          target="_blank"
-          rel="noopener"
-          className="group block text-inherit no-underline"
-        >
-          <div className="relative overflow-hidden rounded-sm">
-            {member.photo ? (
-              <img
-                src={member.photo}
-                alt={member.name}
-                width="384"
-                height="512"
-                className="aspect-[3/4] w-full max-w-[13rem] object-cover opacity-90 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
-              />
-            ) : (
-              <div
-                aria-hidden="true"
-                className="flex aspect-[3/4] w-full max-w-[13rem] items-center justify-center bg-gradient-to-b from-ink/10 to-transparent font-serif text-[2.4rem] text-muted/60 opacity-90 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
-              >
-                {member.initials}
-              </div>
-            )}
-            <motion.div
-              style={{ opacity: lightOpacity, background: lightBg }}
-              className="pointer-events-none absolute inset-0"
-            />
-          </div>
-          <p className="mt-4 mb-0.5 font-serif text-[1.25rem] tracking-[-0.012em]">{member.name}</p>
-          <p className="m-0 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-muted">
-            {member.role}
-          </p>
-        </a>
-      </motion.div>
-    </div>
-  )
-}
-
-/* ---------- Scroll-reveal hook: Apple-style staggered reveal ---------- */
-function useScrollReveal() {
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.scroll-reveal, .scroll-reveal-img').forEach(el => el.classList.add('sr-visible'))
-      return
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('sr-visible')
-            io.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
-    )
-
-    document.querySelectorAll('.scroll-reveal, .scroll-reveal-img').forEach(el => io.observe(el))
-    return () => io.disconnect()
-  }, [])
-}
+const WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve']
+const numberWord = (n) => WORDS[n] ?? String(n)
 
 export default function Home() {
   const bgRef = useRef(null)
@@ -280,11 +170,21 @@ export default function Home() {
       <Band>
         <Reveal>
           <SectionHead num="04" title="Who runs it" id="team" />
-          <div className="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))]">
-            {TEAM.map((m, i) => (
-              <TiltCard key={m.name} member={m} index={i} />
+          <p className="measure -mt-4 mb-10 text-ink-2">
+            {numberWord(OFFICERS.length)} officers, {numberWord(OFFICERS.length + ASSOCIATES.length).toLowerCase()} researchers,
+            and {numberWord(ADVISORS.length).toLowerCase()} advisors.
+          </p>
+          <div className="grid max-w-[50rem] gap-8 [grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]">
+            {OFFICERS.map((m, i) => (
+              <PersonCard key={m.name} member={m} index={i} />
             ))}
           </div>
+          <a
+            href="/people/"
+            className="mt-10 inline-flex items-baseline gap-2 border-b border-cool/40 pb-0.5 font-mono text-[0.78rem] tracking-[0.05em] text-cool no-underline transition-colors hover:border-cool"
+          >
+            Meet everyone <span aria-hidden="true">→</span>
+          </a>
         </Reveal>
       </Band>
 
@@ -330,38 +230,6 @@ export default function Home() {
         </Reveal>
       </Band>
 
-      <Band>
-        <Reveal>
-          <SectionHead num="06" title="Advisors" id="advisors" />
-          <div className="max-w-[46rem]">
-            {ADVISORS.map((a, i) => {
-              const Tag = a.href ? 'a' : 'div'
-              return (
-                <Tag
-                  key={a.name}
-                  {...(a.href ? { href: a.href, target: '_blank', rel: 'noopener' } : {})}
-                  className="scroll-reveal group flex items-baseline justify-between gap-6 py-5 text-inherit no-underline"
-                  style={{ '--sr-delay': `${i * 0.1}s` }}
-                >
-                  <span
-                    className={
-                      a.href
-                        ? 'font-serif text-[1.35rem] tracking-[-0.012em] transition-colors group-hover:text-cool'
-                        : 'font-serif text-[1.35rem] tracking-[-0.012em]'
-                    }
-                  >
-                    {a.name}
-                  </span>
-                  <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-muted">
-                    {a.role}
-                    {a.href && <span aria-hidden="true"> ↗</span>}
-                  </span>
-                </Tag>
-              )
-            })}
-          </div>
-        </Reveal>
-      </Band>
     </Layout>
   )
 }

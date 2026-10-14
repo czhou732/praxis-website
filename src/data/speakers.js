@@ -25,8 +25,8 @@ export const SPEAKERS = [
     mode: 'In person',
     status: 'confirmed',
     name: 'Dr. Laurent Itti',
-    topic: 'Attention and Computational Vision — series kickoff',
-    bio: 'Professor of computer science, psychology, and neuroscience at USC, where he directs the iLab — work spanning visual attention, computational neuroscience, and machine vision.',
+    topic: 'Attention and Computational Vision (series kickoff)',
+    bio: 'Professor of computer science, psychology, and neuroscience at USC, where he directs the iLab. His work spans visual attention, computational neuroscience, and machine vision.',
     rsvp: 'https://luma.com/rmqa5kmd'
   },
   {
@@ -39,18 +39,7 @@ export const SPEAKERS = [
     topic: 'The NIH Postbac path to a PhD',
     rsvp: 'https://luma.com/29agjygx'
   },
-  {
-    date: 'Oct 8',
-    iso: '2026-10-08',
-    time: '4:00 PM PT',
-    mode: 'In person',
-    status: 'confirmed',
-    name: 'Dr. Stephen J. Read',
-    topic: 'Neural-network models of depression',
-    bio: 'Mendel B. Silberberg Professor of Social Psychology in the Department of Psychology at USC — work on neural-network models of personality and depression.',
-    rsvp: 'https://luma.com/zxl3tv59'
-  },
-  { date: 'Oct 22', iso: '2026-10-22', time: '1:00 PM PT', mode: 'In person', status: 'invited' },
+  { date: 'Oct 29', iso: '2026-10-29', time: '4:00 PM PT', mode: 'In person', status: 'invited' },
   {
     date: 'Nov 5',
     iso: '2026-11-05',
@@ -58,7 +47,7 @@ export const SPEAKERS = [
     mode: 'Remote',
     status: 'confirmed',
     name: 'Dr. Samika Kumar',
-    topic: 'Sleep, depression, and suicidality — and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
+    topic: 'Sleep, depression, and suicidality, and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
     bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.',
     rsvp: 'https://luma.com/9n1yfsz7'
   },
@@ -82,7 +71,7 @@ export const SPEAKERS = [
     status: 'confirmed',
     name: 'PRAXIS Research Showcase',
     topic: 'Member presentations · Fall 2026 capstone',
-    bio: 'Core team members present the projects they have built this semester — spanning auditory biomarkers, computational models of depression, and clinical AI tools. The capstone event of the Fall 2026 series.',
+    bio: 'Core team members present the projects they have built this semester, spanning auditory biomarkers, computational models of depression, and clinical AI tools. The capstone event of the Fall 2026 series.',
     rsvp: 'https://luma.com/0q7t86v1'
   }
 ]

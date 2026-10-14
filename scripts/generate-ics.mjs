@@ -18,8 +18,8 @@ const events = SPEAKERS.map((s) => {
 
   const confirmed = s.status === 'confirmed'
   const summary = confirmed
-    ? `PRAXIS — ${s.topic} (${s.name})`
-    : `PRAXIS speaker session — speaker to be announced`
+    ? `PRAXIS: ${s.topic} (${s.name})`
+    : `PRAXIS speaker session (speaker to be announced)`
   const parts = [
     'BEGIN:VEVENT',
     `UID:praxis-${s.iso}@uscpraxis.org`,
@@ -38,7 +38,7 @@ const ics = [
   'BEGIN:VCALENDAR',
   'VERSION:2.0',
   'PRODID:-//PRAXIS//Speaker Series Fall 2026//EN',
-  'X-WR-CALNAME:PRAXIS Speaker Series — Fall 2026',
+  'X-WR-CALNAME:PRAXIS Speaker Series, Fall 2026',
   'CALSCALE:GREGORIAN',
   events.join('\r\n'),
   'END:VCALENDAR'

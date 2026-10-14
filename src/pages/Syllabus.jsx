@@ -159,7 +159,7 @@ function ModuleGraph() {
                   fontFamily="var(--font-mono)"
                   fontSize="10"
                 >
-                  {r.cite} — {r.topic}
+                  {r.cite} · {r.topic}
                 </text>
               ))}
             </g>
@@ -172,7 +172,7 @@ function ModuleGraph() {
 
 export default function Syllabus() {
   return (
-    <Layout current="/syllabus/">
+    <Layout current="/research/">
       <header className="mx-auto w-full max-w-[74rem] border-b border-ink/6 px-[clamp(1.25rem,5vw,4rem)] pt-[clamp(3rem,9vw,5.5rem)] pb-[clamp(2rem,5vw,3rem)]">
         <Eyebrow>Journal club</Eyebrow>
         <h1 className="mt-5 max-w-[18ch] font-serif text-[clamp(2.3rem,5.5vw,3.8rem)] leading-[1.02] tracking-[-0.025em]">
@@ -180,7 +180,7 @@ export default function Syllabus() {
         </h1>
         <p className="measure mt-6 text-[1.15rem] leading-[1.6] text-ink-2">
           A twenty-paper sequence designed to take undergraduates from basic neuroscience and
-          programming to reading — and eventually writing — primary computational psychiatry
+          programming to reading, and eventually writing, primary computational psychiatry
           literature. Nine sessions run across the fall semester.
         </p>
         

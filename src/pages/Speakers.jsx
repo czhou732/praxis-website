@@ -21,7 +21,7 @@ export default function Speakers() {
         </h1>
         <p className="measure mt-6 text-[1.1rem] leading-[1.6] text-ink-2">
           Upcoming sessions, RSVPs, and the past-events record are one page now. Taking you
-          there in a moment — or{' '}
+          there in a moment, or{' '}
           <a
             href="/events/"
             className="text-ink underline decoration-cool/40 underline-offset-4 hover:decoration-cool"

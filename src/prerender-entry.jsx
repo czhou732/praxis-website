@@ -9,6 +9,7 @@ import Speakers from './pages/Speakers'
 import Syllabus from './pages/Syllabus'
 import Events from './pages/Events'
 import Podcast from './pages/Podcast'
+import People from './pages/People'
 
 export const ROUTES = {
   'index.html': Home,
@@ -16,5 +17,6 @@ export const ROUTES = {
   'speakers/index.html': Speakers,
   'syllabus/index.html': Syllabus,
   'events/index.html': Events,
-  'podcast/index.html': Podcast
+  'podcast/index.html': Podcast,
+  'people/index.html': People
 }
