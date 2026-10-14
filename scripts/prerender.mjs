@@ -4,13 +4,19 @@
  * Runs after `vite build` and `vite build --ssr`. Without this the deployed
  * pages are an empty <div id="root"></div>, which means a JS failure, a blocked
  * CDN, or a crawler that does not execute scripts sees a blank page.
+ *
+ * Must be renderToString, not renderToStaticMarkup: the entries hydrate this
+ * markup with hydrateRoot. JSX like `{date} · {venue}` is several adjacent text
+ * nodes, and renderToString keeps them apart with <!-- --> separators. Static
+ * markup drops the separators, the browser merges the text into one node, and
+ * every page failed hydration (React #418) and re-rendered from scratch.
  */
 import { readFile, writeFile, rm } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createElement } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const ssrEntry = resolve(root, 'dist-ssr/prerender-entry.js')
@@ -31,7 +37,7 @@ for (const [route, Component] of Object.entries(ROUTES)) {
   }
 
   const html = await readFile(file, 'utf8')
-  const markup = renderToStaticMarkup(createElement(Component))
+  const markup = renderToString(createElement(Component))
 
   if (!html.includes('<div id="root"></div>')) {
     console.error(`prerender: no empty #root found in ${route}`)
