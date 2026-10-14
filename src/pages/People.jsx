@@ -25,7 +25,7 @@ export default function People() {
       <Band>
         <Reveal>
           <SectionHead num="01" title="Officers" id="officers" />
-          <div className="max-w-[60rem]">
+          <div className="grid gap-x-14 gap-y-14 lg:grid-cols-2">
             {OFFICERS.map((m, i) => (
               <PersonSpotlight key={m.name} member={m} index={i} />
             ))}
@@ -36,7 +36,7 @@ export default function People() {
       <Band>
         <Reveal>
           <SectionHead num="02" title="Research associates" id="associates" />
-          <div className="max-w-[60rem]">
+          <div className="grid gap-x-14 gap-y-14 lg:grid-cols-2">
             {ASSOCIATES.map((m, i) => (
               <PersonSpotlight key={m.name} member={m} index={i} />
             ))}
