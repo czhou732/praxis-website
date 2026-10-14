@@ -1,5 +1,5 @@
 import { Layout } from '../components/Layout'
-import { PersonCard } from '../components/PersonCard'
+import { PersonSpotlight } from '../components/PersonSpotlight'
 import { Band, Eyebrow, Reveal, SectionHead } from '../components/ui'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { ADVISORS, ASSOCIATES, OFFICERS } from '../data/site'
@@ -25,9 +25,9 @@ export default function People() {
       <Band>
         <Reveal>
           <SectionHead num="01" title="Officers" id="officers" />
-          <div className="grid max-w-[50rem] gap-x-8 gap-y-10 [grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]">
+          <div className="grid gap-x-14 gap-y-14 lg:grid-cols-2">
             {OFFICERS.map((m, i) => (
-              <PersonCard key={m.name} member={m} index={i} />
+              <PersonSpotlight key={m.name} member={m} index={i} />
             ))}
           </div>
         </Reveal>
@@ -36,9 +36,9 @@ export default function People() {
       <Band>
         <Reveal>
           <SectionHead num="02" title="Research associates" id="associates" />
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-x-14 gap-y-14 lg:grid-cols-2">
             {ASSOCIATES.map((m, i) => (
-              <PersonCard key={m.name} member={m} index={i} />
+              <PersonSpotlight key={m.name} member={m} index={i} />
             ))}
           </div>
         </Reveal>
