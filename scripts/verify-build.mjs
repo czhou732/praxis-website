@@ -79,8 +79,12 @@ for (const file of await htmlFiles(dist)) {
     if (!resolveHref(url)) fail(`${rel}: link "${url}" does not resolve to a built file`)
   }
 
-  /* 4 + 5. only the declared app pages are prerendered; 404.html is standalone */
-  if (routes.includes(rel) && rel !== '404.html') {
+  /* 4 + 5. every declared page is prerendered (its entry hydrates #root);
+     404.html is standalone, so it has no nav or footer */
+  if (routes.includes(rel)) {
+    const standalone = rel === '404.html'
+    /* the 404 is one small screen; it only has to be non-empty */
+    const min = standalone ? 1 : MIN_PRERENDER
     const OPEN = '<div id="root">'
     const start = html.indexOf(OPEN)
     const bodyEnd = html.lastIndexOf('</body>')
@@ -90,13 +94,15 @@ for (const file of await htmlFiles(dist)) {
       fail(`${rel}: could not find #root container`)
     } else {
       const inner = html.slice(start + OPEN.length, close)
-      if (inner.length < MIN_PRERENDER) {
+      if (inner.length < min) {
         fail(`${rel}: #root has only ${inner.length} chars of prerendered markup ` +
-             `(expected >= ${MIN_PRERENDER}) — prerender likely failed`)
+             `(expected >= ${min}) — prerender likely failed`)
       }
     }
-    if (!/<nav\b/.test(html)) fail(`${rel}: prerendered markup has no <nav>`)
-    if (!/<footer\b/.test(html)) fail(`${rel}: prerendered markup has no <footer>`)
+    if (!standalone) {
+      if (!/<nav\b/.test(html)) fail(`${rel}: prerendered markup has no <nav>`)
+      if (!/<footer\b/.test(html)) fail(`${rel}: prerendered markup has no <footer>`)
+    }
   }
 }
 
