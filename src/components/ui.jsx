@@ -243,3 +243,30 @@ export function Card({ kicker, title, body, href }) {
     </Tag>
   )
 }
+
+/* ---------- sub-links under a page header ----------
+   Keeps the top bar to four items: sections of this page (#anchors) plus the
+   pages that used to sit in the nav (Curriculum, Podcast). `current` marks the
+   page you are on. */
+export function SubNav({ items, label }) {
+  return (
+    <nav
+      aria-label={label}
+      className="mt-7 flex flex-wrap gap-x-7 gap-y-2 border-t border-ink/6 pt-4 font-mono text-[0.75rem] tracking-[0.05em]"
+    >
+      {items.map((item) => (
+        <a
+          key={item.href}
+          href={item.href}
+          aria-current={item.current ? 'page' : undefined}
+          className={cn(
+            'no-underline transition-colors',
+            item.current ? 'text-ink' : 'text-muted hover:text-ink'
+          )}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  )
+}

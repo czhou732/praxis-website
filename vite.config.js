@@ -15,6 +15,7 @@ export const PAGES = {
   syllabus: './syllabus/index.html',
   events: './events/index.html',
   podcast: './podcast/index.html',
+  people: './people/index.html',
   '404': './404.html'
 }
 

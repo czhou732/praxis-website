@@ -79,7 +79,7 @@ export default function Podcast() {
   const latest = EPISODES[0]
 
   return (
-    <Layout current="/podcast/">
+    <Layout current="/events/">
       {/* hero */}
       <header className="mx-auto w-full max-w-[74rem] border-b border-ink/6 px-[clamp(1.25rem,5vw,4rem)] pt-[clamp(3rem,9vw,5.5rem)] pb-[clamp(2rem,5vw,3rem)]">
         <Eyebrow>Listen</Eyebrow>

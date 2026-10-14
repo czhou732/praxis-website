@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Layout } from '../components/Layout'
-import { Band, Card, CardGrid, Eyebrow, Reveal, SectionHead, cn } from '../components/ui'
+import { Band, Card, CardGrid, Eyebrow, Reveal, SectionHead, SubNav, cn } from '../components/ui'
 import { CONFERENCES, PROJECTS, REPOS } from '../data/site'
 
 const PROJECT_COORDS = {
-  'Vocal Biomarkers — crossbenching anhedonia': { x: 0.75, y: 0.85, id: '01' },
+  'Vocal Biomarkers: crossbenching anhedonia': { x: 0.75, y: 0.85, id: '01' },
   'ClinicalWhisper': { x: 0.9, y: 0.45, id: '02' },
   'fMRI benchmark analysis': { x: 0.25, y: 0.65, id: '03' }
 }
@@ -245,15 +245,26 @@ export default function Research () {
           PRAXIS is a research group first and an events organization second. These projects define
           the intellectual agenda. Rather than a static list, projects are mapped below across our two core dimensions: Clinical Translation and Computational Complexity.
         </p>
+
+        <SubNav
+          label="Research sections"
+          items={[
+            { href: '#projects', label: 'Projects' },
+            { href: '#code', label: 'Code' },
+            { href: '#conferences', label: 'Presentations' },
+            { href: '/syllabus/', label: 'Curriculum' }
+          ]}
+        />
       </header>
 
       <Band first>
+        <div id="projects" className="scroll-mt-24" />
         <LatentSpace />
       </Band>
 
       <Band>
         <Reveal>
-          <SectionHead num="02" title="Code" />
+          <SectionHead num="02" title="Code" id="code" />
           <CardGrid cols={2}>
             {REPOS.map((r) => (
               <Card key={r.href} kicker={r.kicker} title={r.title} body={r.body} href={r.href} />
@@ -275,7 +286,7 @@ export default function Research () {
                   <div className="scroll-reveal lg:w-[30rem] lg:shrink-0" style={{ '--sr-delay': `${i * 0.08}s` }}>
                     <img
                       src={e.photo}
-                      alt={`${e.venue} — ${e.title}`}
+                      alt={`${e.venue}: ${e.title}`}
                       className="block max-h-[22rem] w-auto max-w-full rounded-sm"
                     />
                   </div>
