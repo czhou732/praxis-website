@@ -32,6 +32,12 @@ export function PersonSpotlight({ member, index = 0 }) {
         {member.bio && (
           <p className="mt-3.5 mb-0 max-w-[34rem] text-[0.95rem] leading-[1.6] text-ink-2">{member.bio}</p>
         )}
+        {member.funFact && (
+          <p className="mt-3 mb-0 max-w-[34rem] text-[0.88rem] leading-[1.6] text-muted">
+            <span className="mr-2 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-cool/80">Fun fact</span>
+            {member.funFact}
+          </p>
+        )}
         {member.href && (
           <a
             href={member.href}
