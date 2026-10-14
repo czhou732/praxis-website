@@ -41,7 +41,8 @@ export const OFFICERS = [
   {
     name: 'Chris Carr',
     role: 'Treasurer · Head of growth',
-    initials: 'CC'
+    photo: '/headshots/chris-carr.jpg',
+    bio: 'Undergraduate at USC studying Applied and Computational Mathematics and Business Administration. Interested in technology, entrepreneurship, finance, and interdisciplinary research.'
   }
 ]
 
