@@ -1,31 +1,30 @@
 import { cn } from './ui'
 
 /* ---------- one person, one row ----------
-   People page layout: a large photo beside the name, role and bio, so each
-   person gets their own spotlight. Rows alternate sides on wide screens and
-   stack (photo first) on phones. */
+   People page layout: the photo beside the name, role and bio, so each person
+   gets their own spotlight. The photo keeps its own shape (never cropped) at a
+   fixed width (never shrunk). Side by side from small-tablet width up, rows
+   alternating sides; stacked, photo first, on phones. */
 export function PersonSpotlight({ member, index = 0 }) {
   const flip = index % 2 === 1
 
   return (
     <article
       className={cn(
-        'scroll-reveal grid items-center gap-x-[clamp(2rem,6vw,5rem)] gap-y-6 border-t border-ink/6 py-[clamp(2.25rem,5vw,3.5rem)] first:border-t-0 first:pt-0',
+        'scroll-reveal grid items-center gap-x-[clamp(1.75rem,5vw,4.5rem)] gap-y-6 border-t border-ink/6 py-[clamp(2.25rem,5vw,3.5rem)] first:border-t-0 first:pt-0',
         flip
-          ? 'md:grid-cols-[minmax(0,1fr)_minmax(0,17rem)]'
-          : 'md:grid-cols-[minmax(0,17rem)_minmax(0,1fr)]'
+          ? 'min-[34rem]:grid-cols-[minmax(0,1fr)_15rem]'
+          : 'min-[34rem]:grid-cols-[15rem_minmax(0,1fr)]'
       )}
       style={{ '--sr-delay': `${Math.min(index, 3) * 0.08}s` }}
     >
-      <div className={cn('w-full max-w-[14rem] md:max-w-[17rem]', flip && 'md:order-2 md:justify-self-end')}>
+      <div className={cn('w-[15rem] max-w-full', flip && 'min-[34rem]:order-2')}>
         {member.photo ? (
           <img
             src={member.photo}
             alt={member.name}
-            width="384"
-            height="512"
             loading="lazy"
-            className="aspect-[3/4] w-full rounded-sm object-cover"
+            className="block h-auto w-full rounded-sm"
           />
         ) : (
           <div
@@ -37,8 +36,8 @@ export function PersonSpotlight({ member, index = 0 }) {
         )}
       </div>
 
-      <div className={cn('min-w-0', flip && 'md:order-1')}>
-        <h3 className="m-0 font-serif text-[clamp(1.7rem,3.2vw,2.3rem)] leading-[1.1] tracking-[-0.018em]">
+      <div className={cn('min-w-0', flip && 'min-[34rem]:order-1')}>
+        <h3 className="m-0 font-serif text-[clamp(1.6rem,3vw,2.3rem)] leading-[1.1] tracking-[-0.018em]">
           {member.name}
         </h3>
         <p className="mt-3 mb-0 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-muted">
