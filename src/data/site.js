@@ -25,9 +25,10 @@ export const NAV = [
 // until they are published. Bios are two lines; originals live in the vault.
 export const OFFICERS = [
   {
-    name: 'Peter Zhou',
+    name: 'Chengdong (Peter) Zhou',
     role: 'President · Founder',
     photo: '/peter-zhou.jpg',
+    bio: 'Psychology undergraduate at USC and NIH UGSP Scholar. Works on measures of mood that rely less on patients describing their own symptoms, starting with the voice.',
     href: 'https://www.linkedin.com/in/chengdong-zhou/'
   },
   {
