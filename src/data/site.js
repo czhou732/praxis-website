@@ -36,7 +36,7 @@ export const OFFICERS = [
     name: 'Meihui (Lily) Wu',
     role: 'Vice President · Research lead',
     photo: '/lily-wu.jpg',
-    bio: 'Applied Mathematics undergraduate at USC. Co-author of the ClinicalWhisper preprint, and host of the PRAXIS podcast.',
+    bio: 'Senior at USC studying Cognitive Science and Applied Mathematics. Co-author of the ClinicalWhisper preprint, and host of the PRAXIS podcast.',
     href: 'https://www.linkedin.com/in/meihui-lily-wu/'
   },
   {
