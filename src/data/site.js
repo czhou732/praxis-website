@@ -33,9 +33,10 @@ export const OFFICERS = [
     href: 'https://www.linkedin.com/in/chengdong-zhou/'
   },
   {
-    name: 'Lily Wu',
+    name: 'Meihui (Lily) Wu',
     role: 'Vice President · Research lead',
     photo: '/lily-wu.jpg',
+    bio: 'Senior at USC studying Cognitive Science and Applied Mathematics. Co-author of the ClinicalWhisper preprint, and host of the PRAXIS podcast.',
     href: 'https://www.linkedin.com/in/meihui-lily-wu/'
   },
   {
