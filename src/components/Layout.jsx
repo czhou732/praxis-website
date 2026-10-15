@@ -1,66 +1,34 @@
-import { useEffect, useState, useRef } from 'react'
-import { motion, useMotionValue, useSpring } from 'motion/react'
-import { Cursor } from './Cursor'
+import { useEffect, useState } from 'react'
 import { FOLLOW_URL, NAV, SITE } from '../data/site'
 import { cn } from './ui'
 
-function MagneticLink({ href, active, external, children }) {
-  const ref = useRef(null)
-  
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  
-  // Apple-like spring physics
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 }
-  const springX = useSpring(x, springConfig)
-  const springY = useSpring(y, springConfig)
-  
-  const handleMove = (e) => {
-    const el = ref.current
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const rect = el.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
-    x.set((e.clientX - cx) * 0.35)
-    y.set((e.clientY - cy) * 0.5)
-  }
-  
-  const handleLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-  
+/* Plain nav link: no mouse-tracking spring, just the hover underline bar.
+   The underline is functional (shows which link the pointer is on); the
+   magnetic motion that used to live here was ornament. */
+function NavLink({ href, active, external, children }) {
   return (
     <a
-      ref={ref}
       href={href}
       aria-current={active ? 'page' : undefined}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener' : undefined}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
       className={cn(
-        'group relative whitespace-nowrap pb-0.5 no-underline transition-colors before:absolute before:-inset-y-3 before:-inset-x-2 before:content-[""]',
+        'group relative whitespace-nowrap pb-0.5 no-underline transition-colors',
         active ? 'text-ink' : 'text-muted hover:text-ink',
         external && 'hover:text-cool'
       )}
     >
-      <motion.span
-        className="inline-block"
-        style={{ x: springX, y: springY }}
-      >
-        {children}
-      </motion.span>
-      <span 
-        aria-hidden="true" 
+      <span className="inline-block">{children}</span>
+      <span
+        aria-hidden="true"
         className={cn(
-          "absolute bottom-0 h-px bg-cool transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          active 
-            ? "left-0 w-full" 
-            : "left-1/2 w-0 group-hover:left-0 group-hover:w-full",
-          !active && !external && "bg-ink group-hover:bg-ink",
-          external && "bg-cool"
-        )} 
+          'absolute bottom-0 h-px transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          active
+            ? 'left-0 w-full bg-cool'
+            : 'left-1/2 w-0 group-hover:left-0 group-hover:w-full',
+          !active && !external && 'bg-ink group-hover:bg-ink',
+          external && 'bg-cool'
+        )}
       />
     </a>
   )
@@ -95,14 +63,14 @@ function Nav({ current }) {
         </a>
         <div className="flex flex-wrap gap-[clamp(0.9rem,3vw,2rem)] font-mono text-[0.78rem] tracking-[0.05em]">
           {NAV.map((item) => (
-            <MagneticLink key={item.href} href={item.href} active={item.href === current}>
+            <NavLink key={item.href} href={item.href} active={item.href === current}>
               {item.label}
-            </MagneticLink>
+            </NavLink>
           ))}
           {/* Follow is external (Luma). */}
-          <MagneticLink href={FOLLOW_URL} external>
+          <NavLink href={FOLLOW_URL} external>
             Follow <span aria-hidden="true">↗</span>
-          </MagneticLink>
+          </NavLink>
         </div>
       </div>
     </nav>
@@ -155,25 +123,15 @@ export function Layout({ current, children }) {
 
   return (
     <>
-      {/* Impeccable Shape/Colorize: Film Grain / Digital Noise */}
-      <div 
-        className="pointer-events-none fixed inset-0 z-[9999] opacity-[0.025] mix-blend-screen"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }}
-      />
       <a
         href="#main"
         className="absolute -left-[9999px] top-0 z-999 bg-cool px-4 py-2.5 font-mono text-[0.8rem] text-ground focus:left-0"
       >
         Skip to content
       </a>
-      {/* Outside <Nav>: its backdrop-filter would become the containing block
-         for a fixed child and pin the track to the nav instead of the viewport. */}
       <Nav current={current} />
       <main id="main">{children}</main>
       <Footer />
-      <Cursor />
     </>
   )
 }
