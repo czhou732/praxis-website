@@ -36,7 +36,8 @@ export const OFFICERS = [
     name: 'Meihui (Lily) Wu',
     role: 'Vice President · Research lead',
     photo: '/lily-wu.jpg',
-    bio: 'Senior at USC studying Cognitive Science and Applied Mathematics. Co-author of the ClinicalWhisper preprint, and host of the PRAXIS podcast.',
+    bio: 'Applied Mathematics and Cognitive Science undergraduate at USC, working on nonverbal signal engineering and human interaction modeling. Hosts the PRAXIS podcast and journal club.',
+    funFact: 'Loves roller coasters, the more thrilling the better.',
     href: 'https://www.linkedin.com/in/meihui-lily-wu/'
   },
   {
@@ -76,6 +77,7 @@ export const ASSOCIATES = [
     name: 'Dora Xiang',
     role: 'Research associate',
     initials: 'DX',
+    bio: 'Computational Neuroscience junior at USC. Co-author of the ClinicalWhisper preprint.',
     href: 'https://www.linkedin.com/in/yiming-dora-xiang-bbbb4b230/'
   }
 ]
