@@ -51,7 +51,8 @@ export const ASSOCIATES = [
   {
     name: 'Isadora Vazquez Pinheiro',
     role: 'Research associate',
-    initials: 'IV'
+    photo: '/headshots/isadora-vazquez-pinheiro.jpg',
+    bio: 'M.S. student in Biomedical Engineering at USC; B.S. in Bioengineering from Stanford. Interested in neural circuits, electrophysiology, and stem cell-based models of neuropsychiatric disease.'
   },
   {
     name: 'Johann Herring',
