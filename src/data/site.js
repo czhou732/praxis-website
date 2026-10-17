@@ -46,27 +46,17 @@ export const OFFICERS = [
     photo: '/headshots/chris-carr.jpg',
     bio: 'Undergraduate at USC studying Applied and Computational Mathematics and Business Administration. Interested in technology, entrepreneurship, finance, and interdisciplinary research.'
   }
-]
-
-export const ASSOCIATES = [
-  {
-    name: 'Isadora Vazquez Pinheiro',
-    role: 'Research associate',
-    photo: '/headshots/isadora-vazquez-pinheiro.jpg',
-    bio: 'M.S. student in Biomedical Engineering at USC; B.S. in Bioengineering from Stanford. Interested in neural circuits, electrophysiology, and stem cell-based models of neuropsychiatric disease.'
-  },
+,
   {
     name: 'Johann Herring',
-    role: 'Research associate',
+    role: 'Head of Operations',
     photo: '/headshots/johann-herring.jpg',
     bio: 'M.S. student in Biomedical Engineering at USC. B.S. in Electrical Engineering, California State University, Bakersfield (2025).'
-  },
-  {
-    name: 'Jinghao (Tony) Yu',
-    role: 'Research associate',
-    photo: '/headshots/tony-yu.jpg',
-    bio: 'Applied Mathematics and Data Science undergraduate at USC. Works on AI evaluation and probabilistic modeling, with projects in psychological assessment retrieval.'
-  },
+  }
+]
+
+// Alphabetical by last name, so the order implies no ranking.
+export const ASSOCIATES = [
   {
     name: 'Allegra Chen',
     role: 'Research associate',
@@ -74,11 +64,23 @@ export const ASSOCIATES = [
     bio: 'Computer Science and Applied Mathematics undergraduate at USC. Built a low-cost fNIRS system for mental health applications; interested in turning computational research into accessible clinical tools.'
   },
   {
+    name: 'Isadora Vazquez Pinheiro',
+    role: 'Research associate',
+    photo: '/headshots/isadora-vazquez-pinheiro.jpg',
+    bio: 'M.S. student in Biomedical Engineering at USC; B.S. in Bioengineering from Stanford. Interested in neural circuits, electrophysiology, and stem cell-based models of neuropsychiatric disease.'
+  },
+  {
     name: 'Dora Xiang',
     role: 'Research associate',
     initials: 'DX',
     bio: 'Computational Neuroscience junior at USC. Co-author of the ClinicalWhisper preprint.',
     href: 'https://www.linkedin.com/in/yiming-dora-xiang-bbbb4b230/'
+  },
+  {
+    name: 'Jinghao (Tony) Yu',
+    role: 'Research associate',
+    photo: '/headshots/tony-yu.jpg',
+    bio: 'Applied Mathematics and Data Science undergraduate at USC. Works on AI evaluation and probabilistic modeling, with projects in psychological assessment retrieval.'
   }
 ]
 
