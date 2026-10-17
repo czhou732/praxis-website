@@ -174,7 +174,7 @@ export default function Home() {
             {numberWord(OFFICERS.length)} officers, {numberWord(OFFICERS.length + ASSOCIATES.length).toLowerCase()} researchers,
             and {numberWord(ADVISORS.length).toLowerCase()} advisors.
           </p>
-          <div className="grid max-w-[50rem] gap-8 [grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]">
+          <div className="grid max-w-[60rem] gap-8 [grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]">
             {OFFICERS.map((m, i) => (
               <PersonCard key={m.name} member={m} index={i} />
             ))}
