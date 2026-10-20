@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { SHOW } from '../data/podcast'
 import { FOLLOW_URL, NAV, SITE } from '../data/site'
-import { cn } from './ui'
+import { cn, SpotifyIcon } from './ui'
 
 /* Plain nav link: no mouse-tracking spring, just the hover underline bar.
    The underline is functional (shows which link the pointer is on); the
@@ -71,6 +72,17 @@ function Nav({ current }) {
           <NavLink href={FOLLOW_URL} external>
             Follow <span aria-hidden="true">↗</span>
           </NavLink>
+          {/* The podcast lives on Spotify; one icon, straight there. */}
+          <a
+            href={SHOW.showUrl}
+            target="_blank"
+            rel="noopener"
+            aria-label="The PRAXIS Podcast on Spotify"
+            title="The PRAXIS Podcast on Spotify"
+            className="flex items-center self-center text-muted transition-colors hover:text-[#1DB954]"
+          >
+            <SpotifyIcon className="h-[15px] w-[15px]" />
+          </a>
         </div>
       </div>
     </nav>

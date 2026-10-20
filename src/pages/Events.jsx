@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Layout } from '../components/Layout'
-import { Band, Button, Eyebrow, Pill, Reveal, SectionHead, SubNav } from '../components/ui'
+import { Band, Button, Eyebrow, Pill, Reveal, SectionHead, SpotifyIcon, SubNav } from '../components/ui'
 import { SPEAKERS } from '../data/speakers'
 import { EVENTS } from '../data/events'
 import { FOLLOW_URL, SITE } from '../data/site'
@@ -345,6 +345,17 @@ export default function Events() {
                   {e.title}
                 </h3>
                 <p className="mt-2 mb-0 max-w-[62ch] text-[0.95rem] text-ink-2">{e.body}</p>
+                {e.spotify && (
+                  <a
+                    href={e.spotify}
+                    target="_blank"
+                    rel="noopener"
+                    className="mt-4 inline-flex items-center gap-2 border-b border-cool/40 pb-0.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-cool no-underline transition-colors hover:border-cool"
+                  >
+                    <SpotifyIcon className="h-[14px] w-[14px]" />
+                    Listen on Spotify <span aria-hidden="true">↗</span>
+                  </a>
+                )}
                 {e.recording && (
                   <video
                     controls

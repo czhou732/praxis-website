@@ -1,7 +1,7 @@
 import { Layout } from '../components/Layout'
 import { Band, Button, Eyebrow, Pill, Reveal, SectionHead } from '../components/ui'
 import { SITE } from '../data/site'
-import { EPISODES, SHOW, UPCOMING_EPISODES } from '../data/podcast'
+import { EPISODES, SHOW } from '../data/podcast'
 
 /* ---------- episode card ---------- */
 
@@ -133,47 +133,11 @@ export default function Podcast() {
         </Band>
       )}
 
-      {/* coming soon — the pipeline */}
-      <Band>
-        <Reveal>
-          <SectionHead
-            num={EPISODES.length > 1 ? '03' : '02'}
-            title="Coming soon"
-            id="upcoming"
-          />
-          <p className="measure mb-8 text-[0.95rem] text-ink-2">
-            Every talk in the Fall 2026 speaker series is recorded and published as an episode.
-            Here is what is landing next.
-          </p>
-          <div className="flex flex-col">
-            {UPCOMING_EPISODES.map((u) => (
-              <article
-                key={u.date}
-                className="grid grid-cols-[4rem_1fr] items-baseline gap-5 border-t border-ink/6 py-5 first:border-t-0 first:pt-0"
-              >
-                <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-cool">
-                  {u.date}
-                </span>
-                <div>
-                  <p className="m-0 font-serif text-[1.15rem] leading-[1.2] tracking-[-0.012em]">
-                    {u.name}
-                  </p>
-                  <p className="m-0 mt-1 text-[0.85rem] text-muted">{u.topic}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <p className="mt-6 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted">
-            Dates are speaker series sessions. Episodes publish within one week of each talk.
-          </p>
-        </Reveal>
-      </Band>
-
       {/* host */}
       <Band>
         <Reveal>
           <SectionHead
-            num={EPISODES.length > 1 ? '04' : '03'}
+            num={EPISODES.length > 1 ? '03' : '02'}
             title="Host"
             id="host"
           />
@@ -200,13 +164,13 @@ export default function Podcast() {
       <Band>
         <Reveal>
           <SectionHead
-            num={EPISODES.length > 1 ? '05' : '04'}
+            num={EPISODES.length > 1 ? '04' : '03'}
             title="Subscribe"
             id="subscribe"
           />
           <div className="relative rounded-sm border border-ink/13 border-l-2 border-l-cool bg-surface p-8">
             <p className="measure">
-              New episodes drop after every speaker series session. Follow on Spotify to get
+              New episodes come from recorded speaker series talks. Follow on Spotify to get
               notified, or check back here.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
