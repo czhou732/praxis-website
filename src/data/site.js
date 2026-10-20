@@ -41,7 +41,7 @@ export const OFFICERS = [
     href: 'https://www.linkedin.com/in/meihui-lily-wu/'
   },
   {
-    name: 'Chris Carr',
+    name: 'Christopher Carr',
     role: 'Treasurer · Head of growth',
     photo: '/headshots/chris-carr.jpg',
     bio: 'Undergraduate at USC studying Applied and Computational Mathematics and Business Administration. Interested in technology, entrepreneurship, finance, and interdisciplinary research.'
@@ -58,7 +58,7 @@ export const OFFICERS = [
 // Alphabetical by last name, so the order implies no ranking.
 export const ASSOCIATES = [
   {
-    name: 'Allegra Chen',
+    name: 'Yifeng (Allegra) Chen',
     role: 'Research associate',
     photo: '/headshots/allegra-chen.jpg',
     bio: 'Computer Science and Applied Mathematics undergraduate at USC. Built a low-cost fNIRS system for mental health applications; interested in turning computational research into accessible clinical tools.'
@@ -70,7 +70,7 @@ export const ASSOCIATES = [
     bio: 'M.S. student in Biomedical Engineering at USC; B.S. in Bioengineering from Stanford. Interested in neural circuits, electrophysiology, and stem cell-based models of neuropsychiatric disease.'
   },
   {
-    name: 'Dora Xiang',
+    name: 'Yiming (Dora) Xiang',
     role: 'Research associate',
     initials: 'DX',
     bio: 'Computational Neuroscience junior at USC. Co-author of the ClinicalWhisper preprint.',
