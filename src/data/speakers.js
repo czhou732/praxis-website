@@ -47,8 +47,8 @@ export const SPEAKERS = [
     mode: 'Remote',
     status: 'confirmed',
     name: 'Dr. Samika Kumar',
-    topic: 'Sleep, depression, and suicidality, and the path from undergrad to a PhD in the NIH Graduate Partnerships Program',
-    bio: 'Postbaccalaureate fellow at the National Institute of Mental Health, where she works on sleep and depression/suicidality using MEG. Talk covers the science and her route from undergrad to a PhD through the NIH Graduate Partnerships Program.',
+    topic: 'From Undergrad to Postdoc: A Career in the Neuroscience of Depression',
+    bio: 'Dr. Samika Kumar is a postdoctoral fellow in the Experimental Therapeutics and Pathophysiology Branch at the National Institute of Mental Health (NIMH). Her research examines the brain and biological processes involved in depression. She received a PhD in Psychology from the University of Cambridge and a BA in Cognitive Science from the University of California, Berkeley.',
     rsvp: 'https://luma.com/9n1yfsz7'
   },
   {
